@@ -1,0 +1,5 @@
+- `pnpm install` - installation all dependencies
+- `pnpm dev` - start dev server (web and server)
+- `pnpm add {dep} --filter {app or packages name}` - intallation dependency in custom packages
+- `pnpm add -D {dep} --filter {app or packages name}` - intallation dev dependency in custom packages
+- `pnpm add {dep} -w` - intallation dependency for all packages
