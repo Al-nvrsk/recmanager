@@ -1,6 +1,6 @@
 import * as React from "react";
-import { trpc } from "../hooks/trpc";
-import { useTranslation } from 'react-i18next';
+import { trpc } from "../shared/hooks/trpc";
+import { useTranslation } from "react-i18next";
 
  
 export default function IndexPage() {
@@ -16,6 +16,7 @@ const toggle = () => { i18n.changeLanguage(i18n.language === 'ru' ? 'en' : 'ru')
     <div> 
       <button onClick={toggle}>
         {t('test')}
+        sfsdfsd
       </button>
     </div>
   );
