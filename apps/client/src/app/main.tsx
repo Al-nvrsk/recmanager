@@ -5,6 +5,7 @@ import '@/config/i18next/i18next'
 import { App } from "./App";
 import { QueryProvider } from "./providers/QueryProvider/QueryProvider";
 import { ErrorBoundary } from "./providers/ErrorBoundary";
+import { ThemeProvider } from "./providers/ThemeProvider/ThemeProvider";
 
 const container = document.getElementById('root');
 
@@ -18,7 +19,9 @@ root.render(
     <React.StrictMode>
         <ErrorBoundary>
             <QueryProvider>
-                <App />
+                <ThemeProvider>
+                    <App />
+                </ThemeProvider>
             </QueryProvider>
         </ErrorBoundary>
     </React.StrictMode>,

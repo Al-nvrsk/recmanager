@@ -2,5 +2,6 @@
   "test": "test",
   "Reload": "Reload",
   "Unexpected error": "Unexpected error",
-  "throw error": "throw error"
+  "throw error": "throw error",
+  "Dark Mode": "Dark Mode"
 }

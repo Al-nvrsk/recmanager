@@ -1,8 +1,13 @@
 .Header {
     width: 100%;
     height: var(--header-height);
-    background: var(--color-black-100);
     display: flex;
     align-items: center;
     padding: 20px;
+}
+
+.image {
+    fill: greenyellow;
+    height: calc(var(--header-height) - 20px);
+    width: 400px;
 }

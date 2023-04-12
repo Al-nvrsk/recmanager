@@ -1,3 +1,4 @@
+import React = require('react');
 declare global {
     const __SERVER_PORT__: number;
     const __SERVER_URL__: string;
@@ -5,3 +6,5 @@ declare global {
 }
 
 export {};
+
+

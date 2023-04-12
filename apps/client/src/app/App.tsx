@@ -1,9 +1,9 @@
 import * as React from "react";
 import "./App.css";
 import IndexPage from "../pages/IndexPage";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { BugButton } from "./providers/ErrorBoundary/ui/ErrorBoundary/BugButton";
-import { Col, Layout, Space } from 'antd';
+import { Col, ConfigProvider, Layout, Space, Switch, theme } from 'antd';
 import { Header } from "@/widgets/Header";
 import { Sidebar } from "@/widgets/Sidebar";
 
@@ -12,8 +12,7 @@ const { Footer, Content } = Layout;
 export const App = () => {
 
     return (
-        <div>
-            <Suspense fallback="">
+        <Suspense fallback="">
                 <Layout style={{ minHeight: '100vh' }}>
                     <Header />
                     <Layout >
@@ -31,6 +30,5 @@ export const App = () => {
                     </Layout>
                 </Layout>                
             </Suspense>
-        </div>
     )
 }

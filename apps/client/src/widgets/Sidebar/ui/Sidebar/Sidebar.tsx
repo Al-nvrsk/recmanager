@@ -27,36 +27,11 @@ export const Sidebar = memo(() => {
             onClick={onCollapsed}
             breakpoint={'md'}
             onBreakpoint={onBreakpoint}
+            theme='light'
 >
-        <div className={cls.Sidebar}>
+        <div >
             sidebar
         </div>
         </Sider>
     )
 })
-
-
-  
-
-
-
-
-//         <Button
-//             data-testid="sidebar-toggle"
-//             type="button"
-//             onClick={onToggle}
-//             className={cls.collapseBtn}
-//             theme={ButtonTheme.BACKGROUND_INVERTED}
-//             square
-//             size={ButtonSize.L}
-//         >
-//             {collapsed ? '>' : '<'}
-//         </Button>
-//             {SidebarItemList.map((item) => (
-//                 <SideBarItem
-//                     item={item}
-//                     key={item.path}
-//                     collapsed={collapsed}
-//                 />
-//             ))}
-// );
