@@ -3,5 +3,14 @@
   "Reload": "Перезагрузить",
   "Unexpected error": "Непредвиденная ошибка",
   "throw error": "Создать ошибку",
-  "Dark Mode": "Темный режим"
+  "Dark Mode": "Темный режим",
+  "Light Mode": "Светлый режим",
+  "Page not found": "Страница не найдена",
+  "Access forbidden": "Доступ запрещен",
+  "About": "О сайте",
+  "Main Page": "Главная страница",
+  "About Page": "Страница о сайте",
+  "Reviews": "Обзоры",
+  "Profile Page": "Страница пользователя",
+  "Admin panel": "Панель администратора"
 }

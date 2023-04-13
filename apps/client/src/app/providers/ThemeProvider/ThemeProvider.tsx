@@ -7,12 +7,12 @@ interface ThemeProviderProps {
 
 export const ThemeProvider = (props: ThemeProviderProps) => {
     const {children} = props
-    const userTheme = 'dark' // TODO : take value from global state
+    const userTheme = 'light' // TODO : take value from global state
 
     return (
         <ConfigProvider
             theme={{
-                algorithm: userTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+                algorithm: userTheme === 'light' ? theme.defaultAlgorithm :theme.darkAlgorithm,
             }}
         >
             {children}

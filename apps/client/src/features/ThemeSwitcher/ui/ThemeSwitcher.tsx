@@ -20,7 +20,7 @@ export const ThemeSwitcher = () => {
     return (
         <Switch
             checkedChildren={t("Dark Mode")}
-            unCheckedChildren={t("Dark Mode")}
+            unCheckedChildren={t("Light Mode")}
             checked={userTheme === 'dark'}
             onClick={handleThemeSwitchClick}
         />

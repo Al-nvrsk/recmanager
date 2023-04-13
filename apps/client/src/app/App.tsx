@@ -6,6 +6,7 @@ import { BugButton } from "./providers/ErrorBoundary/ui/ErrorBoundary/BugButton"
 import { Col, ConfigProvider, Layout, Space, Switch, theme } from 'antd';
 import { Header } from "@/widgets/Header";
 import { Sidebar } from "@/widgets/Sidebar";
+import AppRouter from "./providers/router/ui/AppRouter";
 
 const { Footer, Content } = Layout;
 
@@ -19,11 +20,8 @@ export const App = () => {
                         <Sidebar />
                         <Col>
                             <Content>
-                                Content
                                 <div className="content-page">
-                                    aaaaa
-                                    <BugButton />
-                                    <IndexPage />
+                                    <AppRouter />
                                 </div>
                             </Content>
                         </Col>

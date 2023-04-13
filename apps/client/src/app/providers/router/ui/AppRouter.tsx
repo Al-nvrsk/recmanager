@@ -1,0 +1,32 @@
+import React, { memo, Suspense, useCallback } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { RequireAuth } from './RequireAuth';
+import { AppRouterProps } from '@/shared/types/router';
+import { routeConfig } from '../config/routerConfig';
+import { Spin } from 'antd';
+
+export const AppRouter = () => {
+    const renderWithWrapper = useCallback((route: AppRouterProps) => {
+        const element = (
+            <Suspense fallback={<Spin size="large" />}>
+                {route.element}
+            </Suspense>
+        );
+        return (
+            <Route
+                key={route.path}
+                path={route.path}
+                element={element}
+                // element={route.authOnly ? <RequireAuth roles={route.roles}>{element}</RequireAuth> : element}
+            />
+        );
+    }, []);
+
+    return (
+        <Routes>
+            {Object.values(routeConfig).map(renderWithWrapper)}
+        </Routes>
+    );
+};
+
+export default memo(AppRouter);

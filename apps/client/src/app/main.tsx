@@ -6,6 +6,7 @@ import { App } from "./App";
 import { QueryProvider } from "./providers/QueryProvider/QueryProvider";
 import { ErrorBoundary } from "./providers/ErrorBoundary";
 import { ThemeProvider } from "./providers/ThemeProvider/ThemeProvider";
+import { BrowserRouter } from "react-router-dom";
 
 const container = document.getElementById('root');
 
@@ -17,12 +18,14 @@ const root = createRoot(container);
 
 root.render(
     <React.StrictMode>
-        <ErrorBoundary>
-            <QueryProvider>
-                <ThemeProvider>
-                    <App />
-                </ThemeProvider>
-            </QueryProvider>
-        </ErrorBoundary>
-    </React.StrictMode>,
+        <BrowserRouter>
+            <ErrorBoundary>
+                <QueryProvider>
+                    <ThemeProvider>
+                        <App />
+                    </ThemeProvider>
+                </QueryProvider>
+            </ErrorBoundary>
+        </BrowserRouter>
+    </React.StrictMode>
 );

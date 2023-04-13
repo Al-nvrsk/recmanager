@@ -3,5 +3,14 @@
   "Reload": "Reload",
   "Unexpected error": "Unexpected error",
   "throw error": "throw error",
-  "Dark Mode": "Dark Mode"
+  "Dark Mode": "Dark Mode",
+  "Page not found": "Page not found",
+  "Access forbidden": "Access forbidden",
+  "About": "About",
+  "Main Page": "Main Page",
+  "About Page": "About Page",
+  "Light Mode": "Light Mode",
+  "Reviews": "Reviews",
+  "Profile Page": "Profile Page",
+  "Admin panel": "Admin panel"
 }

@@ -3,6 +3,7 @@ import cls from './Sidebar.module.scss'
 import { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import Sider from 'antd/es/layout/Sider';
+import { SideBarItem } from '../SidebarItem/SidebarItem';
 
 export const Sidebar = memo(() => {
     const { t } = useTranslation();
@@ -24,14 +25,14 @@ export const Sidebar = memo(() => {
             collapsedWidth={80}
             collapsed={isCollapsed}
             collapsible
-            onClick={onCollapsed}
+            onCollapse={onCollapsed}
             breakpoint={'md'}
             onBreakpoint={onBreakpoint}
             theme='light'
 >
-        <div >
-            sidebar
-        </div>
+        {/* <div > */}
+            <SideBarItem isCollapsed={isCollapsed} />
+        {/* </div> */}
         </Sider>
     )
 })
