@@ -17,6 +17,8 @@
   },
   "packageManager": "pnpm@7.15.0",
   "dependencies": {
-    "dotenv": "16.0.3"
+    "dotenv": "16.0.3",
+    "react-i18next": "12.2.0",
+    "zod": "3.21.4"
   }
 }

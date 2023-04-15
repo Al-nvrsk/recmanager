@@ -11,17 +11,20 @@
   },
   "dependencies": {
     "@ant-design/icons": "4.0.0",
+    "@hookform/resolvers": "3.0.1",
     "antd": "5.4.0",
     "i18next": "22.4.14",
     "i18next-browser-languagedetector": "7.0.1",
     "i18next-http-backend": "2.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "7.43.9",
     "react-i18next": "12.2.0",
     "react-query": "3.39.3",
     "react-router-dom": "6.10.0",
-    "server": "workspace:*",
-    "ui": "workspace:*"
+    "validation-schema": "workspace:*",
+    "zod": "3.21.4",
+    "zustand": "4.3.7"
   },
   "devDependencies": {
     "@tanstack/react-query": "4.28.0",
@@ -42,8 +45,10 @@
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "sass": "1.61.0",
+    "server": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "5.0.4",
+    "ui": "workspace:*",
     "vite": "4.2.1",
     "vite-plugin-svgr": "2.4.0"
   }

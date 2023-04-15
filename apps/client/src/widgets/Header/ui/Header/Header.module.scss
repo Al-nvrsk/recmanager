@@ -12,3 +12,10 @@
     height: calc(var(--header-height) - 20px);
     width: 400px;
 }
+
+.title {
+    cursor: pointer;
+    &:hover{
+        opacity: 0.6;
+    }
+}

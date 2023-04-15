@@ -19,7 +19,6 @@ export const SideBarItem = memo((props: SideBarItemProps) => {
     const items = getSidebarItems(SidebarIconSize)
 
     const onClick: MenuProps['onClick'] = e => {
-        console.log('click ', e);
         navigate(e.key);
         setCurrent(e.key)
     };
