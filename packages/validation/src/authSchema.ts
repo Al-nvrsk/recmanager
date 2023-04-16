@@ -1,8 +1,6 @@
-import { useTranslation } from 'react-i18next';
 import * as zod from 'zod';
 
-export const authSchema = () => {
-  const {t} = useTranslation()
+export const authSchema = (t: Function) => {
   
   return zod.object({
   login: zod

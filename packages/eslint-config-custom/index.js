@@ -1,8 +1,9 @@
 module.exports = {
-  extends: ["next", "turbo", "prettier"],
+  extends: ["react-app", "turbo", "prettier"],
   settings: {
     react: {
       version: "detect",
+      rootDir: ["app/*/", "packages/*/"]
     },
   },
   parserOptions: {

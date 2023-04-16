@@ -43,5 +43,6 @@
   "First name should be longer then 2 symbols": "Имя должно быть длинее 2 символов",
   "Second name should be longer then 2 symbols": "Фамилия должна быть длинее 2 символов",
   "The passwords did not match": "Пароли не совпадают",
-  "Cancel": "Отмена"
+  "Cancel": "Отмена",
+  "Sign out": "Выход"
 }

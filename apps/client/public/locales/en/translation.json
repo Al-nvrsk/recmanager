@@ -43,5 +43,6 @@
   "First name should be longer then 2 symbols": "First name should be longer then 2 symbols",
   "Second name should be longer then 2 symbols": "Second name should be longer then 2 symbols",
   "The passwords did not match": "The passwords did not match",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "Sign out": "Sign out"
 }

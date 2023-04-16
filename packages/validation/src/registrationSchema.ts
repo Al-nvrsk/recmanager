@@ -1,11 +1,9 @@
-import { useTranslation } from 'react-i18next';
 import * as zod from 'zod';
 import { authSchema } from './authSchema';
 
-export const registrationSchema = () => {
-    const {t} = useTranslation()
+export const registrationSchema = (t: Function) => {
   
-    return authSchema().extend({
+    return authSchema(t).extend({
       firstName: zod
         .string({
           required_error: `${t("First Name can't be empty")}`,

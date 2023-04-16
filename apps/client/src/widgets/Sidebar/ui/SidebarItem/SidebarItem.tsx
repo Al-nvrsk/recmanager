@@ -6,6 +6,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSidebarItems } from '../../model/selectors/getSidebarItems';
 import { SidebarIconSize } from '@/shared/const/SidebarIconSize';
+import { showNetworkError } from '@/shared/components/showNetworkError/showNetworlError';
+import toast from 'react-hot-toast';
 
 interface SideBarItemProps {
     isCollapsed: boolean
@@ -18,8 +20,11 @@ export const SideBarItem = memo((props: SideBarItemProps) => {
     const navigate = useNavigate()
     const items = getSidebarItems(SidebarIconSize)
 
+    const notify = () => toast('Here is your toast.')
+    
     const onClick: MenuProps['onClick'] = e => {
         navigate(e.key);
+        notify()
         setCurrent(e.key)
     };
 
