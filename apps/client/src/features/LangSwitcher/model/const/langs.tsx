@@ -4,9 +4,10 @@ import rus from '@/shared/assets/rus.jpg'
 import { Avatar } from "antd";
 import React from 'react';
 import { LangSwitherTypes } from '../types/LangSwitcherTypes';
+import { Language } from 'common-types';
 
 export const langs: LangSwitherTypes[] = [
-    { value: 'Eng', label: <Avatar src={eng} />, item: eng },
-    { value: 'GE', label:<Avatar src={ge} />, item: ge },
-    { value: 'Rus', label:<Avatar src={rus} />, item: rus },
+    { value: Language.ENG, label: <Avatar src={eng} />, item: eng },
+    { value: Language.GEO, label:<Avatar src={ge} />, item: ge },
+    { value: Language.RUS, label:<Avatar src={rus} />, item: rus },
   ]

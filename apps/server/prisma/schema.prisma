@@ -19,7 +19,7 @@ model User {
   avatar      String?
   password    String
   role        Role        @default(USER)
-  theme       UserTheme[]
+  theme       UserTheme?
   lang        UserLang?
   post        Reviews[]
   comments    Comments[]

@@ -1,42 +1,37 @@
 import { getCurrentUser } from "@/entities/User";
 import { trpc } from "@/shared/hooks/trpc";
-import { ConfigProvider, Switch } from "antd";
+import { Switch } from "antd";
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getSetTheme } from "../model/selectors/getSetTheme";
 import { getTheme } from "../model/selectors/getTheme";
-import { useThemeStore } from "../model/store/themeStore";
 import { LOCAL_STORAGE_THEME_KEY } from "@/shared/const/localStorege";
-import { Theme } from "../model/types/theme";
+import { Theme } from 'common-types'
 
 export const ThemeSwitcher = () => {
     const {t} = useTranslation()
     const setServerTheme = trpc.setTheme.useMutation()
     const setTheme = getSetTheme()
     const userTheme =  getTheme()
-    console.log('userTheme', userTheme)
     const user = getCurrentUser()
 
-    const handleThemeSwitchClick = async (checked: boolean) => {
-        const newTheme = checked ? 'dark' : 'light'
+    const handleThemeSwitchClick = (checked: boolean) => {
+        const newTheme = checked ? Theme.DARK : Theme.LIGHT
         localStorage.setItem(LOCAL_STORAGE_THEME_KEY, newTheme)
         setTheme(newTheme)
         
         if (user?.id) {
-
-            await setServerTheme.mutate({ id:user.id, theme: userTheme});
+            setServerTheme.mutateAsync({ id:user.id, theme: newTheme});
                 // TODO: Error theme save
         }
     };
-    
     
 
     return (
         <Switch
             checkedChildren={t("Dark Mode")}
             unCheckedChildren={t("Light Mode")}
-            checked={userTheme === 'dark'}
+            checked={userTheme === Theme.DARK}
             onClick={handleThemeSwitchClick}
         />
     ) 

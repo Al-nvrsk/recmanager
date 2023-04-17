@@ -7,9 +7,14 @@ import { IAuthForm } from "../../model/types/AuthForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, registrationSchema } from "validation-schema";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormType } from "../../model/types/FormType";
 import './AuthForm.scss'
+import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
+import { getCurrentUser, getSetCurrentUser } from "@/entities/User";
+import { getSetTheme } from "@/features/ThemeSwitcher";
+import { Language, Theme } from 'common-types'
+import { getSetLang } from "@/features/LangSwitcher";
 
 const { Title, Text } = Typography;
 
@@ -19,10 +24,19 @@ export interface AuthFormProps {
 }
 
 const AuthForm = (props: AuthFormProps) => {
-    const mutation = trpc.createUser.useMutation();
     const { formType, onClose } = props
+    const {t} = useTranslation()
+    const [error, setError] = useState('')
+    const createUser = trpc.createUser.useMutation();
+    const authUser = trpc.authUser.useMutation()
     const [currentFormType, setCurrentFormType] = useState<FormType>(formType)
-    const isAuth = () => currentFormType === 'auth'
+    const setCurrentUser = getSetCurrentUser()
+    const setLang = getSetLang()
+    const isAuthForm = () => currentFormType === 'auth'
+
+    const setTheme = getSetTheme()
+    const user = getCurrentUser()
+        
     const {
         control,
         handleSubmit,
@@ -30,34 +44,31 @@ const AuthForm = (props: AuthFormProps) => {
         reset
     } = useForm<IAuthForm>({
         mode: 'onChange',
-        resolver: zodResolver(registrationSchema()),
+        resolver: zodResolver(isAuthForm() ? authSchema(t) : registrationSchema(t)),
     });
     
-    
-    const {t} = useTranslation()
-    
-   
-
-//   const dispatch = useAppDispatch();
-
     const onSubmit = async (data: IAuthForm) => {
-        // console.log(data)
-    // const userCreator = await trpc.createUser.mutation(data)
-    mutation.mutate(data)
-    // createUser.useMutation().
-      // getUser.useQuery({ id: 'id_bilbo' });
-    //   const userCreator = trpc.create;
-
-
-    
-    // await signIn(data);
-    // dispatch(fetchUser());
+        isAuthForm()
+            ? await authUser.mutateAsync(data)
+            : await createUser.mutate(data)
     };
 
+    useEffect(() => {
+        if (authUser.isError || createUser.isError) {
+            return showNetworkError()
+        }
+        if (authUser.data) {
+            setCurrentUser(authUser.data)
+            setTheme(authUser.data?.theme?.theme as Theme) // update prisma fo fix type error
+            setLang(authUser.data?.lang?.lang as Language)    
+            onClose()
+        }
+        if (createUser.data) {
+            setCurrentUser(createUser.data)
+            onClose()
+        }
 
-//   getUser.useQuery({ id: 'id_bilbo' });
-//   const userCreator = trpc.create;
-
+    }, [createUser, authUser])
 
 
 //   const OAuthHandler = async () => {
@@ -66,6 +77,7 @@ const AuthForm = (props: AuthFormProps) => {
 
     const onChangeFormType = () => {
         reset()
+        showNetworkError()
         setCurrentFormType(currentFormType === 'auth'
         ? 'registration'
         : 'auth'
@@ -75,13 +87,13 @@ const AuthForm = (props: AuthFormProps) => {
     return (
         <Row justify="center" align="middle" className="auth-page">
             <Col className="auth-page__col">
-                <Title level={2} className="auth-page__title">{t(isAuth() ? 'Sign in': 'Sign up')}</Title>
+                <Title level={2} className="auth-page__title">{t(isAuthForm() ? 'Sign in': 'Sign up')}</Title>
                     <Form 
                         size="large"
                         className="auth-page__form" 
                         onFinish={handleSubmit(onSubmit)}
                     >
-                        {(isAuth() ? authFormField : regFormField).map(authField => (
+                        {(isAuthForm() ? authFormField : regFormField).map(authField => (
                             <Form.Item
                                 key={authField}
                                 validateStatus={errors[authField] ? 'error' : ''}
@@ -104,14 +116,15 @@ const AuthForm = (props: AuthFormProps) => {
                                 className="auth-page__button"
                                 type="primary"
                                 disabled={!!Object.keys(errors).length}
+                                loading={createUser.isLoading || authUser.isLoading}
                             >
-                                {t(isAuth()
+                                {t(isAuthForm()
                                     ? 'Authorization'
                                     : 'Registration'
                                 ) }
                             </Button>
                         </Form.Item>
-                        {isAuth() && 
+                        {isAuthForm() && 
                         <Form.Item>
                             <Button
                 //  onClick={OAuthHandler} htmlType="button" className="auth-page__button"
@@ -137,9 +150,8 @@ const AuthForm = (props: AuthFormProps) => {
                     <Text 
                         className="auth-page__link"
                         onClick={onChangeFormType}
-                        // to={getRouteMain()}
                     >
-                        {t(isAuth() 
+                        {t(isAuthForm() 
                             ? "Don't have an account?" 
                             : "Already have an account?"
                         )}

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-
+import { Language } from 'common-types'
 export interface LangSwitherTypes {
-    value: string;
+    value: Language;
     label: ReactNode;
     item: string
 }

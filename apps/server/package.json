@@ -21,7 +21,8 @@
     "cors": "2.8.5",
     "express": "4.18.2",
     "morgan": "1.10.0",
-    "validation-schema": "workspace:*"
+    "validation-schema": "workspace:*",
+    "common-types": "workspace:*"
   },
   "devDependencies": {
     "@trpc/server": "10.19.1",

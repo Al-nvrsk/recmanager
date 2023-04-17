@@ -1,37 +1,35 @@
-// import { trpc } from "../utils/trpc"
 import { router, publicProcedure } from '../utils/trpc';
-import { z as zod } from "zod"
-import { randomUUID } from "crypto"
+import { authSchema, registrationSchema } from 'validation-schema';
+import { TRPCError } from '@trpc/server';
 
-type User = {
-  id: string
-  name: string
-  age: number
-}
-
-const USERS: User[] = [
-  { id: "1", name: "Kyle", age: 27 },
-  { id: "2", name: "Julie", age: 45 },
-]
-
+const t = (message: string) => message
 
 export const userRouter = router({
-  userList: publicProcedure.query(() => {
-    // [..]
-    return [];
-  }),
   createUser: publicProcedure
-    .input(zod.object({ name: zod.string(), age: zod.number() }))
+    .input(registrationSchema(t))
     .mutation(async req => {
-      const { name, age } = req.input
-      const user = await req.ctx.prisma.user.
-      create({data:{name: name, email: 'test8@mail.com'}})
-      // const user: User = { id: randomUUID(), name, age } // DB
-      // USERS.push(user)
-      console.log('userUser', user)
+      const { confirmPassword, ...rest } = req.input
+      const user = await req.ctx.prisma.user.create({data:rest})
       return user
-    })
-    
+    }),
+  authUser: publicProcedure
+    .input(authSchema(t))
+    .mutation( async (req) => {
+      const data = req.input
+      const user = await req.ctx.prisma.user.findUnique({
+        where:{login:data.login},
+        include:{theme: true, lang: true}
+      })
+      if (user?.password !== data.password) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An unexpected error occurred, please try again later.',
+          // optional: pass the original error to retain stack trace
+          // cause: TypeError,
+        });
+      } 
+      return user
+    }),
 });
 
 
