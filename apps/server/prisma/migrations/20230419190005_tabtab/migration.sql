@@ -1,41 +1,37 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 
-  - The primary key for the `User` table will be changed. If it partially fails, the table could be left without primary key constraint.
-  - You are about to drop the `Post` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Profile` table. If the table is not empty, all the data it contains will be lost.
-  - A unique constraint covering the columns `[login]` on the table `User` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `firstName` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `login` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `password` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `secondName` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Made the column `name` on table `User` required. This step will fail if there are existing NULL values in that column.
+-- CreateTable
+CREATE TABLE "Google" (
+    "id" TEXT NOT NULL,
+    "googleId" TEXT NOT NULL,
+    "localUserId" TEXT NOT NULL,
 
-*/
--- DropForeignKey
-ALTER TABLE "Post" DROP CONSTRAINT "Post_authorId_fkey";
+    CONSTRAINT "Google_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "Profile" DROP CONSTRAINT "Profile_userId_fkey";
+-- CreateTable
+CREATE TABLE "Github" (
+    "id" TEXT NOT NULL,
+    "githubId" TEXT NOT NULL,
+    "localUserId" TEXT NOT NULL,
 
--- AlterTable
-ALTER TABLE "User" DROP CONSTRAINT "User_pkey",
-ADD COLUMN     "avatar" TEXT,
-ADD COLUMN     "firstName" TEXT NOT NULL,
-ADD COLUMN     "login" TEXT NOT NULL,
-ADD COLUMN     "password" TEXT NOT NULL,
-ADD COLUMN     "secondName" TEXT NOT NULL,
-ALTER COLUMN "id" DROP DEFAULT,
-ALTER COLUMN "id" SET DATA TYPE TEXT,
-ALTER COLUMN "name" SET NOT NULL,
-ADD CONSTRAINT "User_pkey" PRIMARY KEY ("id");
-DROP SEQUENCE "User_id_seq";
+    CONSTRAINT "Github_pkey" PRIMARY KEY ("id")
+);
 
--- DropTable
-DROP TABLE "Post";
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "secondName" TEXT NOT NULL,
+    "login" TEXT NOT NULL,
+    "avatar" TEXT,
+    "password" TEXT NOT NULL,
+    "role" "Role" NOT NULL DEFAULT 'USER',
 
--- DropTable
-DROP TABLE "Profile";
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "UserTheme" (
@@ -118,6 +114,24 @@ CREATE TABLE "ReviewRating" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Google_googleId_key" ON "Google"("googleId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Google_localUserId_key" ON "Google"("localUserId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Github_githubId_key" ON "Github"("githubId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Github_localUserId_key" ON "Github"("localUserId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_login_key" ON "User"("login");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UserTheme_ownerId_key" ON "UserTheme"("ownerId");
 
 -- CreateIndex
@@ -132,8 +146,11 @@ CREATE UNIQUE INDEX "Notifications_commentId_key" ON "Notifications"("commentId"
 -- CreateIndex
 CREATE UNIQUE INDEX "ReviewRating_reviewId_key" ON "ReviewRating"("reviewId");
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_login_key" ON "User"("login");
+-- AddForeignKey
+ALTER TABLE "Google" ADD CONSTRAINT "Google_localUserId_fkey" FOREIGN KEY ("localUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Github" ADD CONSTRAINT "Github_localUserId_fkey" FOREIGN KEY ("localUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserTheme" ADD CONSTRAINT "UserTheme_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

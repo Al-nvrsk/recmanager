@@ -7,14 +7,13 @@ import { IAuthForm } from "../../model/types/AuthForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, registrationSchema } from "validation-schema";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FormType } from "../../model/types/FormType";
 import './AuthForm.scss'
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
-import { getCurrentUser, getSetCurrentUser } from "@/entities/User";
-import { getSetTheme } from "@/features/ThemeSwitcher";
-import { Language, Theme } from 'common-types'
-import { getSetLang } from "@/features/LangSwitcher";
+import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
+import { useNavigate } from "react-router-dom";
+import { getRouteMain } from "@/shared/const/router";
 
 const { Title, Text } = Typography;
 
@@ -30,13 +29,10 @@ const AuthForm = (props: AuthFormProps) => {
     const createUser = trpc.createUser.useMutation();
     const authUser = trpc.authUser.useMutation()
     const [currentFormType, setCurrentFormType] = useState<FormType>(formType)
-    const setCurrentUser = getSetCurrentUser()
-    const setLang = getSetLang()
+    const navigate = useNavigate()
+    
     const isAuthForm = () => currentFormType === 'auth'
 
-    const setTheme = getSetTheme()
-    const user = getCurrentUser()
-        
     const {
         control,
         handleSubmit,
@@ -53,27 +49,23 @@ const AuthForm = (props: AuthFormProps) => {
             : await createUser.mutate(data)
     };
 
-    useEffect(() => {
-        if (authUser.isError || createUser.isError) {
-            return showNetworkError()
-        }
-        if (authUser.data) {
-            setCurrentUser(authUser.data)
-            setTheme(authUser.data?.theme?.theme as Theme) // update prisma fo fix type error
-            setLang(authUser.data?.lang?.lang as Language)    
-            onClose()
-        }
-        if (createUser.data) {
-            setCurrentUser(createUser.data)
-            onClose()
-        }
+    if (authUser.isSuccess) { 
+        onClose()
+        navigate(getRouteMain()) 
+    }
 
-    }, [createUser, authUser])
+    if (authUser.isError) {
+        showNetworkError(`${t(authUser.error.message)}`)
+    }
+    
+    if (createUser.isSuccess) {
+        onClose()
+        navigate(getRouteMain())
+    }
 
-
-//   const OAuthHandler = async () => {
-//     await signinWithYandex();
-//   };
+    if (createUser.isError) {
+        showNetworkError(`${t(createUser.error.message)}`)
+    }
 
     const onChangeFormType = () => {
         reset()
@@ -83,6 +75,14 @@ const AuthForm = (props: AuthFormProps) => {
         : 'auth'
         )
     }
+
+    const google = () => {
+        window.open(`${__SERVER_URL__}/auth/google`, "_self");
+      };
+    
+      const github = () => {
+        window.open(`${__SERVER_URL__}/auth/github`, "_self");
+      };
 
     return (
         <Row justify="center" align="middle" className="auth-page">
@@ -126,11 +126,14 @@ const AuthForm = (props: AuthFormProps) => {
                         </Form.Item>
                         {isAuthForm() && 
                         <Form.Item>
-                            <Button
-                //  onClick={OAuthHandler} htmlType="button" className="auth-page__button"
+                            <Space
+                                direction="vertical"
+                                size="middle"
+                                style={{ display: 'flex' }}
                             >
-                                Войти с Яндекс ID
-                            </Button>
+                                <GoogleLoginButton onClick={google} />
+                                <GithubLoginButton onClick={github} />
+                            </Space>
                         </Form.Item>
                     }
                 </Form>

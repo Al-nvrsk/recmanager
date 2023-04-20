@@ -44,5 +44,7 @@
   "Second name should be longer then 2 symbols": "Second name should be longer then 2 symbols",
   "The passwords did not match": "The passwords did not match",
   "Cancel": "Cancel",
-  "Sign out": "Sign out"
+  "Sign out": "Sign out",
+
+  "An unexpected error occurred, please try again later.": "An unexpected error occurred, please try again later."
 }

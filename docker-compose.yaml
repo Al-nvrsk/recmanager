@@ -16,19 +16,19 @@ services:
     networks:
       - dockernetwork
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:latest
-    env_file: /.env
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: ${PGADMIN_CONFIG_SERVER_MODE}
-    ports:
-      - '5050:80'
-    restart: always
-    networks:
-      - dockernetwork
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4:latest
+  #   env_file: /.env
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+  #     PGADMIN_CONFIG_SERVER_MODE: ${PGADMIN_CONFIG_SERVER_MODE}
+  #   ports:
+  #     - '5050:80'
+  #   restart: always
+  #   networks:
+  #     - dockernetwork
 
 networks:
   dockernetwork:

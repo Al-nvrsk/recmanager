@@ -9,6 +9,7 @@ import { LangSwitcher } from "@/features/LangSwitcher";
 import { ThemeSwitcher } from "@/features/ThemeSwitcher";
 import { AuthModal } from "@/features/Auth/ui/AuthModal/AuthModal";
 import { getIsAuth, getSetCurrentUser} from "@/entities/User";
+import { trpc } from "@/shared/hooks/trpc";
 const { Title } = Typography;
 
 export const Header = memo(() => {
@@ -16,6 +17,7 @@ export const Header = memo(() => {
     const setCurrentUser = getSetCurrentUser()
     const {t} = useTranslation()
     const isAuth = getIsAuth()
+    const logout = trpc.logout.useMutation()
 
     const onClose = () => {
         setIsOpen(false)
@@ -27,6 +29,7 @@ export const Header = memo(() => {
 
     const onClickOut = () => {
         setCurrentUser()
+        logout.mutateAsync()
     }
 
     return (

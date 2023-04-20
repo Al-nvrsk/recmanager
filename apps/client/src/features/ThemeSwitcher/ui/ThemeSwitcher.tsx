@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/entities/User";
 import { trpc } from "@/shared/hooks/trpc";
 import { Switch } from "antd";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getSetTheme } from "../model/selectors/getSetTheme";
 import { getTheme } from "../model/selectors/getTheme";
@@ -15,16 +15,16 @@ export const ThemeSwitcher = () => {
     const userTheme =  getTheme()
     const user = getCurrentUser()
 
-    const handleThemeSwitchClick = (checked: boolean) => {
+    const handleThemeSwitchClick = useCallback((checked: boolean) => {
         const newTheme = checked ? Theme.DARK : Theme.LIGHT
         localStorage.setItem(LOCAL_STORAGE_THEME_KEY, newTheme)
         setTheme(newTheme)
         
         if (user?.id) {
-            setServerTheme.mutateAsync({ id:user.id, theme: newTheme});
+            setServerTheme.mutateAsync({ id:user?.id, theme: newTheme});
                 // TODO: Error theme save
         }
-    };
+    }, []);
     
 
     return (

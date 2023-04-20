@@ -1,3 +1,3 @@
-export { createContext } from "./utils/createContext";
-export { appRouter } from "./appRoutes/appRouter";
-export type { AppRouter } from "./appRoutes/appRouter";
+export { appRouter } from "./appRoutes/appRoutes/appRouter"
+export type { AppRouter } from "./appRoutes/appRoutes/appRouter"
+export { createContext } from "./context/createContext"

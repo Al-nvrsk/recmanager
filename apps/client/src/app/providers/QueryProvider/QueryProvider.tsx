@@ -13,14 +13,13 @@ export const QueryProvider = (props: QueryProviderProps) => {
     const trpcClient = trpc.createClient({
     links: [
       httpBatchLink({
-        url: __SERVER_URL__
-        // SERVER_URL__
-      //   // You can pass any HTTP headers you wish here
-      //   async headers() {
-      //     return {
-      //       authorization: getAuthCookie(),
-      //     };
-      //   },
+        url: `${__SERVER_URL__}/trpc`,
+        fetch(url, options) {
+          return fetch(url, {
+            ...options,
+            credentials: 'include',
+          });
+        }
       }),
     ],
   })

@@ -1,6 +1,8 @@
 module.exports = {
-  root: true,
+  // extends:
+  // root: true,
   extends: [
+    'eslint-config-custom/index',
     "custom",
     'plugin:i18next/recommended',
     'plugin:react/recommended',
@@ -73,4 +75,7 @@ module.exports = {
   globals: {
     __IS_DEV__: true,
   },
+
+
+
 };
