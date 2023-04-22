@@ -15,16 +15,16 @@ export const ThemeSwitcher = () => {
     const userTheme =  getTheme()
     const user = getCurrentUser()
 
-    const handleThemeSwitchClick = useCallback((checked: boolean) => {
+    const handleThemeSwitchClick = (checked: boolean) => {
         const newTheme = checked ? Theme.DARK : Theme.LIGHT
         localStorage.setItem(LOCAL_STORAGE_THEME_KEY, newTheme)
         setTheme(newTheme)
         
         if (user?.id) {
-            setServerTheme.mutateAsync({ id:user?.id, theme: newTheme});
+            setServerTheme.mutateAsync({ id:user.id, theme: newTheme});
                 // TODO: Error theme save
         }
-    }, []);
+    };
     
 
     return (

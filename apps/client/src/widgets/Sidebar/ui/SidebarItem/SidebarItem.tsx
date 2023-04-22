@@ -1,13 +1,11 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu } from 'antd';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getSidebarItems } from '../../model/selectors/getSidebarItems';
 import { SidebarIconSize } from '@/shared/const/SidebarIconSize';
-import { showNetworkError } from '@/shared/components/showNetworkError/showNetworlError';
-import toast from 'react-hot-toast';
 
 interface SideBarItemProps {
     isCollapsed: boolean
@@ -19,14 +17,16 @@ export const SideBarItem = memo((props: SideBarItemProps) => {
     const { t } = useTranslation();
     const navigate = useNavigate()
     const items = getSidebarItems(SidebarIconSize)
-
-    const notify = () => toast('Here is your toast.')
+    const location = useLocation();
     
     const onClick: MenuProps['onClick'] = e => {
         navigate(e.key);
-        notify()
         setCurrent(e.key)
     };
+
+    useEffect(() => {
+        setCurrent(location.pathname)
+    }, [location])
 
     return (
         <Menu

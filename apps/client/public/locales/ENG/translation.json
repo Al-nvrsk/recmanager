@@ -46,5 +46,34 @@
   "Cancel": "Cancel",
   "Sign out": "Sign out",
 
-  "An unexpected error occurred, please try again later.": "An unexpected error occurred, please try again later."
+  "An unexpected error occurred, please try again later.": "An unexpected error occurred, please try again later.",
+
+  "Disgusting": "Disgusting",
+  "Terrible": "Terrible",
+  "Poor": "Poor",
+  "Bad": "Bad",
+  "Mediocre": "Mediocre",
+  "Average": "Average",
+  "Decent": "Decent",
+  "Good": "Good",
+  "Great": "Great",
+  "Excellent": "Excellent",
+  "Perfect": "Perfect",
+  "Create new Review": "Create new Review",
+
+  "Audio": "Audio",
+  "Cinema": "Cinema",
+  "Cartoon": "Cartoon",
+  "Series": "Series",
+  "Book": "Book",
+  "Comics": "Comics",
+  "Articles": "Articles",
+
+  "Review Name can't be empty": "Review Name can't be empty",
+  "Title of work can't be empty": "Title of work can't be empty",
+  "Type of work can't be empty": "Type of work can't be empty",
+  "Tags can't be empty": "Tags can't be empty",
+  "Tags should be at least 3 symbols": "Tags should be at least 3 symbols",
+  "Rating can't be empty": "Rating can't be empty",
+  "Review text can't be empty": "Review text can't be empty"
 }

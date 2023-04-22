@@ -7,7 +7,7 @@ import { getSetTheme } from "@/features/ThemeSwitcher";
 import { Language, Theme } from "common-types";
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
 
-const MainPage = memo(() => {
+const MainPage = () => {
     const getUser = trpc.getUser.useQuery()
     const setCurrentUser = getSetCurrentUser()
     const setLang = getSetLang()
@@ -32,6 +32,6 @@ const MainPage = memo(() => {
             </button>
         </div>
     )
-})
+}
 
 export default MainPage

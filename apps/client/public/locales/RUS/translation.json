@@ -46,5 +46,35 @@
   "Cancel": "Отмена",
   "Sign out": "Выход",
 
-  "An unexpected error occurred, please try again later.": "Непредвиденная ошибка, попробуйте позже"
+  "An unexpected error occurred, please try again later.": "Непредвиденная ошибка, попробуйте позже",
+
+  "Disgusting": "Отвратительный",
+  "Terrible": "Ужасный",
+  "Poor": "Плохой",
+  "Bad": "Неудовлетворительный",
+  "Mediocre": "Посредственный",
+  "Average": "Средний",
+  "Decent": "Хороший",
+  "Good": "Достаточно хороший",
+  "Great": "Отличный",
+  "Excellent": "Превосходный",
+  "Perfect": "Идеальный",
+  "Create new Review": "Создать новый обзор",
+
+  "Audio": "Музыка",
+  "Cinema": "Кино",
+  "Cartoon": "Мультфильм",
+  "Series": "Сериал",
+  "Book": "Кгнига",
+  "Comics": "Комикс",
+  "Articles": "Статья",
+
+  "Review Name can't be empty": "Название обзора не может быть пустым",
+  "Title of work can't be empty": "Название произведения не может быть пустым",
+  "Type of work can't be empty": "Тип произведения не может быть пустым",
+  "Tags can't be empty": "Тег не может быть пустым",
+  "Tags should be at least 3 symbols": "Тег должен содержать не менее 3 символа",
+  "Rating can't be empty": "Рейтинг не может быть пустым",
+  "Review text can't be empty": "Текст обзора не может быть пустым"
+
 }
