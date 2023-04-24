@@ -1,9 +1,8 @@
 import { userRouter } from "../routes/users";
 import { appEnvRouter } from "../routes/appEnv";
 import { mergeRouters } from "../../trpc/trpc";
+import { reviewRouter } from "../routes/review";
 
-// import { postRouter } from './post';
-
-export const appRouter = mergeRouters(userRouter, appEnvRouter)
+export const appRouter = mergeRouters(userRouter, appEnvRouter, reviewRouter)
 
 export type AppRouter = typeof appRouter;

@@ -1,7 +1,11 @@
 import { useTranslation } from "react-i18next";
 
-export const desc = () => {
-const {t} = useTranslation()
-const rates = ['Absent','Terrible', 'Poor', 'Bad', 'Mediocre', 'Average', 'Decent', 'Good', 'Great', 'Excellent', 'Perfect'];
-    return rates.map(rate => t(rate))
-}
+export const desc = (isUsers:boolean = false) => {
+    const {t} = useTranslation()
+    const ratesAuthor = ['Disgusting','Terrible', 'Poor', 'Bad', 'Mediocre', 'Average', 'Decent', 'Good', 'Great', 'Excellent', 'Perfect'];
+    const rateUsers = ['Poor', 'Mediocre', 'Average', 'Good', 'Excellent']
+    if (isUsers) {
+        return rateUsers.map(rate => t(rate))
+    }
+        return ratesAuthor.map(rate => t(rate))
+    }

@@ -1,3 +1,4 @@
 export { authSchema } from "./src/authSchema";
 export { registrationSchema } from "./src/registrationSchema";
-export { reviewSchema } from './src/reviewSchema'
+export { formReviewSchema } from './src/formReviewSchema';
+export { createReviewSchema } from './src/createReviewSchema'

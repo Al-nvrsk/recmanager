@@ -17,7 +17,7 @@
     &__link {
         cursor: pointer;
         &:hover {
-            opacity: 0.6;
+            opacity: var(--opacity-hover);
         }
     }
 }

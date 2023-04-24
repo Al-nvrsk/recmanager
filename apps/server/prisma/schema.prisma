@@ -62,27 +62,29 @@ enum Role {
   ADMIN
 }
 
+
 model Reviews {
   id            String      @id @default(uuid())
   createdAt     DateTime    @default(now())
   updateAt      DateTime    @updatedAt
-  title         String
-  avarageRating Float
-  published     Boolean     @default(false)
+  ReviewName    String
+  ReviewText    String
+  TitleOfWork   String
+  AuthRating    Float
+  // published     Boolean     @default(false)
   author        User        @relation(fields: [authorId], references: [id])
   authorId      String
-  tag           Tags[]
+  Tag           Tags[]
   comments      Comments[]
-  categories    Category[]
-  authorRate    Int
+  TypeOfWork    Category?
   rating        ReviewRating?
-  @@unique([title, authorId])
+  @@unique([TitleOfWork, authorId])
 }
 
 model Category {
   id String      @id @default(uuid())
   reviews Reviews @relation(fields: [reviewsId], references: [id])
-  reviewsId String
+  reviewsId String @unique
   category String
 }
 

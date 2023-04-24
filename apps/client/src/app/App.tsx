@@ -23,14 +23,12 @@ export const App = () => {
                     <Header />
                     <Layout >
                         <Sidebar />
-                        <Col>
                             <Content>
                                 <div className="content-page">
                                     <AppRouter />
                                     <Toaster />
                                 </div>
                             </Content>
-                        </Col>
                     </Layout>
                 </Layout>                
             </Suspense>

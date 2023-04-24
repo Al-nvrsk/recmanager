@@ -75,6 +75,13 @@
   "Tags can't be empty": "Тег не может быть пустым",
   "Tags should be at least 3 symbols": "Тег должен содержать не менее 3 символа",
   "Rating can't be empty": "Рейтинг не может быть пустым",
-  "Review text can't be empty": "Текст обзора не может быть пустым"
+  "Review text can't be empty": "Текст обзора не может быть пустым",
+
+  "Do you like this review?": "Понравился обзор?",
+  "Author's assessment:": "Оценка автора:",
+  "Users's assessment:": "Оценка пользователей:",
+  "Save": "Сохранить",
+  "Back": "Назад",
+  "My assessment:": "Ваша оценка:"
 
 }

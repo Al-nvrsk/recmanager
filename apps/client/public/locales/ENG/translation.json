@@ -75,5 +75,13 @@
   "Tags can't be empty": "Tags can't be empty",
   "Tags should be at least 3 symbols": "Tags should be at least 3 symbols",
   "Rating can't be empty": "Rating can't be empty",
-  "Review text can't be empty": "Review text can't be empty"
+  "Review text can't be empty": "Review text can't be empty",
+
+  "Do you like this review?": "Do you like this review?",
+  "Author's assessment:": "Author's assessment:",
+  "Users's assessment:": "Users's assessment:",
+  "Save": "Save",
+  "Back": "Back",
+  "My assessment:": "Your assessment:"
+
 }

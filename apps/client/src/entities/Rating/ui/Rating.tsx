@@ -1,15 +1,21 @@
 import { Rate } from "antd";
 import React, { FC } from "react";
 import { desc } from "../model/consts/desc";
+import { boolean } from "zod";
 
-export const Rating = ({...field}) => {
+interface RatingProps {
+    isUsers?: boolean
+}
+
+export const Rating = (props: RatingProps & Record<string, any>) => {
+    const {isUsers = false , ...field} = props
 
     return (
         <Rate 
             {...field}
-            tooltips={desc()}
+            tooltips={desc(isUsers)}
             allowClear={false}  
-            count={10}
+            count={isUsers? 5 : 10}
             allowHalf={true}
             />
     )

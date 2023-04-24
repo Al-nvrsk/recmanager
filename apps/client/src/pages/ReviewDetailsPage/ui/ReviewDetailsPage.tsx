@@ -1,27 +1,23 @@
-import { getReviewEditState } from "@/features/ReviewEdit"
-import { Button } from "antd"
 import React from "react"
-import { memo } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation } from "react-router-dom"
+import cls from './ReviewDatailsPage.module.scss'
+import { Author, EditButton, Like, ReviewDetails } from "@/entities/Review"
+import { useTranslation } from "react-i18next"
 
-const ReviewDetailsPage = memo(() => {
-    const navigate = useNavigate()
-    const ReviewState = getReviewEditState()
-
+const ReviewDetailsPage = () => {
+    const {t} = useTranslation()
+    const location = useLocation()
+    const isPreview = location.pathname === '/reviews/preview'
+    
     return (
-        <div>
-            <Button 
-                onClick={() => navigate(-1)}
-            >
-                Back
-            </Button>
-            ReviewDetailsPage
-            {ReviewState.ReviewName}
-            {ReviewState.TitleOfWork}
-            {ReviewState.ReviewText}
+        <div className={cls.ReviewDetailsPage}>
+            { isPreview && <EditButton /> }
+            <Author />
+            <ReviewDetails />
             
+            <Like />
         </div>
     )
-})
+}
 
 export default ReviewDetailsPage

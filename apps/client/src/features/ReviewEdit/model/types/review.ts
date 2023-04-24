@@ -1,6 +1,6 @@
 export interface Review {
     ReviewText: string
-    AuthRating: Number
+    AuthRating: number
     ReviewName: string
     Tags: string[]
     TitleOfWork: string

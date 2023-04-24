@@ -2,6 +2,9 @@ import { Quill } from "react-quill";
 import QuillMarkdown from 'quilljs-markdown'
 import ImageUploader from 'quill-image-uploader'
 import QuillBetterImage from "@umn-latis/quill-better-image-module"
+import * as Emoji from "quill-emoji";
+
+Quill.register("modules/emoji", Emoji);
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["extra-small", "small", "medium", "large"];
@@ -23,10 +26,22 @@ Quill.register('modules/markdownOptions', QuillMarkdown)
 Quill.register("modules/imageUploader", ImageUploader)
 Quill.register("modules/betterImage", QuillBetterImage)
 
+const toolbarOptions = {
+    container: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['emoji'],   
+    ],
+    handlers: {'emoji': function() {}}
+  }
+
 export const modules = {
-    toolbar: {
-        container: "#toolbar",
-    },
+    toolbar:  toolbarOptions,
+        // container: "#toolbar",
+        
+    "emoji-toolbar": true,
+    "emoji-textarea": true,
+    "emoji-shortname": true,
+    // },
     markdownOptions: {},
     betterImage: {
         // see DefaultOptions for available options

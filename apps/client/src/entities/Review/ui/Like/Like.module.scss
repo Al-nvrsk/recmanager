@@ -1,0 +1,19 @@
+.conteiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.Like {
+    font-size: var(--font-size-l);
+    &:hover {
+        cursor: pointer;
+        scale: var(--scale-hover);
+        opacity: var(--opacity-hover);
+    }
+}
+
+.likeText {
+    color: var(--like-color);
+}
