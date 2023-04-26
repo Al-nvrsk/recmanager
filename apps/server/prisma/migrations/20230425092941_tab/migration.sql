@@ -57,22 +57,14 @@ CREATE TABLE "Reviews" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
-    "title" TEXT NOT NULL,
-    "avarageRating" DOUBLE PRECISION NOT NULL,
-    "published" BOOLEAN NOT NULL DEFAULT false,
+    "ReviewName" TEXT NOT NULL,
+    "ReviewText" TEXT NOT NULL,
+    "TitleOfWork" TEXT NOT NULL,
+    "AuthRating" DOUBLE PRECISION NOT NULL,
     "authorId" TEXT NOT NULL,
-    "authorRate" INTEGER NOT NULL,
+    "TypeOfWork" TEXT NOT NULL,
 
     CONSTRAINT "Reviews_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Category" (
-    "id" TEXT NOT NULL,
-    "reviewsId" TEXT NOT NULL,
-    "category" TEXT NOT NULL,
-
-    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -106,9 +98,10 @@ CREATE TABLE "Notifications" (
 -- CreateTable
 CREATE TABLE "ReviewRating" (
     "id" TEXT NOT NULL,
-    "rate" INTEGER NOT NULL,
+    "userRate" INTEGER NOT NULL,
     "userId" TEXT NOT NULL,
     "reviewId" TEXT NOT NULL,
+    "liked" INTEGER,
 
     CONSTRAINT "ReviewRating_pkey" PRIMARY KEY ("id")
 );
@@ -138,13 +131,10 @@ CREATE UNIQUE INDEX "UserTheme_ownerId_key" ON "UserTheme"("ownerId");
 CREATE UNIQUE INDEX "UserLang_ownerId_key" ON "UserLang"("ownerId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Reviews_title_authorId_key" ON "Reviews"("title", "authorId");
+CREATE UNIQUE INDEX "Reviews_TitleOfWork_authorId_key" ON "Reviews"("TitleOfWork", "authorId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Notifications_commentId_key" ON "Notifications"("commentId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ReviewRating_reviewId_key" ON "ReviewRating"("reviewId");
 
 -- AddForeignKey
 ALTER TABLE "Google" ADD CONSTRAINT "Google_localUserId_fkey" FOREIGN KEY ("localUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -160,9 +150,6 @@ ALTER TABLE "UserLang" ADD CONSTRAINT "UserLang_ownerId_fkey" FOREIGN KEY ("owne
 
 -- AddForeignKey
 ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Category" ADD CONSTRAINT "Category_reviewsId_fkey" FOREIGN KEY ("reviewsId") REFERENCES "Reviews"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Tags" ADD CONSTRAINT "Tags_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Reviews"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

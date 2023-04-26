@@ -82,6 +82,18 @@
   "Users's assessment:": "Users's assessment:",
   "Save": "Save",
   "Back": "Back",
-  "My assessment:": "Your assessment:"
+  "My assessment:": "Your assessment:",
+
+  "Title of work": "Title of work",
+  "Review Name": "Review Name",
+  "Action": "Action",
+  "Updated At": "Updated At",
+  "Created At": "Created At",
+  "Users assessment": "Users assessment",
+  "My assessment": "My assessment",
+  "Type of work": "Type of work",
+  "Tags": "Tags",
+  "Edit": "Edit",
+  "Delete": "Delete"
 
 }

@@ -1,55 +1,50 @@
 import { Rating } from "@/entities/Rating";
 import { Button, Form, Input, Typography, Col, Select, SelectProps, Rate, Space} from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import cls from './ReviewsPage.module.scss'
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { reviewSchema } from "validation-schema";
 import { useTranslation } from "react-i18next";
-import { workType } from "../model/consts/workTypes";
+import { workType } from "../../model/consts/workTypes";
 import { TextEditor } from "@/entities/Editor";
-import type { Review } from "../model/types/review";
 import { useNavigate } from "react-router-dom";
-import { getRouteMain, getRouteReviewDetails } from "@/shared/const/router";
-import { getSetReviewEditState } from "../model/selectors/getSetReviewEditState";
-import { getReviewEditState } from "../model/selectors/getReviewEditState";
+import { getRouteMain, getRouteReviewDetails, getRouteReviews } from "@/shared/const/router";
+import { getSetReviewEditState } from "../../model/selectors/getSetReviewEditState";
+import { getReviewEditState } from "../../model/selectors/getReviewEditState";
+import { formReviewSchema } from "validation-schema";
+import { EditReview } from "../../model/types/EditReview";
+import { trpc } from "@/shared/hooks/trpc";
 
 export const ReviewEdit = () => {
+    const getTags = trpc.getTags.useQuery()
     const {t} = useTranslation()
     const navigate = useNavigate()
-    const setReviewState = getSetReviewEditState()
-    const ReviewEditState = getReviewEditState()
+    const setReviewEditState = getSetReviewEditState()
+    const ReviewEditStateStore = getReviewEditState()
 
     const {
         control,
         handleSubmit,
         formState: { errors },
         reset
-    } = useForm<Review>({
-        defaultValues: ReviewEditState,
+    } = useForm<EditReview>({
+        defaultValues: ReviewEditStateStore,
         mode: 'onChange',
-        resolver: zodResolver(reviewSchema(t)),
+        resolver: zodResolver(formReviewSchema(t)),
     });
     
-
     const onSubmit = (data: any) => {
-        setReviewState(data)
+        setReviewEditState(data)
         console.log(data);
         navigate(getRouteReviewDetails('preview'))
-      };
+    };
 
-    const options: SelectProps['options'] = [];
-
-    for (let i = 10; i < 36; i++) {
-      options.push({
-        value: i.toString(36) + i,
-        label: i.toString(36) + i,
-      });
-    }
-
+    const tags = getTags.data?.map(el => (
+        { value: el.tag, label: el.tag }
+    )) 
 
     const onCancel = () => {
-        navigate(getRouteMain())
+        navigate(getRouteReviews())
     }
 
     return (
@@ -95,7 +90,6 @@ export const ReviewEdit = () => {
                 <Select
                     {...field}
                     showSearch
-                    // style={{ width: 200 }}
                     optionFilterProp="children"
                     filterOption={(input, option) => (option?.label ?? '').includes(input)}
                     filterSort={(optionA, optionB) =>
@@ -119,7 +113,7 @@ export const ReviewEdit = () => {
                             {...field}
                             mode="tags"
                             tokenSeparators={[',']}
-                            options={options}
+                            options={tags}
                         />
                     }
                 />
@@ -142,7 +136,6 @@ export const ReviewEdit = () => {
             <Form.Item
                 validateStatus={errors.ReviewText ? 'error' : ''}
                 help={errors.ReviewText?.message}
-                // label="description"
                 style={{ width: '100%' }}
             >
                 <Controller 
@@ -152,31 +145,30 @@ export const ReviewEdit = () => {
                     <TextEditor {...field} placeholder="ReviewText"/>
                     }
                     />
-              </Form.Item>
+            </Form.Item>
 
             <Form.Item>
                 <Space  >
 
-              <Button 
-                htmlType="submit"
-                type="primary"
-                disabled={!!Object.keys(errors).length}
-            >
-                Preview
-              </Button>
-              
-              <Button 
-                htmlType={'button'}
-                type={'primary'}
-                danger
-                onClick={onCancel}
-            >
-                Cancel
-              </Button>
-              </Space>
-            
-            </Form.Item>
+                    <Button 
+                        htmlType="submit"
+                        type="primary"
+                        disabled={!!Object.keys(errors).length}
+                    >
+                        Preview
+                    </Button>
 
+                    <Button 
+                        htmlType={'button'}
+                        type={'primary'}
+                        danger
+                        onClick={onCancel}
+                    >
+                        Cancel
+                    </Button>
+                </Space>
+
+            </Form.Item>
         </Form>
-      );
+    );
 }

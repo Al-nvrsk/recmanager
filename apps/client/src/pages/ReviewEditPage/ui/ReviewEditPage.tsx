@@ -1,8 +1,7 @@
-import { ReviewEdit } from "@/features/ReviewEdit"
+import { ReviewEdit } from "@/entities/Review"
 import React from "react"
-import { memo } from "react"
 
-const ReviewEditPage = memo(() => {
+const ReviewEditPage = () => {
 
     return (
         <div>
@@ -10,6 +9,6 @@ const ReviewEditPage = memo(() => {
             <ReviewEdit />
         </div>
     )
-})
+}
 
 export default ReviewEditPage

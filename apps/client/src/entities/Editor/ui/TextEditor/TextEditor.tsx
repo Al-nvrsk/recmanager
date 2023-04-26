@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import QuillToolbar, { formats, modules } from '../EditorToolbar/EditorToolbar';
@@ -14,7 +14,7 @@ type Props = {
   onChange: OnChangeHandler;
 };
 
-const TextEditor = React.forwardRef(({ value, onChange, placeholder }: Props, ref) => {
+const TextEditor = ({ value, onChange, placeholder }: Props) => {
   return (
     <>
       <QuillToolbar />
@@ -28,6 +28,6 @@ const TextEditor = React.forwardRef(({ value, onChange, placeholder }: Props, re
       />
     </>
   );
-});
+};
 
 export default TextEditor;

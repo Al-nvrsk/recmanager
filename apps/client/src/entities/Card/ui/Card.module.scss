@@ -1,0 +1,32 @@
+.AntdCard {
+    height: 424px;
+    margin-right: auto;
+}
+
+.rating {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.image {
+    // height: 240px;
+    object-fit: cover;
+}
+
+.tags {
+    width: 190px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ratingStar {
+    color: var(--rating-star); 
+    font-size: var(--font-size-m);
+}
+
+.tag:hover {
+    scale: var(--scale-hover);
+    opacity: var(--opacity-hover);
+}

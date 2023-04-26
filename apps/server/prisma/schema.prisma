@@ -46,7 +46,7 @@ model UserTheme {
   id        String    @id @default(uuid())
   theme     String
   device    String?
-  owner     User      @relation(fields: [ownerId], references: [id])
+  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String    @unique
 }
 
@@ -71,37 +71,30 @@ model Reviews {
   ReviewText    String
   TitleOfWork   String
   AuthRating    Float
-  // published     Boolean     @default(false)
   author        User        @relation(fields: [authorId], references: [id])
   authorId      String
-  Tag           Tags[]
+  Tags          Tags[]
   comments      Comments[]
-  TypeOfWork    Category?
-  rating        ReviewRating?
+  TypeOfWork    String
+  rating        ReviewRating[]
   @@unique([TitleOfWork, authorId])
 }
 
-model Category {
-  id String      @id @default(uuid())
-  reviews Reviews @relation(fields: [reviewsId], references: [id])
-  reviewsId String @unique
-  category String
-}
 
 
 model Tags {
   id      String   @id @default(uuid())
   tag     String
-  post    Reviews @relation(fields: [postId], references: [id])
+  post    Reviews @relation(fields: [postId], references: [id], onDelete: Cascade) 
   postId  String
 }
 
 model Comments {
   id            String  @id @default(uuid())
   text          String
-  reviews       Reviews @relation(fields: [reviewId], references: [id])
+  reviews       Reviews @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId      String
-  user          User    @relation(fields: [userId], references: [id])
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   notification  Notifications?
 }
@@ -115,9 +108,10 @@ model Notifications {
 }
 
 model ReviewRating {
-  id String    @id @default(uuid())
-  rate Int
-  userId String
-  review Reviews @relation(fields: [reviewId], references: [id])
-  reviewId String @unique
+  id        String    @id @default(uuid())
+  userRate  Int
+  userId    String
+  review    Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewId  String    
+  liked     Int?
 }

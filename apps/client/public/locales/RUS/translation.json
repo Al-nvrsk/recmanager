@@ -82,6 +82,18 @@
   "Users's assessment:": "Оценка пользователей:",
   "Save": "Сохранить",
   "Back": "Назад",
-  "My assessment:": "Ваша оценка:"
+  "My assessment:": "Ваша оценка:",
+
+  "Title of work": "Название произведения",
+  "Review Name": "Название обзора",
+  "Action": "Действия",
+  "Updated At": "Дата обновления",
+  "Created At": "Дата создания",
+  "Users assessment": "Оценки пользователей",
+  "My assessment": "Моя оценка",
+  "Type of work": "Тип произведения",
+  "Tags": "Таг",
+  "Edit": "Редактировать",
+  "Delete": "Удалить"
 
 }

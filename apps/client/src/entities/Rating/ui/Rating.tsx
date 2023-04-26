@@ -1,7 +1,6 @@
 import { Rate } from "antd";
-import React, { FC } from "react";
+import React from "react";
 import { desc } from "../model/consts/desc";
-import { boolean } from "zod";
 
 interface RatingProps {
     isUsers?: boolean
@@ -9,7 +8,7 @@ interface RatingProps {
 
 export const Rating = (props: RatingProps & Record<string, any>) => {
     const {isUsers = false , ...field} = props
-
+    
     return (
         <Rate 
             {...field}

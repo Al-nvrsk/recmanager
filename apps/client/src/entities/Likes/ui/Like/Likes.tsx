@@ -1,5 +1,5 @@
 import { Space, Typography } from 'antd'
-import cls from './Like.module.scss'
+import cls from './Likes.module.scss'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { DislikeTwoTone, LikeTwoTone } from '@ant-design/icons'
@@ -12,7 +12,7 @@ interface LikeProps {
     onClose?: () => void 
 }
 
-export const Like = (props: LikeProps) => {
+export const Likes = (props: LikeProps) => {
     const {reviewId, userId, onClose} = props
     const {t} = useTranslation()
     return (

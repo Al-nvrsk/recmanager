@@ -3,8 +3,9 @@ import { Button, Space, Typography } from "antd"
 import React from "react"
 import { Assessment } from "../Assesment/Assesment"
 import ReactQuill from "react-quill"
-import { getReviewEditState } from "@/features/ReviewEdit"
 import { useTranslation } from "react-i18next"
+import cls from './ReviewDetails.module.scss'
+import { getReviewEditState } from "../../model/selectors/getReviewEditState"
 
 const {Text, Title} = Typography
 
@@ -15,10 +16,10 @@ export const ReviewDetails = () => {
     return (
         <div>
             <Title >
-                {ReviewState.ReviewName}
+                {ReviewState?.ReviewName}
             </Title>
             <Space>
-                <Title level={4} >{ReviewState.TypeOfWork}:</Title>
+                <Title level={4} className={cls.typeOfWork} >{ReviewState.TypeOfWork}:</Title>
                 <Title level={2} >{ReviewState.TitleOfWork}</Title>
             </Space>
             <div>
@@ -27,11 +28,11 @@ export const ReviewDetails = () => {
                     <Assessment rate={(ReviewState.AuthRating)/2} isUsers />
                     <Text> {t('My assessment:')} </Text>
                     <Rating isUsers={true}/>
-                    <Space>
-                        {ReviewState.Tags.map(tag => (
+                    <div className={cls.tags}>
+                        {ReviewState.Tags.map((tag) => (
                             <Button type={'dashed'} key={tag} >{tag}</Button>
                         ))}
-                    </Space>
+                    </div>
                 </Space>    
             </div>
             <Text>

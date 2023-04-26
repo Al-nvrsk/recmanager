@@ -1,4 +1,4 @@
-import React, { Ref } from "react";
+import React from "react";
 import { Quill } from "react-quill";
 import QuillMarkdown from 'quilljs-markdown'
 import ImageUploader from 'quill-image-uploader'
