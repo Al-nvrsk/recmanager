@@ -2,6 +2,7 @@ import { authSchema, registrationSchema } from 'validation-schema';
 import { TRPCError } from '@trpc/server';
 import { protectedProcedure, publicProcedure } from '../../procedure/procedure';
 import { router } from '../../trpc/trpc';
+import { z as zod } from 'zod';
 
 const t = (message: string) => message
 
@@ -44,13 +45,34 @@ export const userRouter = router({
         }),
 
     getUser: protectedProcedure
+        .input( zod.
+            object({
+                userId: zod.string(),
+                author: zod.boolean()
+            }).optional())
         .query( async(req) => {
-            const userId = req.ctx.req.session!.userId
+            const id = req.input?.author ? req.input.userId : req.ctx.req.session!.userId
             const user = await req.ctx.prisma.user.findUnique({
-                where: {id:userId},
-                include: {theme: true, lang: true}
+                where: {id},
+                include: {
+                    theme: {
+                        select : {theme: true}
+                    },
+                    lang: {
+                        select: { lang: true}
+                    },
+                    post: {
+                        select: {id:true}
+                    }
+                }
             })
-        return user
+            const likedNumber = await req.ctx.prisma.reviewRating.count({
+                where: {
+                    reviewId: {in: user?.post.map(value => value.id)},
+                    likeStatus: 'liked'
+                }
+            })
+        return  {likedNumber, ...user!}
         })
         
 });

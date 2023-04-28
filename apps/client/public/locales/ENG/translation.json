@@ -69,6 +69,14 @@
   "Comics": "Comics",
   "Articles": "Articles",
 
+  "Музыка":"Audio",
+  "Кино": "Cinema",
+  "Мультфильм":"Cartoon",
+  "Сериал": "Series",
+  "Книга": "Book",
+  "Комикс": "Comics",
+  "Статья": "Articles",
+
   "Review Name can't be empty": "Review Name can't be empty",
   "Title of work can't be empty": "Title of work can't be empty",
   "Type of work can't be empty": "Type of work can't be empty",
@@ -84,6 +92,7 @@
   "Back": "Back",
   "My assessment:": "Your assessment:",
 
+  "#": "#",
   "Title of work": "Title of work",
   "Review Name": "Review Name",
   "Action": "Action",
@@ -94,6 +103,30 @@
   "Type of work": "Type of work",
   "Tags": "Tags",
   "Edit": "Edit",
-  "Delete": "Delete"
+  "Delete": "Delete",
+  "Open": "Open",
+  "More actions": "More actions",
+  "Cleare filter": "Cleare filter",
+
+  "Click to sort ascending": "Click to sort ascending",
+  "Click to sort descending": "Click to sort descending",
+  "Click to cancel sorting": "Click to cancel sorting",
+  "Collapse row": "Collapse row",
+  "Filter menu": "Filter menu",
+  "OK": "OK",
+  "Reset": "Reset",
+  "No filters": "No filters",
+  "Select all items": "Select all items",
+  "Search in filters": "Search in filters",
+  "No data": "No data",
+  "Select current page": "Select current page",
+  "Invert current page": "Invert current page",
+  "Clear all data": "Clear all data",
+  "Select all data": "Select all data",
+  "Sort": "Sort",
+  "Expand row": "Expand row",
+
+  "Search TitleOfWork": "Search Title of work",
+  "Search ReviewName": "Search Review name"
 
 }

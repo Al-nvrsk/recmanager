@@ -66,8 +66,12 @@ export const reviewRouter = router({
             const getReviews = await req.ctx.prisma.reviews.findMany({
                 include: {
                     Tags: {select: {tag: true}},
+                    rating: {select: {userRate: true}}
                 }
             })
+            // @ts-ignore
+            getReviews.forEach(review => review.rating = review.rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0  )/review.rating.length)
+            
             return getReviews 
         } catch(e) {
             console.log(e)

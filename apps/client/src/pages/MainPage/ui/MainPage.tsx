@@ -37,7 +37,6 @@ const MainPage = () => {
         setTheme(theme?.theme as Theme)
         }
     },[getUser?.isSuccess])
-    console.log('reviewMap', reviews)
     return (
         <div>
             <TagCloud theme={theme} />

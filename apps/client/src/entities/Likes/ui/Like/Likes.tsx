@@ -2,26 +2,35 @@ import { Space, Typography } from 'antd'
 import cls from './Likes.module.scss'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { DislikeTwoTone, LikeTwoTone } from '@ant-design/icons'
+import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons'
 
 const {Text} = Typography
-
 interface LikeProps {
-    reviewId?: string
-    userId?: string
-    onClose?: () => void 
+    likeStatus?: string
+    setLikeStatus: (value: string) => void 
 }
 
 export const Likes = (props: LikeProps) => {
-    const {reviewId, userId, onClose} = props
+    const {setLikeStatus, likeStatus} = props
     const {t} = useTranslation()
+
+    const onLiked = (status: string) => {
+        setLikeStatus(status)
+    }
+
     return (
         <Space direction={'horizontal'} className={cls.conteiner}>
                 <Text className={cls.likeText}>
                     {t('Do you like this review?')}
                 </Text>
-                <DislikeTwoTone className={cls.Like} onClick={()=>console.log('closed')} />
-                <LikeTwoTone className={cls.Like} />
+                {likeStatus === 'liked'
+                    ? <LikeFilled className={cls.liked} />
+                    : <LikeOutlined className={cls.like}  onClick={() => onLiked('liked')} />
+                }
+                {likeStatus === 'disliked'
+                    ? <DislikeFilled className={cls.liked} />
+                    : <DislikeOutlined className={cls.like}  onClick={()=> onLiked('disliked')}/>
+                }
             </Space>
     )
 }

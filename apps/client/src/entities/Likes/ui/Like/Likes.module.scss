@@ -5,13 +5,19 @@
     margin-bottom: 24px;
 }
 
-.Like {
+.like {
     font-size: var(--font-size-l);
+    color: var(--like-color);
     &:hover {
         cursor: pointer;
         scale: var(--scale-hover);
         opacity: var(--opacity-hover);
     }
+}
+
+.liked {
+    font-size: var(--font-size-l);
+    color: var(--like-color);
 }
 
 .likeText {

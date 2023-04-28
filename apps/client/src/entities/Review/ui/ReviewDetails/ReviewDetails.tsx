@@ -27,7 +27,6 @@ export const ReviewDetails = () => {
                     <Assessment rate={ReviewState.AuthRating} />
                     <Assessment rate={(ReviewState.AuthRating)/2} isUsers />
                     <Text> {t('My assessment:')} </Text>
-                    <Rating isUsers={true}/>
                     <div className={cls.tags}>
                         {ReviewState.Tags.map((tag) => (
                             <Button type={'dashed'} key={tag} >{tag}</Button>

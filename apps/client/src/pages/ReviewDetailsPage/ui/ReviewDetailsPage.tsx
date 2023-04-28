@@ -1,14 +1,15 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import cls from './ReviewDatailsPage.module.scss'
-import { Author, ReviewDetails, getReviewEditState, getReviewsState, getSetReviewEditState } from "@/entities/Review"
+import { Author, ReviewDetails, getReviewEditState, getSetReviewEditState } from "@/entities/Review"
 import { useTranslation } from "react-i18next"
 import { getCurrentUser } from "@/entities/User"
 import { Button, Space } from "antd"
-import { getRouteMain, getRouteReviewEdit } from "@/shared/const/router"
+import { getRouteMain } from "@/shared/const/router"
 import { trpc } from "@/shared/hooks/trpc"
 import { Likes } from "@/entities/Likes"
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError"
+import { Rating } from "@/entities/Rating"
 
 const ReviewDetailsPage = () => {
     const {t} = useTranslation()
@@ -18,30 +19,56 @@ const ReviewDetailsPage = () => {
     const currentUser = getCurrentUser()
     const navigate = useNavigate()
     const setReviewEditState = getSetReviewEditState()
+    const [likeStatus, setLikeStatus] = useState('')
+    const [myRate, setMyRate] = useState<number>()
+    const getLikesAndRate = trpc.getReviewRatings.useMutation()
+    const updateReview = trpc.updateReview.useMutation();
+    const getUser = trpc.getUser.useQuery({userId:reviewEditState.authorId || '', author: true})
+    const sendLike = trpc.updateLikes.useMutation()
+    const sendMyRate = trpc.updateRate.useMutation()
     
-        const updateReview = trpc.updateReview.useMutation();
-        const onSave = async() => {
+    useEffect( () => {
+        if (reviewEditState!.id && currentUser?.id) {
+            getLikesAndRate.mutate({reviewId: reviewEditState!.id, userId: currentUser!.id})
+        }
+    },[])
+    useEffect(() => {
+        //TODO: fix types
+        setLikeStatus(getLikesAndRate.data?.likeStatus)
+        setMyRate(getLikesAndRate.data?.userRate)
+    },[getLikesAndRate.isSuccess])
+
+    useEffect(() => {
+        if (likeStatus && reviewEditState.id && currentUser?.id) {
+            sendLike.mutateAsync({likeStatus, reviewId: reviewEditState.id, userId: currentUser?.id})
+        }
+    }, [likeStatus])
+
+    useEffect(() => {
+        if (myRate && reviewEditState.id && currentUser?.id) {
+            sendMyRate.mutateAsync({myRate, reviewId: reviewEditState.id, userId: currentUser?.id})
+        }
+    }, [myRate])
+
+    const onSave = async() => {
             await updateReview.mutateAsync({authorId: currentUser!.id, ...reviewEditState})
         }
 
-        if (updateReview.isSuccess) {
-            setReviewEditState()
-            navigate(getRouteMain())
-        }
+    if (updateReview.isSuccess) {
+        setReviewEditState()
+        navigate(getRouteMain())
+    }
 
-        if (updateReview.isError) {
-            showNetworkError()
-        }
-
-        console.log('reviewEditState', reviewEditState)
+    if (updateReview.isError) {
+        showNetworkError()
+    }
 
     return (
         <div className={cls.ReviewDetailsPage}>
-            {/* { isPreview && <EditButton /> } */}
             <div className={cls.EditButton}>
         <Space size={'large'}>
-            {/* { reviewEditState?.id
-                ?  */}
+
+                {isPreview &&
                 <Button
                         type={'primary'}
                         onClick={onSave}
@@ -49,8 +76,8 @@ const ReviewDetailsPage = () => {
                     >
                         {t('Save')}
                     </Button>
-                    {/* : null
-            } */}
+                }
+
                 <Button
                     type={'primary'}
                     danger
@@ -61,11 +88,19 @@ const ReviewDetailsPage = () => {
             </Space>
             </div>
 
-            <Author />
+            <Author dateCreate={reviewEditState.createdAt || ''} { ...getUser.data } />
+            
 
             <ReviewDetails />
-            
-            <Likes />
+                <Rating 
+                    isUsers={true}
+                    setRatingNumber={setMyRate}
+                    ratingNumber={myRate}
+                />
+                <Likes 
+                    likeStatus={likeStatus}
+                    setLikeStatus={setLikeStatus}
+                />
         </div>
     )
 }

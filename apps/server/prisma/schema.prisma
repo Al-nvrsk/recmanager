@@ -108,10 +108,10 @@ model Notifications {
 }
 
 model ReviewRating {
-  id        String    @id @default(uuid())
-  userRate  Int
-  userId    String
-  review    Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  reviewId  String    
-  liked     Int?
+  id          String    @id @default(uuid())
+  userRate    Int?
+  userId      String    
+  review      Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewId    String   
+  likeStatus  String?
 }

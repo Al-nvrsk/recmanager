@@ -6,4 +6,6 @@ export interface EditReview {
     TitleOfWork: string
     TypeOfWork: string
     id?: string
+    authorId?: string
+    createdAt?: string
 }

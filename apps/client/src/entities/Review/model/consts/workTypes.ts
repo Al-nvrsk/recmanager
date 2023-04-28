@@ -6,7 +6,8 @@ export const workType = () => {
     const SelectorType = typeName.map(val => {
         return {
             value: t(val),
-            label: t(val)
+            label: t(val),
+            text: t(val)
         }
     }
     )

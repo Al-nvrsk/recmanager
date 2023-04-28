@@ -4,7 +4,6 @@ export interface Review extends Omit<EditReview, 'Tags'> {
     id: string
     createdAt: string
     updateAt: string
-    authorId: string
     Tags: {tag: string}[]
-    // rating: null
+    rating: any //TODO: fix
 }
