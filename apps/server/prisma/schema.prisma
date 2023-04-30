@@ -66,7 +66,7 @@ enum Role {
 model Reviews {
   id            String      @id @default(uuid())
   createdAt     DateTime    @default(now())
-  updateAt      DateTime    @updatedAt
+  updatedAt     DateTime    @updatedAt
   ReviewName    String
   ReviewText    String
   TitleOfWork   String
@@ -91,6 +91,8 @@ model Tags {
 
 model Comments {
   id            String  @id @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   text          String
   reviews       Reviews @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId      String
@@ -109,9 +111,10 @@ model Notifications {
 
 model ReviewRating {
   id          String    @id @default(uuid())
-  userRate    Int?
+  userRate    Float?
   userId      String    
   review      Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId    String   
   likeStatus  String?
+  @@unique([userId, reviewId])
 }

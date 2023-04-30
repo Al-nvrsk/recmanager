@@ -1,57 +1,71 @@
 import React, { useEffect, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import cls from './ReviewDatailsPage.module.scss'
-import { Author, ReviewDetails, getReviewEditState, getSetReviewEditState } from "@/entities/Review"
+import { ReviewDetails, getReviewEditState, getReviewsState, getSetReviewEditState } from "@/entities/Review"
 import { useTranslation } from "react-i18next"
 import { getCurrentUser } from "@/entities/User"
-import { Button, Space } from "antd"
+import { Button, Space, Spin, Typography } from "antd"
 import { getRouteMain } from "@/shared/const/router"
 import { trpc } from "@/shared/hooks/trpc"
 import { Likes } from "@/entities/Likes"
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError"
 import { Rating } from "@/entities/Rating"
+import { useParams } from 'react-router-dom'
+import { ReviewDatailsPageComments } from "./ReviewDatailsPageComments/ReviewDatailsPageComments"
+import { Author } from "@/entities/Author"
+
+const {Text} = Typography
 
 const ReviewDetailsPage = () => {
     const {t} = useTranslation()
-    const location = useLocation()
-    const isPreview = location.pathname === '/reviews/preview'
+    const { id } = useParams<{id: string}>();
+    const isPreview =  id === 'preview'
     const reviewEditState = getReviewEditState()
+
     const currentUser = getCurrentUser()
     const navigate = useNavigate()
     const setReviewEditState = getSetReviewEditState()
     const [likeStatus, setLikeStatus] = useState('')
     const [myRate, setMyRate] = useState<number>()
+
+    const getReview = trpc.getReview.useQuery({id: id || ''})
     const getLikesAndRate = trpc.getReviewRatings.useMutation()
     const updateReview = trpc.updateReview.useMutation();
-    const getUser = trpc.getUser.useQuery({userId:reviewEditState.authorId || '', author: true})
+    const getUser = trpc.getUser.useQuery({userId:getReview.data?.authorId || '', author: true})
     const sendLike = trpc.updateLikes.useMutation()
     const sendMyRate = trpc.updateRate.useMutation()
-    
+    console.log('currentUser2', currentUser)
+
     useEffect( () => {
-        if (reviewEditState!.id && currentUser?.id) {
-            getLikesAndRate.mutate({reviewId: reviewEditState!.id, userId: currentUser!.id})
+        if (getReview.data?.id && currentUser?.id) {
+            getLikesAndRate.mutate({reviewId: getReview.data.id, userId: currentUser.id})
         }
     },[])
+    
     useEffect(() => {
         //TODO: fix types
         setLikeStatus(getLikesAndRate.data?.likeStatus)
         setMyRate(getLikesAndRate.data?.userRate)
     },[getLikesAndRate.isSuccess])
 
+
     useEffect(() => {
-        if (likeStatus && reviewEditState.id && currentUser?.id) {
-            sendLike.mutateAsync({likeStatus, reviewId: reviewEditState.id, userId: currentUser?.id})
+        if (likeStatus && getReview.data?.id && currentUser?.id) {
+            sendLike.mutateAsync({likeStatus, reviewId: getReview.data.id, userId: currentUser?.id})
         }
     }, [likeStatus])
 
     useEffect(() => {
-        if (myRate && reviewEditState.id && currentUser?.id) {
-            sendMyRate.mutateAsync({myRate, reviewId: reviewEditState.id, userId: currentUser?.id})
+        if (myRate && getReview.data?.id && currentUser?.id) {
+            sendMyRate.mutateAsync({myRate, reviewId: getReview.data.id, userId: currentUser?.id})
         }
     }, [myRate])
 
     const onSave = async() => {
-            await updateReview.mutateAsync({authorId: currentUser!.id, ...reviewEditState})
+        console.log('currentUser1', currentUser)
+        if (!currentUser?.id) {
+            return}
+            await updateReview.mutateAsync({authorId: currentUser.id, ...reviewEditState})
         }
 
     if (updateReview.isSuccess) {
@@ -61,6 +75,12 @@ const ReviewDetailsPage = () => {
 
     if (updateReview.isError) {
         showNetworkError()
+    }
+
+    if (getReview.isLoading && !reviewEditState) {
+        return (
+            <Spin size="large" />
+        )
     }
 
     return (
@@ -87,20 +107,32 @@ const ReviewDetailsPage = () => {
                 </Button>
             </Space>
             </div>
-
-            <Author dateCreate={reviewEditState.createdAt || ''} { ...getUser.data } />
             
+            {!isPreview &&
+                <Author 
+                    dateCreate={getReview.data?.createdAt}
+                    dateUpdate={getReview.data?.updatedAt}
+                    { ...getUser.data }
+                    />
+            }
 
-            <ReviewDetails />
-                <Rating 
-                    isUsers={true}
-                    setRatingNumber={setMyRate}
-                    ratingNumber={myRate}
-                />
-                <Likes 
-                    likeStatus={likeStatus}
-                    setLikeStatus={setLikeStatus}
-                />
+            <ReviewDetails reviewState={isPreview ? reviewEditState : getReview.data!} />
+                {currentUser &&
+                <>
+                    <Text> {t('My assessment:')} </Text>
+                    <Rating 
+                        isUsers={true}
+                        setRatingNumber={setMyRate}
+                        ratingNumber={myRate}
+                    />
+                    <Likes 
+                        likeStatus={likeStatus}
+                        setLikeStatus={setLikeStatus}
+                    />
+                </>
+                }
+                {id &&
+                <ReviewDatailsPageComments id={id} />}
         </div>
     )
 }

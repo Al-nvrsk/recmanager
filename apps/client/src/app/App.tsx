@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./App.css";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Col, ConfigProvider, Layout, Space, Switch, theme } from 'antd';
 import { Header } from "@/widgets/Header";
 import { Sidebar } from "@/widgets/Sidebar";
@@ -8,13 +8,27 @@ import AppRouter from "./providers/router/ui/AppRouter";
 import { USER_LOCALSTORAGE_KEY } from "@/shared/const/localStorege";
 import { getSetCurrentUser } from "@/entities/User";
 import { Toaster } from "react-hot-toast";
+import { trpc } from "@/shared/hooks/trpc";
+import { getSetLang } from "@/features/LangSwitcher";
+import { getSetTheme } from "@/features/ThemeSwitcher";
+import { Language, Theme } from "common-types";
 
 const { Footer, Content } = Layout;
 
 export const App = () => {
-    // const setUser = getSetCurrentUser()
-    // const currentUser = localStorage.getItem(USER_LOCALSTORAGE_KEY)
-    // currentUser && setUser(JSON.parse(currentUser))
+    const getUser = trpc.getUser.useQuery()
+    const setCurrentUser = getSetCurrentUser()
+    const setLang = getSetLang()
+    const setTheme = getSetTheme()
+    
+    useEffect(() => {
+        if (getUser?.data) {
+        const {theme, lang, ...user} = getUser.data
+        setCurrentUser(user)
+        setLang(lang?.lang as Language )
+        setTheme(theme?.theme as Theme)
+        }
+    },[getUser?.isSuccess])
 
     return (
         <div className="app">

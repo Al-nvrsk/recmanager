@@ -19,7 +19,7 @@ export const AuthModal = (props: LoginModalProps) => {
     return (
         <Modal
             open={isOpen}
-            afterClose={() => navigate(getRouteMain())}
+            // afterClose={() => navigate(getRouteMain())}
             destroyOnClose
             footer={null}
             onCancel={onClose}

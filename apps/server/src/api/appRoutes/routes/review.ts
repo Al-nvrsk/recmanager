@@ -1,7 +1,8 @@
 import { router } from '../../trpc/trpc';
 import { protectedProcedure, publicProcedure } from '../../procedure/procedure';
 import { createReviewSchema } from 'validation-schema';
-import { z as zod } from 'zod';
+import { ZodError, z as zod } from 'zod';
+import { TRPCError } from '@trpc/server';
 
 const t = (message: string) => message
 
@@ -66,17 +67,56 @@ export const reviewRouter = router({
             const getReviews = await req.ctx.prisma.reviews.findMany({
                 include: {
                     Tags: {select: {tag: true}},
-                    rating: {select: {userRate: true}}
+                    rating: true
                 }
             })
-            // @ts-ignore
-            getReviews.forEach(review => review.rating = review.rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0  )/review.rating.length)
-            
-            return getReviews 
+
+            const reviewsWithAvgRate = getReviews.map((review) => {
+                const {rating, ...reviewArgs} = review
+                const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
+                return {
+                    rating: avgUserRate,
+                    ...reviewArgs,
+                };
+            })
+
+            return reviewsWithAvgRate
         } catch(e) {
             console.log(e)
         }
     }),
+
+    getReview: publicProcedure
+        .input(
+            zod.object({
+                id: zod.string()
+            })
+        )
+        .query(async req => {
+            const {id} = req.input
+            try {
+                const getReview = await req.ctx.prisma.reviews.findFirst({
+                    where: {id},
+                    include: {
+                        Tags: {select: {tag: true}},
+                        rating: true,
+                        comments: true
+                    }
+                })
+                if (!getReview) {
+                    throw new TRPCError({
+                        code: 'INTERNAL_SERVER_ERROR',
+                        message: 'No this review',
+                    });
+                }
+                const {rating, ...reviewArgs} = getReview
+                const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
+
+                return {rating: avgUserRate, ...reviewArgs} 
+            } catch(e) {
+                console.log(e)
+            }
+        }),
 
     deleteReview: protectedProcedure
         .input( zod.

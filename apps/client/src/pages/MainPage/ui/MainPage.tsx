@@ -14,12 +14,7 @@ import { TagCloud } from "@/entities/TagCloud";
 
 const MainPage = () => {
     const getReviews = trpc.getReviews.useQuery()
-    const getUser = trpc.getUser.useQuery()
-    const setCurrentUser = getSetCurrentUser()
-    const setLang = getSetLang()
-    const setTheme = getSetTheme()
-    const theme = getTheme() 
-    
+    const theme = getTheme()   
     const setReviews = getSetReviewsState()
     const reviews = getReviewsState()
     
@@ -29,14 +24,6 @@ const MainPage = () => {
         }
     }, [getReviews])
 
-    useEffect(() => {
-        if (getUser?.data) {
-        const {theme, lang, ...user} = getUser.data
-        setCurrentUser(user)
-        setLang(lang?.lang as Language )
-        setTheme(theme?.theme as Theme)
-        }
-    },[getUser?.isSuccess])
     return (
         <div>
             <TagCloud theme={theme} />

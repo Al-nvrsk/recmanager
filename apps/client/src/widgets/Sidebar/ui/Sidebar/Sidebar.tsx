@@ -7,7 +7,7 @@ import { SideBarItem } from '../SidebarItem/SidebarItem';
 
 export const Sidebar = memo(() => {
     const { t } = useTranslation();
-    const [isCollapsed, setIsCollapsed] = useState(false)
+    const [isCollapsed, setIsCollapsed] = useState(true)
 
     const onCollapsed = () => {
         setIsCollapsed(prev=>!prev)

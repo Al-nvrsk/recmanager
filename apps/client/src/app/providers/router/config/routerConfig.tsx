@@ -45,7 +45,6 @@ export const routeConfig: Record<AppRoutes, AppRouterProps> = {
     [AppRoutes.REVIEWS_DETAILS]: {
         path: getRouteReviewDetails(':id'),
         element: <ReviewDetailsPage />,
-        authOnly: true,
     },
     [AppRoutes.REVIEWS_CREATE]: {
         path: getRouteReviewCreate(),

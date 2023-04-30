@@ -27,7 +27,7 @@ export const Columns = (props: ColumnProps) => {
 
     type ColumnFilterProps = 'TypeOfWork' | 'AuthRating' | 'rating'
     const columnFilter = (columnValue: ColumnFilterProps) => {
-        return [...new Set(reviewState?.map(review => review[columnValue]))].map(value => {return{text:t(value), value}})
+        return [...new Set(reviewState?.map(review => review[columnValue]))].map(value => {return{text:t(value.toString()), value}})
     }
 
     const onOpen = (id: string) => {
@@ -117,7 +117,7 @@ export const Columns = (props: ColumnProps) => {
         title: t("Updated At"),
         dataIndex: "updateAt",
         key: "updateAt",
-        sorter: (a, b) => dayjs(a.updateAt).diff(dayjs(b.updateAt)),
+        sorter: (a, b) => dayjs(a.updatedAt).diff(dayjs(b.updatedAt)),
         render: (date) => dayjs(date).format('DD/MM/YYYY hh:mm'),
         align:'center',
         responsive: ['lg']

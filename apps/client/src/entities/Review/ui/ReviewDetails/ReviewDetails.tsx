@@ -1,35 +1,52 @@
-import { Rating } from "@/entities/Rating"
-import { Button, Space, Typography } from "antd"
+import { Button, Space, Spin, Typography } from "antd"
 import React from "react"
 import { Assessment } from "../Assesment/Assesment"
 import ReactQuill from "react-quill"
 import { useTranslation } from "react-i18next"
 import cls from './ReviewDetails.module.scss'
-import { getReviewEditState } from "../../model/selectors/getReviewEditState"
+import { Review } from "../../model/types/Review"
+import { EditReview } from "../../model/types/EditReview"
 
 const {Text, Title} = Typography
 
-export const ReviewDetails = () => {
-    const ReviewState = getReviewEditState()
+interface ReviewDetailsProps {
+    reviewState: Review | EditReview
+}
+
+export const ReviewDetails = ({reviewState}: ReviewDetailsProps) => {
     const {t} = useTranslation()
+
+    if (!reviewState) {
+        return (
+            <div>
+                <Text>
+                    {t('No data')}
+                </Text>
+            </div>
+        )
+    }
     
     return (
         <div>
             <Title >
-                {ReviewState?.ReviewName}
+                {reviewState?.ReviewName}
             </Title>
             <Space>
-                <Title level={4} className={cls.typeOfWork} >{ReviewState.TypeOfWork}:</Title>
-                <Title level={2} >{ReviewState.TitleOfWork}</Title>
+                <Title level={4} className={cls.typeOfWork} >{reviewState.TypeOfWork}:</Title>
+                <Title level={2} >{reviewState.TitleOfWork}</Title>
             </Space>
             <div>
                 <Space direction={'vertical'}>
-                    <Assessment rate={ReviewState.AuthRating} />
-                    <Assessment rate={(ReviewState.AuthRating)/2} isUsers />
-                    <Text> {t('My assessment:')} </Text>
+                    <Assessment rate={reviewState.AuthRating} />
+                    {('rating' in reviewState) 
+                        ? <Assessment rate={reviewState.rating} isUsers />
+                        : null
+                    }
                     <div className={cls.tags}>
-                        {ReviewState.Tags.map((tag) => (
-                            <Button type={'dashed'} key={tag} >{tag}</Button>
+                        {reviewState.Tags.map((tagValue) => ( 
+                            (typeof tagValue === 'string')
+                            ? <Button type={'dashed'} key={tagValue} >{tagValue}</Button>
+                            : <Button type={'dashed'} key={tagValue.tag} >{tagValue.tag}</Button>
                         ))}
                     </div>
                 </Space>    
@@ -37,7 +54,7 @@ export const ReviewDetails = () => {
             <Text>
                 <ReactQuill
                     theme={'bubble'}
-                    value={ReviewState.ReviewText}
+                    value={reviewState.ReviewText}
                     readOnly={true}
                 />
             </Text>

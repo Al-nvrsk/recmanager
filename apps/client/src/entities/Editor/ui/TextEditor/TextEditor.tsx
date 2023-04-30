@@ -3,6 +3,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import QuillToolbar, { formats, modules } from '../EditorToolbar/EditorToolbar';
 import cls from './Editor.module.scss'
+import { Typography } from 'antd';
+
+const { Text } = Typography
 
 interface OnChangeHandler {
   (e: any): void;
@@ -18,6 +21,7 @@ const TextEditor = ({ value, onChange, placeholder }: Props) => {
   return (
     <>
       <QuillToolbar />
+      <Text>
       <ReactQuill
         theme="snow"
         value={value || ''}
@@ -26,6 +30,7 @@ const TextEditor = ({ value, onChange, placeholder }: Props) => {
         onChange={onChange}
         placeholder={placeholder}
       />
+      </Text>
     </>
   );
 };
