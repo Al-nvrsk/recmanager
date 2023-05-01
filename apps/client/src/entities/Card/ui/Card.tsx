@@ -6,10 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { getRouteReviewDetails } from "@/shared/const/router";
 import { Review, getSetReviewEditState } from "@/entities/Review";
 import { noDataImg } from "@/shared/const/NoDataImg";
+import { useTranslation } from "react-i18next";
 
 const { Meta } = AntdCard;
 
 export const Card = (props: Review) => {
+    const { t } = useTranslation()
     const {
         ReviewText,
         ReviewName,
@@ -65,7 +67,7 @@ export const Card = (props: Review) => {
                 />
                 <div className={cls.rating}>
                     <span>
-                        {TypeOfWork} 
+                        {t(TypeOfWork)} 
                     </span>
                     <Space>
                         {`${rating}/5`} 

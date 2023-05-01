@@ -1,120 +1,119 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
+    previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("MYSQL_DATABASE_URL")
 }
 
 model Google {
-  id          String      @id @default(uuid())
-  googleId    String      @unique
-  user        User        @relation(fields: [localUserId], references: [id])
-  localUserId String      @unique
+    id          String      @id @default(uuid())
+    googleId    String      @unique
+    user        User        @relation(fields: [localUserId], references: [id])
+    localUserId String      @unique
 }
 
 model Github {
-  id          String      @id @default(uuid())
-  githubId    String      @unique
-  user        User        @relation(fields: [localUserId], references: [id])
-  localUserId String      @unique
+    id          String      @id @default(uuid())
+    githubId    String      @unique
+    user        User        @relation(fields: [localUserId], references: [id])
+    localUserId String      @unique
 }
 
 model User {
-  id          String      @id @default(uuid())
-  email       String      @unique
-  firstName   String
-  secondName  String
-  login       String      @unique
-  avatar      String?
-  password    String
-  role        Role        @default(USER)
-  theme       UserTheme?
-  lang        UserLang?
-  post        Reviews[]
-  comments    Comments[]
-  notifications Notifications[]
-  googleId    Google?
-  githubId    Github?
+    id              String          @id @default(uuid())
+    email           String          @unique
+    firstName       String
+    secondName      String
+    login           String          @unique
+    avatar          String?
+    password        String
+    role            Role            @default(USER)
+    theme           UserTheme?
+    lang            UserLang?
+    post            Reviews[]
+    comments        Comments[]
+    notifications   Notifications[]
+    googleId        Google?
+    githubId        Github?
+    @@fulltext([firstName, secondName, login])
 }
 
 model UserTheme {
-  id        String    @id @default(uuid())
-  theme     String
-  device    String?
-  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId   String    @unique
+    id        String    @id @default(uuid())
+    theme     String
+    device    String?
+    owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+    ownerId   String    @unique
 }
 
 model UserLang {
-  id        String  @id @default(uuid())
-  lang      String
-  owner     User    @relation(fields: [ownerId], references: [id])
-  ownerId   String  @unique
+    id        String  @id @default(uuid())
+    lang      String
+    owner     User    @relation(fields: [ownerId], references: [id])
+    ownerId   String  @unique
 }
 
 enum Role {
-  USER
-  ADMIN
+    USER
+    ADMIN
 }
-
 
 model Reviews {
-  id            String      @id @default(uuid())
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  ReviewName    String
-  ReviewText    String
-  TitleOfWork   String
-  AuthRating    Float
-  author        User        @relation(fields: [authorId], references: [id])
-  authorId      String
-  Tags          Tags[]
-  comments      Comments[]
-  TypeOfWork    String
-  rating        ReviewRating[]
-  @@unique([TitleOfWork, authorId])
+    id            String      @id @default(uuid())
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+    ReviewName    String
+    ReviewText    String      @db.LongText
+    TitleOfWork   String
+    AuthRating    Float
+    author        User        @relation(fields: [authorId], references: [id])
+    authorId      String
+    Tags          Tags[]
+    comments      Comments[]
+    TypeOfWork    String
+    rating        ReviewRating[]
+    @@unique([TitleOfWork, authorId])
+    @@fulltext([ReviewText, ReviewName, TitleOfWork, TypeOfWork])
 }
 
-
-
 model Tags {
-  id      String   @id @default(uuid())
-  tag     String
-  post    Reviews @relation(fields: [postId], references: [id], onDelete: Cascade) 
-  postId  String
+    id      String   @id @default(uuid())
+    tag     String
+    post    Reviews @relation(fields: [postId], references: [id], onDelete: Cascade) 
+    postId  String
+    @@fulltext([tag])
 }
 
 model Comments {
-  id            String  @id @default(uuid())
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  text          String
-  reviews       Reviews @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  reviewId      String
-  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String
-  notification  Notifications?
+    id            String    @id @default(uuid())
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+    text          String    @db.MediumText
+    reviews       Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+    reviewId      String
+    user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId        String
+    notification  Notifications?
+    @@fulltext([text])
 }
 
 model Notifications {
-  id        String    @id @default(uuid())
-  comments  Comments  @relation(fields: [commentId], references: [id])
-  commentId String    @unique
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
+    id        String    @id @default(uuid())
+    comments  Comments  @relation(fields: [commentId], references: [id])
+    commentId String    @unique
+    user      User      @relation(fields: [userId], references: [id])
+    userId    String
 }
 
 model ReviewRating {
-  id          String    @id @default(uuid())
-  userRate    Float?
-  userId      String    
-  review      Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  reviewId    String   
-  likeStatus  String?
-  @@unique([userId, reviewId])
+    id          String    @id @default(uuid())
+    userRate    Float?
+    userId      String    
+    review      Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+    reviewId    String   
+    likeStatus  String?
+    @@unique([userId, reviewId])
 }

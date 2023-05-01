@@ -27,7 +27,7 @@ export const Columns = (props: ColumnProps) => {
 
     type ColumnFilterProps = 'TypeOfWork' | 'AuthRating' | 'rating'
     const columnFilter = (columnValue: ColumnFilterProps) => {
-        return [...new Set(reviewState?.map(review => review[columnValue]))].map(value => {return{text:t(value.toString()), value}})
+        return [...new Set(reviewState?.map(review => review[columnValue]))].map(value => {return{text:t(value?.toString()), value}})
     }
 
     const onOpen = (id: string) => {

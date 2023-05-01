@@ -5,6 +5,7 @@ import { reviewRouter } from "../routes/review";
 import { tagsRouter } from "../routes/tags";
 import { ratingRouter } from "../routes/rating";
 import { commentRouter } from "../routes/comment";
+import { searchRouter } from "../routes/search";
 
 export const appRouter = mergeRouters(
     userRouter,
@@ -12,7 +13,8 @@ export const appRouter = mergeRouters(
     reviewRouter,
     tagsRouter,
     ratingRouter,
-    commentRouter
+    commentRouter,
+    searchRouter
     )
 
 export type AppRouter = typeof appRouter;

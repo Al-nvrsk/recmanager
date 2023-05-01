@@ -74,12 +74,10 @@ export const ratingRouter = router({
         .mutation(async req => {
             const {reviewId, userId} = req.input
             try {
-                    const reviewRatings = await req.ctx.prisma.reviewRating.findFirst({
-                        where: {
-                            reviewId,
-                            userId
-                        }
+                    const reviewRatings = await req.ctx.prisma.reviewRating.findUnique({
+                        where: {userId_reviewId: {reviewId,userId}}
                     })
+                    console.log('reviewRatings', reviewRatings)
                     return reviewRatings
             } catch (e) {
                 return e

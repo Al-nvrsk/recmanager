@@ -129,6 +129,12 @@
   "Search TitleOfWork": "Поиск названия произведения",
   "Search ReviewName": "Поиск названия обзора",
 
-  "Input new comment": "Введите новый комментарий"
+  "Input new comment": "Введите новый комментарий",
+  "Last added": "Последние добавленные",
+  "Most popular": "Наиболее популярные",
+  "Search": "Поиск",
+  "Search type of work": "Поиск категории произведения",
+  "Input words for search": "Введите слова для поиска",
+  "No reviews": "Нет обзоров"
 
 }

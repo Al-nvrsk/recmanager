@@ -1,19 +1,19 @@
 import { Rating } from "@/entities/Rating";
-import { Button, Form, Input, Typography, Col, Select, SelectProps, Rate, Space} from 'antd';
+import { Button, Form, Input, Select, Space} from 'antd';
 import React from 'react';
-import cls from './ReviewsPage.module.scss'
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
-import { workType } from "../../model/consts/workTypes";
 import { TextEditor } from "@/entities/Editor";
 import { useNavigate } from "react-router-dom";
-import { getRouteMain, getRouteReviewDetails, getRouteReviews } from "@/shared/const/router";
+import {  getRouteReviewDetails, getRouteReviews } from "@/shared/const/router";
 import { getSetReviewEditState } from "../../model/selectors/getSetReviewEditState";
 import { getReviewEditState } from "../../model/selectors/getReviewEditState";
 import { formReviewSchema } from "validation-schema";
 import { EditReview } from "../../model/types/EditReview";
 import { trpc } from "@/shared/hooks/trpc";
+import { workType } from "@/shared/const/workType";
+import { SelectWithFilter } from "@/shared/ui/SelectWithFilter/SelectWithFilter";
 
 export const ReviewEdit = () => {
     const getTags = trpc.getTags.useQuery()
@@ -87,15 +87,9 @@ export const ReviewEdit = () => {
                     name='TypeOfWork'
                     control={control}
                     render={({ field }) =>
-                <Select
-                    {...field}
-                    showSearch
-                    optionFilterProp="children"
-                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                    filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                    }
-                    options={workType()}
+                    <SelectWithFilter 
+                        {...field}
+                        options={workType()}
                     />
                 }
                 />

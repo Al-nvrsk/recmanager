@@ -10,31 +10,18 @@ export const reviewRouter = router({
     updateReview: protectedProcedure
         .input(createReviewSchema(t))
         .mutation(async req => {
-            const {id='', Tags, ...reviewData} = req.input
+            const {id='', Tags, authorId, ...reviewData} = req.input
             const tags = Tags.map(tag => ({tag}))
             try {
                 const transaction = await req.ctx.prisma.$transaction(async (prisma) => {
-
                     const updateReview = await req.ctx.prisma.reviews.upsert({
                         where: {id},
-                        update: {
-                            AuthRating: reviewData.AuthRating,
-                            ReviewName: reviewData.ReviewName,
-                            ReviewText: reviewData.ReviewText,
-                            TitleOfWork: reviewData.TitleOfWork,
-                            TypeOfWork: reviewData.TypeOfWork,
-                        },
+                        update: {...reviewData},
                         create: {
-                            AuthRating: reviewData.AuthRating,
-                            ReviewName: reviewData.ReviewName,
-                            ReviewText: reviewData.ReviewText,
-                            TitleOfWork: reviewData.TitleOfWork,
-                            authorId: reviewData.authorId,
-                            TypeOfWork: reviewData.TypeOfWork,
+                            ...reviewData,
+                            authorId,
                             Tags: {
-                                createMany: {
-                                    data: tags
-                                }
+                                createMany: {data: tags}
                             }
                         }
                     })
@@ -53,7 +40,6 @@ export const reviewRouter = router({
                             postId:id
                         }))
                     })
-
                     return { ...updateReview,  Tags: updateTags }
                 })
                 return transaction
@@ -62,14 +48,69 @@ export const reviewRouter = router({
             }
         }),
 
-    getReviews: publicProcedure.query(async req => {
-        try {
-            const getReviews = await req.ctx.prisma.reviews.findMany({
-                include: {
-                    Tags: {select: {tag: true}},
-                    rating: true
-                }
+    getReviews: publicProcedure
+        .input(zod.object({
+            limit: zod.number().nullish(),
+            part: zod.number().nullish(), // <-- "cursor" needs to exist, but can be any type
+            workType: zod.string().optional(),
+            search: zod.string(),
+            tags: zod.array(zod.string()),
+        }))
+        .query(async req => {
+            const { limit, part, workType, search, tags } = req.input;
+            
+            if (search === 'popular') {
+                const getrate = await req.ctx.prisma.reviewRating.groupBy({
+                    skip: limit!*(part!-1),
+                    take: limit!, 
+                    by: ['reviewId'],
+                    where: { 
+                        review: { 
+                            TypeOfWork: workType ? {equals: workType} : {},
+                            Tags: tags?.length>0 ? { some: { tag: {in : tags} } } : {}
+                        }
+                    },
+                    orderBy: {
+                        _avg: { userRate: 'desc' }
+                    },
+                    _avg: { userRate: true },
             })
+                const getReviews = await req.ctx.prisma.reviews.findMany({
+                    where:{id: {in: getrate.map(review => review.reviewId)}},
+                    include: {
+                        Tags: {select: {tag: true}},
+                        rating: true
+                    }
+                })
+                const reviewsWithAvgRate = getReviews.map((review) => {
+                    const {rating, ...reviewArgs} = review
+                    const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
+                    return {
+                        rating: avgUserRate,
+                        ...reviewArgs,
+                    };
+                })
+            return reviewsWithAvgRate.sort((prev, current) => current.rating - prev.rating )
+        }
+
+        if (search === 'added') {
+            try{
+                const getReviews = await req.ctx.prisma.reviews.findMany({
+                skip: limit!*(part!-1),
+                take: limit!, // get an extra item at the end which we'll use as next cursor
+                where: {
+                        TypeOfWork: workType ? {equals: workType} : {},
+                        Tags: tags?.length>0 ? { some: { tag: {in : tags} } } : {}
+                    },
+                orderBy: {
+                    createdAt: 'desc'
+                    },
+                
+                    include: {
+                        Tags: {select: {tag: true}},
+                        rating: true
+                    }
+                })
 
             const reviewsWithAvgRate = getReviews.map((review) => {
                 const {rating, ...reviewArgs} = review
@@ -84,6 +125,11 @@ export const reviewRouter = router({
         } catch(e) {
             console.log(e)
         }
+    }
+    throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'An unexpected request',
+        });
     }),
 
     getReview: publicProcedure
@@ -133,6 +179,5 @@ export const reviewRouter = router({
             } catch (e) {
                 return e
             }        
-        
     })
 });

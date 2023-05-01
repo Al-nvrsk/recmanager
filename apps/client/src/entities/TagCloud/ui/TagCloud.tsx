@@ -1,11 +1,12 @@
 import { Theme } from 'common-types'
-import React, { useEffect } from 'react'
-import { TagCloud as RTagCloud } from 'react-tagcloud'
+import React, { useEffect, useState } from 'react'
 import cls from './TagCloud.module.scss'
 import { trpc } from '@/shared/hooks/trpc'
-import { noTagData } from '../model/consts/noTagData'
-import { lightTheme } from '../model/theme/lightTheme'
-import { darkTheme } from '../model/theme/darkTheme'
+
+import { Tag } from 'antd'
+import CheckableTag from 'antd/es/tag/CheckableTag'
+import { getSelectedTags } from '../model/selectors/getSelectedTags'
+import { getSetSelectedTags } from '../model/selectors/getSetSelectedTags'
 
 interface TagCloud {
     theme: Theme
@@ -14,26 +15,29 @@ interface TagCloud {
 export const TagCloud = (props: TagCloud) => {
     const {theme} = props
     const getTags = trpc.getTags.useQuery()
-    
-    const tagData = () => {
-        return getTags.data?.map(el => (
-            {value: el.tag, count: Number(el._count.tag) , props: {className: cls.tag} }
-        ))
-    }
+    const selectedTags = getSelectedTags()
+    const setSelectedTags = getSetSelectedTags()
+
+    const handleChange = (tag: string, checked: boolean) => {
+        const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
+        console.log('You are interested in: ', nextSelectedTags);
+        setSelectedTags(nextSelectedTags);
+    };
+
     
     return (
         <>
-        {tagData() &&
-            <RTagCloud
-                className={cls.TagCloud}
-                minSize={12}
-                maxSize={35}
-                colorOptions={theme === Theme.LIGHT ? lightTheme : darkTheme}
-                tags={tagData() || noTagData}
-                // randomSeed={42}
-                onClick={(tag: {value: string}) => alert(`'${tag.value}' was selected!`)}
-            />
-        }
+            { getTags.data &&
+                getTags.data.map(el =>
+                    (<CheckableTag
+                        // style={{height: `${50*el._count}px`}}
+                        key={el.tag}
+                        checked={selectedTags.indexOf(el.tag) > -1}
+                        onChange={checked => handleChange(el.tag, checked)}
+                    >
+                        {el.tag}
+                    </CheckableTag>))
+            }
         </>
     )
 }

@@ -8,7 +8,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { LangSwitcher } from "@/features/LangSwitcher";
 import { ThemeSwitcher } from "@/features/ThemeSwitcher";
 import { AuthModal } from "@/features/Auth/ui/AuthModal/AuthModal";
-import { getIsAuth, getSetCurrentUser} from "@/entities/User";
+import { getCurrentUser, getIsAuth, getSetCurrentUser} from "@/entities/User";
 import { trpc } from "@/shared/hooks/trpc";
 const { Title } = Typography;
 
@@ -18,6 +18,7 @@ export const Header = memo(() => {
     const {t} = useTranslation()
     const isAuth = getIsAuth()
     const logout = trpc.logout.useMutation()
+    const userAvatar = getCurrentUser()?.avatar
 
     const onClose = () => {
         setIsOpen(false)
@@ -38,7 +39,7 @@ export const Header = memo(() => {
             <ThemeSwitcher />
             <LangSwitcher />
             <Space size={'large'}>
-                <Avatar size={48} icon={<UserOutlined />} />
+                <Avatar size={48} icon={<UserOutlined />} src={userAvatar} />
                 {isAuth
                     ? <Title className={cls.title} level={4} onClick={onClickOut}>
                         {t('Sign out')}    

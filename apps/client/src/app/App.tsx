@@ -12,6 +12,7 @@ import { trpc } from "@/shared/hooks/trpc";
 import { getSetLang } from "@/features/LangSwitcher";
 import { getSetTheme } from "@/features/ThemeSwitcher";
 import { Language, Theme } from "common-types";
+import { isMobile } from "@/shared/const/isMobile";
 
 const { Footer, Content } = Layout;
 
@@ -36,7 +37,8 @@ export const App = () => {
                 <Layout style={{ minHeight: '100vh' }}>
                     <Header />
                     <Layout >
-                        <Sidebar />
+                        {!isMobile() &&
+                        <Sidebar />}
                             <Content>
                                 <div className="content-page">
                                     <AppRouter />
