@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/entities/User";
-import { trpc } from "@/shared/hooks/trpc";
+import { trpc } from "@/shared/hooks/trpc/trpc";
 import { Switch } from "antd";
 import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";

@@ -3,12 +3,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { SearchMenuItems } from "../SearchMenuItems/SearchMenuItems";
 import cls from './SearchFilter.module.scss'
-import { isMobile } from "@/shared/const/isMobile";
-import { MenuItemKey } from "../../model/consts/menuItemKey";
 import { getSetSearchText } from "../../model/selectors/getSetSearchText";
 import { getSetCurrentMenuKey } from "../../model/selectors/getSetCurrentMenyKey";
 import { getCurrentMenuKey } from "../../model/selectors/getCurrentMenuKey";
 import { getSearchText } from "../../model/selectors/getSearchText";
+import { MenuItemKey } from "common-types";
 
 const { Search } = Input;
 
@@ -17,7 +16,6 @@ export const SearchFilter = () => {
     const setSearchText = getSetSearchText()
     const setCurrentMenuKey = getSetCurrentMenuKey()
     const currentMenuKey = getCurrentMenuKey()
-    const searchText = getSearchText()
     
     const onSearch = (inputText: string) => {
         setSearchText(inputText)

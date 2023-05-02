@@ -5,18 +5,20 @@ import React, { useState } from 'react';
 import { useTranslation } from "react-i18next";
 import {  useNavigate } from 'react-router-dom';
 import cls from './ReviewsPage.module.scss'
-import { trpc } from '@/shared/hooks/trpc';
+import { trpc } from '@/shared/hooks/trpc/trpc';
 import { TableProps } from 'antd/es/table';
 import { FilterValue } from 'antd/es/table/interface';
 import { getSetTableSearchState, tabLocales } from '@/entities/Table';
 import { Columns } from './Columns/Columns';
+import { getCurrentUser } from '@/entities/User';
 
 const ReviewsPage = () => {
     const {t} = useTranslation()
     const navigate = useNavigate()
     const setReviewEditState = getSetReviewEditState()
     const deleteReview = trpc.deleteReview.useMutation()
-    const getReviews = trpc.getReviews.useQuery()
+    const currentUser = getCurrentUser()
+    const getReviews = trpc.getAllMyReviews.useQuery({authorId:currentUser!.id})
     const setReviews = getSetReviewsState()
     const setTableSearch = getSetTableSearchState()
     const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({})

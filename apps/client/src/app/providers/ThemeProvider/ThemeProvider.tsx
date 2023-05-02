@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/entities/User"
 import { getSetTheme, getTheme } from "@/features/ThemeSwitcher"
 import { LOCAL_STORAGE_THEME_KEY } from "@/shared/const/localStorege"
-import { trpc } from "@/shared/hooks/trpc"
+import { trpc } from "@/shared/hooks/trpc/trpc"
 import { ConfigProvider, theme } from "antd"
 import React, { useEffect } from "react"
 import { Theme } from 'common-types'

@@ -1,5 +1,4 @@
-import { MenuItemKey } from "../consts/menuItemKey"
-import { WorkType } from "@/shared/types/workType"
+import { MenuItemKey } from "common-types"
 
 export interface SearchFilterSchema {
     currentMenuKey: MenuItemKey,
@@ -8,4 +7,8 @@ export interface SearchFilterSchema {
     setSearchText: (inputText: string) => void
     searchWorkType?: string 
     setSearchWorkType: (selectedWorkType: string) => void
+    part: number
+    setPart : (newNumber: number) => void
+    currentsearchType: MenuItemKey
+    setCurrentSearchType: (searchType: MenuItemKey) => void
 }

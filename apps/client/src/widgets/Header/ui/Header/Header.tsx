@@ -9,7 +9,7 @@ import { LangSwitcher } from "@/features/LangSwitcher";
 import { ThemeSwitcher } from "@/features/ThemeSwitcher";
 import { AuthModal } from "@/features/Auth/ui/AuthModal/AuthModal";
 import { getCurrentUser, getIsAuth, getSetCurrentUser} from "@/entities/User";
-import { trpc } from "@/shared/hooks/trpc";
+import { trpc } from "@/shared/hooks/trpc/trpc";
 const { Title } = Typography;
 
 export const Header = memo(() => {

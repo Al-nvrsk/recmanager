@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import cls from './CreateComment.module.scss'
 import { getCurrentUser } from "@/entities/User"
-import { trpc } from "@/shared/hooks/trpc"
+import { trpc } from "@/shared/hooks/trpc/trpc"
 
 interface CreateCommentProps {
     setClose: (value: boolean) => void

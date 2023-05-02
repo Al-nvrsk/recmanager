@@ -1,4 +1,4 @@
-import { trpc } from "@/shared/hooks/trpc";
+import { trpc } from "@/shared/hooks/trpc/trpc";
 import { authFormField } from "../../model/consts/authFields";
 import { regFormField } from "../../model/consts/registrationFields";
 import { useTranslation } from "react-i18next";

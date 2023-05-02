@@ -4,9 +4,9 @@ import { FieldTimeOutlined, SearchOutlined, StockOutlined } from "@ant-design/ic
 import { MenuProps } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MenuItemKey } from "../../model/consts/menuItemKey";
 import { getSetSearchWorkType } from "../../model/selectors/getSetSearchWorktype";
 import { getSearchWorkType } from "../../model/selectors/getSearchWorkType";
+import { MenuItemKey } from "common-types";
 
 export const SearchMenuItems  = ():MenuProps['items'] => {
     const {t} = useTranslation()

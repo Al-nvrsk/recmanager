@@ -8,7 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import './CommentCard.scss'
 import { CreateComment } from "../CreateComment/CreateComment";
 import { getCurrentUser } from "@/entities/User";
-import { trpc } from "@/shared/hooks/trpc";
+import { trpc } from "@/shared/hooks/trpc/trpc";
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
 import { Author } from "@/entities/Author";
 

@@ -1,7 +1,7 @@
 import { Theme } from 'common-types'
 import React, { useEffect, useState } from 'react'
 import cls from './TagCloud.module.scss'
-import { trpc } from '@/shared/hooks/trpc'
+import { trpc } from '@/shared/hooks/trpc/trpc'
 
 import { Tag } from 'antd'
 import CheckableTag from 'antd/es/tag/CheckableTag'

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { trpc } from "../../../shared/hooks/trpc";
+import { trpc } from "../../../shared/hooks/trpc/trpc";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 

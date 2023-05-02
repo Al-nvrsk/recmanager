@@ -8,7 +8,7 @@ import AppRouter from "./providers/router/ui/AppRouter";
 import { USER_LOCALSTORAGE_KEY } from "@/shared/const/localStorege";
 import { getSetCurrentUser } from "@/entities/User";
 import { Toaster } from "react-hot-toast";
-import { trpc } from "@/shared/hooks/trpc";
+import { trpc } from "@/shared/hooks/trpc/trpc";
 import { getSetLang } from "@/features/LangSwitcher";
 import { getSetTheme } from "@/features/ThemeSwitcher";
 import { Language, Theme } from "common-types";

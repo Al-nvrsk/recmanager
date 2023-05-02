@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { trpc } from "@/shared/hooks/trpc"
+import { trpc } from "@/shared/hooks/trpc/trpc"
 import { Space } from "antd"
 import { CommentCard } from "../CommentCard/CommentCard"
 

@@ -11,7 +11,7 @@ import { getSetReviewEditState } from "../../model/selectors/getSetReviewEditSta
 import { getReviewEditState } from "../../model/selectors/getReviewEditState";
 import { formReviewSchema } from "validation-schema";
 import { EditReview } from "../../model/types/EditReview";
-import { trpc } from "@/shared/hooks/trpc";
+import { trpc } from "@/shared/hooks/trpc/trpc";
 import { workType } from "@/shared/const/workType";
 import { SelectWithFilter } from "@/shared/ui/SelectWithFilter/SelectWithFilter";
 
