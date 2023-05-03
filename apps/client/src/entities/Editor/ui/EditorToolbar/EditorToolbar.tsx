@@ -4,6 +4,11 @@ import QuillMarkdown from 'quilljs-markdown'
 import ImageUploader from 'quill-image-uploader'
 import QuillBetterImage from "@umn-latis/quill-better-image-module"
 import './EditorToolbar.scss'
+import S3FileUpload from 'react-s3';
+import { s3Config } from "@/shared/config/aws";
+import {Buffer} from 'buffer';
+
+window.Buffer = window.Buffer || Buffer;
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["extra-small", "small", "medium", "large"];
@@ -41,11 +46,13 @@ export const modules = {
     imageUploader: {
         upload: (file: File) => {
             return new Promise((resolve, reject) => {
-                setTimeout(() => { // TODO: add to cloud function
-                resolve(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png"
-                    );
-                }, 3500);
+                S3FileUpload
+                    .uploadFile(file, s3Config)
+                    .then((data: {location: string}) => {
+                        console.log(data)
+                        resolve(data.location)
+                    })
+                    .catch((err: Error) => console.error(err))
             });
         },
     },

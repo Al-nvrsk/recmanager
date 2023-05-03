@@ -7,7 +7,7 @@ import { getReviewsState } from "@/entities/Review/model/selectors/getReviewsSta
 import cls from './MainPage.module.scss'
 import { TagCloud, getSelectedTags } from "@/entities/TagCloud";
 import { useTranslation } from "react-i18next";
-import { SearchFilter, getCurrentMenuKey, getCurrentSearchType, getPart, getSearchText, getSearchWorkType, getSetCurrentSearchType, getSetPart } from "@/features/SearchFilter";
+import { SearchFilter, getCurrentMenuKey, getPart, getSearchText, getSearchWorkType, getSetPart } from "@/features/SearchFilter";
 import { Empty, Spin } from "antd";
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { limit } from "../model/consts/limit";
@@ -17,8 +17,6 @@ import { differenceBy } from 'lodash'
 const MainPage = () => {
     const part = getPart()
     const setPart = getSetPart()
-    const currentsearchType = getCurrentSearchType()
-    const setCurrentSearchType = getSetCurrentSearchType()
     const {t} = useTranslation()
     const theme = getTheme() 
     const reviews = getReviewsState() 
@@ -28,6 +26,7 @@ const MainPage = () => {
     const searchText = getSearchText()
     const searchWorkType = getSearchWorkType()
     const [ishasNextPage, setIshasNextPage] = useState(true)
+    const [isRendered, setIsRendered] = useState(false);
 
     const getReviews = trpc.getSearchedReviews.useQuery({
         limit,
@@ -36,35 +35,37 @@ const MainPage = () => {
         workType: searchWorkType,
         tags: selectedTags,
         text: searchText
-    }, {enabled: Boolean(!(currentMenuKey === MenuItemKey.SEARCH && !searchText.length))})
-
-    useEffect(() => {
-        if (currentMenuKey===MenuItemKey.SEARCH && !searchText) {
-            return
-        }
-        if (currentsearchType != currentMenuKey) {
-            setCurrentSearchType(currentMenuKey)
-            setPart(1)
-            setReviews()
-            setIshasNextPage(true)
-        }
-    },[part, currentMenuKey, searchWorkType, searchText ])
+    }, {
+        enabled: Boolean(!(currentMenuKey === MenuItemKey.SEARCH && !searchText.length)), 
+        keepPreviousData: false,
+    },)
     
     useEffect(() => {
+        if (!isRendered) {
+            setIsRendered(true);
+            return
+            }
+        if (currentMenuKey===MenuItemKey.SEARCH && !searchText) {
+                return
+            }
         setPart(1)
         setReviews()
-        setIshasNextPage(true)
-    }, [selectedTags, searchText ])
+    }, [selectedTags, searchText, searchWorkType, currentMenuKey ])
 
     useEffect(() => {
+        console.log('getReviews.data', getReviews.data)
+        console.log('part', part)
+        console.log('IshasNextPage', ishasNextPage)
+
         if (getReviews.data?.length === 0 && part>1) {
-            setIshasNextPage(false) // TODO: fix ghost set
+            setIshasNextPage(false) 
             return
         }
         if (!getReviews.data) {
             return }
             part === 1
-                ? setReviews(getReviews.data)
+                ? (setReviews(getReviews.data),
+                    setIshasNextPage(true) )
                 : setReviews([...reviews,...differenceBy(getReviews.data, reviews, 'id')])
     }, [getReviews.data])
 

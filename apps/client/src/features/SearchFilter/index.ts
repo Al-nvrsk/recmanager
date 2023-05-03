@@ -1,8 +1,5 @@
-export { getCurrentSearchType } from "./model/selectors/getCurrentSearchType/getCurrentSearchType";
-export { getSetCurrentSearchType } from "./model/selectors/getCurrentSearchType/getSetCurrentSearchType";
 export { getPart } from "./model/selectors/getPart.ts/getPart";
 export { getSetPart } from "./model/selectors/getPart.ts/getSetPart";
-
 export { getCurrentMenuKey } from "./model/selectors/getCurrentMenuKey";
 export { getSearchText } from "./model/selectors/getSearchText";
 export { getSearchWorkType } from "./model/selectors/getSearchWorkType";

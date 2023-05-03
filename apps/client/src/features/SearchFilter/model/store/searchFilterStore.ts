@@ -16,6 +16,4 @@ export const useSearchFilterStore = create<SearchFilterSchema>()(immer((set) => 
 
     part: 1,
     setPart : (newNumber: number) => {set(() => ({part: newNumber}))},
-    currentsearchType: '',
-    setCurrentSearchType: (searchType: MenuItemKey) => {set(() => ({currentsearchType: searchType}))}
 })))

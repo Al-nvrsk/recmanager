@@ -9,6 +9,4 @@ export interface SearchFilterSchema {
     setSearchWorkType: (selectedWorkType: string) => void
     part: number
     setPart : (newNumber: number) => void
-    currentsearchType: MenuItemKey
-    setCurrentSearchType: (searchType: MenuItemKey) => void
 }

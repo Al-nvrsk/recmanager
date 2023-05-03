@@ -22,14 +22,12 @@ export const App = () => {
     const setLang = getSetLang()
     const setTheme = getSetTheme()
     
-    useEffect(() => {
-        if (getUser?.data) {
+    if (getUser?.isSuccess) {
         const {theme, lang, ...user} = getUser.data
         setCurrentUser(user)
         setLang(lang?.lang as Language )
         setTheme(theme?.theme as Theme)
-        }
-    },[getUser?.isSuccess])
+    }
 
     return (
         <div className="app">
