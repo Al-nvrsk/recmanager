@@ -1,6 +1,5 @@
 import { DeleteOutlined, EditOutlined, EllipsisOutlined, Loading3QuartersOutlined, SettingOutlined } from "@ant-design/icons";
 import { Avatar, Card, Space, Typography, Image, Spin } from "antd";
-import dayjs from "dayjs";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import type { Comment } from '../../model/types/comment'

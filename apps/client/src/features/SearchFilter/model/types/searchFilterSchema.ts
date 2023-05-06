@@ -1,4 +1,4 @@
-import { MenuItemKey } from "common-types"
+import { MenuItemKey } from "common-files"
 
 export interface SearchFilterSchema {
     currentMenuKey: MenuItemKey,

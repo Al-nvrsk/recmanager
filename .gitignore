@@ -14,3 +14,4 @@ public/dist
 tmp
 .vscode
 googleKey.json
+out

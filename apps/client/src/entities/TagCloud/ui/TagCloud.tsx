@@ -1,9 +1,6 @@
-import { Theme } from 'common-types'
+import { Theme } from 'common-files'
 import React, { useEffect, useState } from 'react'
-import cls from './TagCloud.module.scss'
 import { trpc } from '@/shared/hooks/trpc/trpc'
-
-import { Tag } from 'antd'
 import CheckableTag from 'antd/es/tag/CheckableTag'
 import { getSelectedTags } from '../model/selectors/getSelectedTags'
 import { getSetSelectedTags } from '../model/selectors/getSetSelectedTags'

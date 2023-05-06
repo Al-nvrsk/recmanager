@@ -2,7 +2,6 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import QuillToolbar, { formats, modules } from '../EditorToolbar/EditorToolbar';
-import cls from './Editor.module.scss'
 import { Typography } from 'antd';
 
 const { Text } = Typography

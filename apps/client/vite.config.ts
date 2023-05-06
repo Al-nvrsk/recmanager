@@ -19,4 +19,9 @@ export default defineConfig({
     },
   },
   plugins: [react(), svgr()],
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+  }
 });

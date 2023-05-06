@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Language, Theme } from 'common-types'
+import { Language, Theme } from 'common-files'
 import { router } from '../../trpc/trpc';
 import { protectedProcedure } from '../../procedure/procedure';
 

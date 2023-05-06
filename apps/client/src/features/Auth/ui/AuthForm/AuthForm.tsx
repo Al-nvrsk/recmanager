@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { IAuthForm } from "../../model/types/AuthForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authSchema, registrationSchema } from "validation-schema";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
 import React, { useState } from "react";
 import { FormType } from "../../model/types/FormType";
@@ -14,6 +13,7 @@ import { showNetworkError } from "@/shared/components/showNetworkError/showNetwo
 import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 import { useNavigate } from "react-router-dom";
 import { getRouteMain } from "@/shared/const/router";
+import { authSchema, registrationSchema } from "common-files";
 
 const { Title, Text } = Typography;
 
@@ -25,7 +25,6 @@ export interface AuthFormProps {
 const AuthForm = (props: AuthFormProps) => {
     const { formType, onClose } = props
     const {t} = useTranslation()
-    const [error, setError] = useState('')
     const createUser = trpc.createUser.useMutation();
     const authUser = trpc.authUser.useMutation()
     const [currentFormType, setCurrentFormType] = useState<FormType>(formType)

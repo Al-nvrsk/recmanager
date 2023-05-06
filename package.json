@@ -1,19 +1,20 @@
 {
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "dotenv -- turbo run build",
     "clean": "turbo run clean",
     "dev": "dotenv -- turbo run dev --no-cache  --continue",
     "db": "docker-compose up",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "prod": "dotenv -- docker-compose -f docker-compose.prod.yaml up"
   },
   "devDependencies": {
     "@pnpm/types": "9.0.0",
     "dotenv-cli": "7.2.1",
     "prettier": "2.8.7",
-    "turbo": "1.8.8"
+    "turbo": "1.9.3"
   },
   "packageManager": "pnpm@7.15.0",
   "dependencies": {

@@ -1,8 +1,8 @@
 import { router } from '../../trpc/trpc';
 import { protectedProcedure, publicProcedure } from '../../procedure/procedure';
-import { createReviewSchema } from 'validation-schema';
 import { ZodError, z as zod } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { createReviewSchema } from 'common-files';
 
 const t = (message: string) => message
 

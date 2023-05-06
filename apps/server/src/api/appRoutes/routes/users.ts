@@ -1,8 +1,8 @@
-import { authSchema, registrationSchema } from 'validation-schema';
 import { TRPCError } from '@trpc/server';
 import { protectedProcedure, publicProcedure } from '../../procedure/procedure';
 import { router } from '../../trpc/trpc';
 import { z as zod } from 'zod';
+import { authSchema, registrationSchema } from "common-files";
 
 const t = (message: string) => message
 

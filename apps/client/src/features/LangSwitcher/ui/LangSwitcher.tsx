@@ -4,7 +4,7 @@ import React, { ReactNode, memo, useEffect, useState } from "react";
 import cls from './LangSwitcher.module.scss'
 import { langs } from "../model/const/langs";
 import { LangSwitherTypes } from "../model/types/LangSwitcherTypes";
-import { Language } from "common-types";
+import { Language } from "common-files";
 import { LOCAL_STORAGE_LANG_KEY } from "@/shared/const/localStorege";
 import { getSetLang } from "../model/selectors/getSetLang";
 import { trpc } from "@/shared/hooks/trpc/trpc";

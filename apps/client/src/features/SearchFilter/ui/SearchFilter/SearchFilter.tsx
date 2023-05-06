@@ -6,8 +6,7 @@ import cls from './SearchFilter.module.scss'
 import { getSetSearchText } from "../../model/selectors/getSetSearchText";
 import { getSetCurrentMenuKey } from "../../model/selectors/getSetCurrentMenyKey";
 import { getCurrentMenuKey } from "../../model/selectors/getCurrentMenuKey";
-import { getSearchText } from "../../model/selectors/getSearchText";
-import { MenuItemKey } from "common-types";
+import { MenuItemKey } from "common-files";
 
 const { Search } = Input;
 

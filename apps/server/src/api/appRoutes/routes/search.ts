@@ -2,7 +2,7 @@ import { router } from '../../trpc/trpc';
 import { publicProcedure } from '../../procedure/procedure';
 import { z as zod } from 'zod';
 import { TRPCError } from '@trpc/server';
-import { MenuItemKey } from 'common-types';
+import { MenuItemKey } from 'common-files';
 
 export const searchRouter = router({
 

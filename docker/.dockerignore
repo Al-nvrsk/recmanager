@@ -1,0 +1,7 @@
+.git
+docker-compose.yaml
+Dockerfile
+.prettierrc
+.gitignore
+.eslintrc.js
+node_modules

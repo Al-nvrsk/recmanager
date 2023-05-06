@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Language } from 'common-types'
+import { Language } from 'common-files'
 export interface LangSwitherTypes {
     value: Language;
     label: ReactNode;

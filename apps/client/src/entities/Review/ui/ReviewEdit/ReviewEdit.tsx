@@ -9,11 +9,11 @@ import { useNavigate } from "react-router-dom";
 import {  getRouteReviewDetails, getRouteReviews } from "@/shared/const/router";
 import { getSetReviewEditState } from "../../model/selectors/getSetReviewEditState";
 import { getReviewEditState } from "../../model/selectors/getReviewEditState";
-import { formReviewSchema } from "validation-schema";
 import { EditReview } from "../../model/types/EditReview";
 import { trpc } from "@/shared/hooks/trpc/trpc";
 import { workType } from "@/shared/const/workType";
 import { SelectWithFilter } from "@/shared/ui/SelectWithFilter/SelectWithFilter";
+import { formReviewSchema } from "common-files";
 
 export const ReviewEdit = () => {
     const getTags = trpc.getTags.useQuery()

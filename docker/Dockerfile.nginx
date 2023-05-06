@@ -1,0 +1,30 @@
+FROM node:alpine AS builder
+RUN apk update
+WORKDIR /app
+RUN yarn global add turbo
+COPY . .
+RUN turbo prune --scope=client --docker
+
+FROM node:alpine AS installer
+RUN apk add --no-cache libc6-compat
+RUN apk update
+WORKDIR /app
+
+COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=builder /app/out/full/ .
+
+RUN yarn global add pnpm
+RUN pnpm install
+RUN pnpm build --filter=client...
+
+FROM nginx:alpine
+WORKDIR /app
+
+COPY --from=installer /app/apps/client/dist /app/
+COPY --from=installer /app/apps/client/nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE $CLIENT_PORT
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,4 +1,4 @@
-import React = require('react');
+import React from 'react';
 declare global {
     const __SERVER_PORT__: number;
     const __SERVER_URL__: string;

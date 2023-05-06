@@ -11,7 +11,7 @@ import { SearchFilter, getCurrentMenuKey, getPart, getSearchText, getSearchWorkT
 import { Empty, Spin } from "antd";
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { limit } from "../model/consts/limit";
-import { MenuItemKey } from "common-types";
+import { MenuItemKey } from "common-files";
 import { differenceBy } from 'lodash'
 
 const MainPage = () => {

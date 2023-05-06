@@ -6,7 +6,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { getSetSearchWorkType } from "../../model/selectors/getSetSearchWorktype";
 import { getSearchWorkType } from "../../model/selectors/getSearchWorkType";
-import { MenuItemKey } from "common-types";
+import { MenuItemKey } from "common-files";
 
 export const SearchMenuItems  = ():MenuProps['items'] => {
     const {t} = useTranslation()

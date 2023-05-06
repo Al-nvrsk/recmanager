@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { getSetTheme } from "../model/selectors/getSetTheme";
 import { getTheme } from "../model/selectors/getTheme";
 import { LOCAL_STORAGE_THEME_KEY } from "@/shared/const/localStorege";
-import { Theme } from 'common-types'
+import { Theme } from 'common-files'
 
 export const ThemeSwitcher = () => {
     const {t} = useTranslation()

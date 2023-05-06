@@ -1,4 +1,4 @@
-import { Language } from "common-types"
+import { Language } from "common-files"
 
 export interface LangSchema {
     lang: Language

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import  immer  from 'immer'
 import { ThemeSchema } from '../types/themeSchema'
-import { Theme } from 'common-types'
+import { Theme } from 'common-files'
 
 export const useThemeStore = create<ThemeSchema>()(immer((set) => ({
     theme: 'light',

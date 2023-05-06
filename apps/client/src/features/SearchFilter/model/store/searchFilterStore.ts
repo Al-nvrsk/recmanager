@@ -1,8 +1,7 @@
 import { create } from 'zustand'
 import  immer  from 'immer'
 import { SearchFilterSchema } from '../types/searchFilterSchema'
-import { WorkType } from '@/shared/types/workType'
-import { MenuItemKey } from 'common-types'
+import { MenuItemKey } from 'common-files'
 
 export const useSearchFilterStore = create<SearchFilterSchema>()(immer((set) => ({
     currentMenuKey: MenuItemKey.ADDED,

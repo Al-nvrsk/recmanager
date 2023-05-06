@@ -1,7 +1,7 @@
 import { LikeTwoTone } from "@ant-design/icons"
 import { Avatar, Space, Typography, Image } from "antd"
 import React from "react"
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { noDataImg } from "@/shared/const/NoDataImg"
 import cls from './Author.module.scss'
 
