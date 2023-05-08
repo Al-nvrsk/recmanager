@@ -1,9 +1,19 @@
 {
     "version": 2,
+    "packageManager": "pnpm@7.5.1",
+    "installCommand": "pnpm install",
+    "buildCommand": "pnpm build",
+    "outputDirectory": "apps/client/dist",
     "builds": [
         {
             "src": "apps/server/dist/index.js",
             "use": "@vercel/node"
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
         }
     ]
 }
