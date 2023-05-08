@@ -9,7 +9,7 @@ export default defineConfig({
   },
   define: {
     __SERVER_URL__: `'${process.env.SERVER_URL}'`,
-    __IS_DEV__: Boolean(`'${process.env.NODE_ENV}'`),
+    __IS_DEV__: `'${process.env.NODE_ENV}'` ,
     __S3_KEY_ID__: `'${process.env.ACCESS_KEY_ID}'`,
     __S3_SECRET_KEY__: `'${process.env.SECRET_ACCES_KEY}'`,
   },

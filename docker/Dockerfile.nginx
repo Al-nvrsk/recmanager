@@ -1,4 +1,5 @@
 FROM node:alpine AS builder
+
 RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
@@ -18,6 +19,10 @@ COPY --from=builder /app/out/full/ .
 
 RUN yarn global add pnpm
 RUN pnpm install
+
+ARG SERVER_URL
+ENV SERVER_URL $SERVER_URL
+
 RUN pnpm build --filter=client...
 
 FROM nginx:alpine

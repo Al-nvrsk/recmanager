@@ -3,7 +3,7 @@
   "scripts": {
     "build": "dotenv -- turbo run build",
     "clean": "turbo run clean",
-    "dev": "dotenv -- turbo run dev --no-cache  --continue",
+    "dev": "dotenv -v NODE_ENV=development -- turbo run dev --no-cache  --continue ",
     "db": "docker-compose up",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
