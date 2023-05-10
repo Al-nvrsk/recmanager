@@ -11,8 +11,13 @@
   "About Page": "About Page",
   "Light Mode": "Light Mode",
   "Reviews": "Reviews",
+  "My Reviews": "My Reviews",
   "Profile Page": "Profile Page",
   "Admin panel": "Admin panel",
+  "Error 404": "Error 404",
+  "Error 403": "Error 403",
+  "Go to main": "Go to main",
+  
   
   "Login should be longer then 3 symbols": "Login should be longer then 3 symbols",
   "Login should be shorter then 16 symbols": "Login should be shorter then 16 symbols",
@@ -135,6 +140,13 @@
   "Search": "Search",
   "Search type of work": "Search type of work",
   "Input words for search": "Input words for search",
-  "No reviews": "No reviews"
+  "No reviews": "No reviews",
+
+  "Login or password is not correct": "Login or password is not correct",
+  "Something unexpected, Try again later": "Something unexpected, Try again later",
+  
+  "Are you sure?": "Are you sure?",
+  "No": "No",
+  "Yes": "Yes"
 
 }

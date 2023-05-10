@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { IAuthForm } from "../../model/types/AuthForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormType } from "../../model/types/FormType";
 import './AuthForm.scss'
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
@@ -14,6 +14,7 @@ import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons
 import { useNavigate } from "react-router-dom";
 import { getRouteMain } from "@/shared/const/router";
 import { authSchema, registrationSchema } from "common-files";
+import { getSetIsLoggedIn } from "@/entities/User";
 
 const { Title, Text } = Typography;
 
@@ -29,7 +30,7 @@ const AuthForm = (props: AuthFormProps) => {
     const authUser = trpc.authUser.useMutation()
     const [currentFormType, setCurrentFormType] = useState<FormType>(formType)
     const navigate = useNavigate()
-    
+    const setIsLoggedIn = getSetIsLoggedIn()
     const isAuthForm = () => currentFormType === 'auth'
 
     const {
@@ -48,27 +49,26 @@ const AuthForm = (props: AuthFormProps) => {
             : await createUser.mutate(data)
     };
 
-    if (authUser.isSuccess) { 
+    useEffect(() => {
+        if (!authUser.isSuccess && !createUser.isSuccess) {
+            return
+        }
+        setIsLoggedIn(true)
         onClose()
-        navigate(getRouteMain()) 
-    }
+    }, [authUser.isSuccess, createUser.isSuccess])
 
-    if (authUser.isError) {
-        showNetworkError(`${t(authUser.error.message)}`)
-    }
-    
-    if (createUser.isSuccess) {
-        onClose()
-        navigate(getRouteMain())
-    }
+    useEffect(() => {
+        if (!authUser.isError) { return }
+        {showNetworkError(`${t(authUser.error.message)}`) }
+    }, [authUser.isError])
 
-    if (createUser.isError) {
-        showNetworkError(`${t(createUser.error.message)}`)
-    }
+    useEffect(() => {
+        if (!createUser.isError) { return}
+            showNetworkError(`${t(createUser.error.message)}`)
+    }, [createUser.isError])
 
     const onChangeFormType = () => {
         reset()
-        showNetworkError()
         setCurrentFormType(currentFormType === 'auth'
         ? 'registration'
         : 'auth'
@@ -76,12 +76,12 @@ const AuthForm = (props: AuthFormProps) => {
     }
 
     const google = () => {
-        window.open(`${__SERVER_URL__}/auth/google`, "_self");
-      };
+        window.open(`${__SERVER_URL__}/api/auth/google`, "_self");
+    };
     
-      const github = () => {
-        window.open(`${__SERVER_URL__}/auth/github`, "_self");
-      };
+    const github = () => {
+        window.open(`${__SERVER_URL__}/api/auth/github`, "_self");
+    };
 
     return (
         <Row justify="center" align="middle" className="auth-page">

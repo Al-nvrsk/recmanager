@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server"
 import { publicProcedure } from "../../procedure/procedure"
 import { router } from "../../trpc/trpc"
 
@@ -10,10 +11,16 @@ export const tagsRouter = router({
                     tag: true
                 }
             })
+            const tags = getTags.map(el => (
+                { value: el.tag, count: el._count.tag }
+            ) )
 
-            return getTags
+            return tags
         } catch(e) {
-            console.log(e)
+            throw new TRPCError({
+                code: 'INTERNAL_SERVER_ERROR',
+                message: 'Something unexpected, Try again later',
+            });
         }
     })
 })

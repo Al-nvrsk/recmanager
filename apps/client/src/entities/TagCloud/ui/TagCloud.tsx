@@ -1,9 +1,13 @@
 import { Theme } from 'common-files'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { trpc } from '@/shared/hooks/trpc/trpc'
-import CheckableTag from 'antd/es/tag/CheckableTag'
 import { getSelectedTags } from '../model/selectors/getSelectedTags'
 import { getSetSelectedTags } from '../model/selectors/getSetSelectedTags'
+import { TagCloud as LTagCloud } from 'react-tagcloud'
+import { Tag } from '../model/types/tag'
+import { lightCloudTheme } from '../model/theme/lightCloudTheme'
+import { darkCloudTheme } from '../model/theme/darkCloudTheme'
+import { TagItem } from './TagItem/TagItem'
 
 interface TagCloud {
     theme: Theme
@@ -15,26 +19,20 @@ export const TagCloud = (props: TagCloud) => {
     const selectedTags = getSelectedTags()
     const setSelectedTags = getSetSelectedTags()
 
-    const handleChange = (tag: string, checked: boolean) => {
-        const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-        console.log('You are interested in: ', nextSelectedTags);
-        setSelectedTags(nextSelectedTags);
-    };
-
+    const customRenderer = (tag: Tag, size: string, color: string) => (
+        TagItem({tag, size, color, setSelectedTags, selectedTags})
+    )
     
     return (
         <>
-            { getTags.data &&
-                getTags.data.map(el =>
-                    (<CheckableTag
-                        // style={{height: `${50*el._count}px`}}
-                        key={el.tag}
-                        checked={selectedTags.indexOf(el.tag) > -1}
-                        onChange={checked => handleChange(el.tag, checked)}
-                    >
-                        {el.tag}
-                    </CheckableTag>))
-            }
+            <LTagCloud
+                minSize={12}
+                maxSize={36}
+                tags={getTags?.data || []}
+                className="myTagCloud"
+                renderer={customRenderer}
+                colorOptions={theme === Theme.LIGHT ? lightCloudTheme : darkCloudTheme}
+            />
         </>
     )
 }

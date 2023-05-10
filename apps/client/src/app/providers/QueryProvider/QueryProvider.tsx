@@ -11,12 +11,10 @@ interface QueryProviderProps {
 export const QueryProvider = (props: QueryProviderProps) => {
     const {children} = props
     const queryClient = new QueryClient();
-    console.log('isDev()', __IS_DEV__)
-    console.log('///', `${ isDev() ? __SERVER_URL__: ''}/trpc`)
     const trpcClient = trpc.createClient({
     links: [
       httpBatchLink({
-        url: `${ isDev() ? __SERVER_URL__: ''}/trpc`,
+        url: `${ isDev() ? __SERVER_URL__: ''}/api/trpc`,
         fetch(url, options) {
           return fetch(url, {
             ...options,

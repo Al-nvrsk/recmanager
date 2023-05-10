@@ -1,6 +1,6 @@
 import { Rating } from "@/entities/Rating";
 import { Button, Form, Input, Select, Space} from 'antd';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,7 @@ import { trpc } from "@/shared/hooks/trpc/trpc";
 import { workType } from "@/shared/const/workType";
 import { SelectWithFilter } from "@/shared/ui/SelectWithFilter/SelectWithFilter";
 import { formReviewSchema } from "common-files";
+import {useDropzone} from 'react-dropzone'
 
 export const ReviewEdit = () => {
     const getTags = trpc.getTags.useQuery()
@@ -26,21 +27,22 @@ export const ReviewEdit = () => {
         control,
         handleSubmit,
         formState: { errors },
+        clearErrors,
         reset
     } = useForm<EditReview>({
         defaultValues: ReviewEditStateStore,
-        mode: 'onChange',
+        mode: 'all',
         resolver: zodResolver(formReviewSchema(t)),
     });
     
     const onSubmit = (data: any) => {
         setReviewEditState(data)
-        console.log(data);
+        console.log('data', data);
         navigate(getRouteReviewDetails('preview'))
     };
 
     const tags = getTags.data?.map(el => (
-        { value: el.tag, label: el.tag }
+        { value: el.value, label: el.value }
     )) 
 
     const onCancel = () => {
@@ -50,11 +52,12 @@ export const ReviewEdit = () => {
     return (
         <Form
             labelCol={{ span: 4 }}
-            wrapperCol={{ span: 14 }}
             layout="horizontal"
-        // onValuesChange={onFormLayoutChange}
-        // disabled={componentDisabled}
-            onFinish={handleSubmit(onSubmit)}
+            style={{width: '100%'}}
+            onFinish={(e) => {
+                clearErrors()
+                handleSubmit(onSubmit)(e)}
+            }
         >
             <Form.Item 
                 label="Review name"
@@ -130,7 +133,6 @@ export const ReviewEdit = () => {
             <Form.Item
                 validateStatus={errors.ReviewText ? 'error' : ''}
                 help={errors.ReviewText?.message}
-                style={{ width: '100%' }}
             >
                 <Controller 
                     name='ReviewText'

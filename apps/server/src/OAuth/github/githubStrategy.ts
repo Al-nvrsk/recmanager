@@ -9,7 +9,7 @@ passport.use(
         {
             clientID: process.env.GIT_CLIENT_ID || '',
             clientSecret: process.env.GIT_CLIENT_SECRET || '',
-            callbackURL: `${process.env.SERVER_URL}/auth/github/callback`,
+            callbackURL: `${process.env.HOST_URL}/api/auth/github/callback`,
             scope: ["profile",'user:email']
         },
         async function (

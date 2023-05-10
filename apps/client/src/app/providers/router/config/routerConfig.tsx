@@ -1,9 +1,8 @@
 import { UserRole } from "@/entities/User";
 import { AboutPage } from "@/pages/AboutPage";
 import { AdminPanelPage } from "@/pages/AdminPanelPage";
-import { ForbiddenPage } from "@/pages/ForbiddenPage";
 import { MainPage } from "@/pages/MainPage";
-import { NotFoundPage } from "@/pages/NotFoundPage";
+import { ErrorPage } from "@/pages/NotFoundPage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { ReviewDetailsPage } from "@/pages/ReviewDetailsPage";
 import { ReviewEditPage } from "@/pages/ReviewEditPage";
@@ -64,10 +63,10 @@ export const routeConfig: Record<AppRoutes, AppRouterProps> = {
     },
     [AppRoutes.FORBIDDEN]: {
         path: getRouteForbidden(),
-        element: <ForbiddenPage />,
+        element: <ErrorPage nameError="Error 403" textError="Access forbidden" />,
     },
     [AppRoutes.NOT_FOUND]: {
         path: '*',
-        element: <NotFoundPage />,
+        element: <ErrorPage nameError="Error 404" textError="Page not found" />,
     },
 };

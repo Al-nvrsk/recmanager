@@ -12,7 +12,7 @@ services:
       args:
         SERVER_URL: ${SERVER_URL}
     ports:
-      - '3003:80'
+      - '80:80'
       - '443:443'
     volumes:
       - /etc/letsencrypt/live/fullchain.pem:/etc/nginx/ssl/fullchain.pem

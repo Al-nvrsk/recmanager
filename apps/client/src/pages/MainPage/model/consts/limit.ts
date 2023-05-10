@@ -1,1 +1,3 @@
-export const limit = 2
+import { isMobile } from "@/shared/const/isMobile";
+
+export const limit = isMobile() ? 5 : 10

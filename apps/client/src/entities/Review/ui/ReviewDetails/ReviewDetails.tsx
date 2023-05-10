@@ -1,11 +1,11 @@
 import { Button, Space, Typography } from "antd"
 import React from "react"
 import { Assessment } from "../Assesment/Assesment"
-import ReactQuill from "react-quill"
 import { useTranslation } from "react-i18next"
 import cls from './ReviewDetails.module.scss'
 import { Review } from "../../model/types/Review"
 import { EditReview } from "../../model/types/EditReview"
+import ReactQuill from "@/entities/Editor"
 
 const {Text, Title} = Typography
 

@@ -1,7 +1,6 @@
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, Loading3QuartersOutlined, SettingOutlined } from "@ant-design/icons";
-import { Avatar, Card, Space, Typography, Image, Spin } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Card, Typography } from "antd";
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
 import type { Comment } from '../../model/types/comment'
 import 'react-quill/dist/quill.snow.css';
 import './CommentCard.scss'
@@ -10,6 +9,8 @@ import { getCurrentUser } from "@/entities/User";
 import { trpc } from "@/shared/hooks/trpc/trpc";
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
 import { Author } from "@/entities/Author";
+import { Loader } from "@/shared/ui/Loader/Loader";
+import ReactQuill from "@/entities/Editor";
 
 const {Text} = Typography
 
@@ -60,7 +61,7 @@ export const CommentCard = (comment: Comment) => {
             }
         >
         {isDeleting
-            ? <Spin size="large" className='spinner' />
+            ? <Loader />
             : (isEditing
                 ? <CreateComment 
                         reviewId={'2'} 

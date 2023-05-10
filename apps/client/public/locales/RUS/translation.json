@@ -11,8 +11,12 @@
   "Main Page": "Главная страница",
   "About Page": "Страница о сайте",
   "Reviews": "Обзоры",
+  "My Reviews": "Мои обзоры",
   "Profile Page": "Страница пользователя",
   "Admin panel": "Панель администратора",
+  "Error 404": "Ошибка 404",
+  "Error 403": "Ошибка 403",
+  "Go to main": "На главную", 
 
   "Login should be longer then 3 symbols": "Логин должен быть длинее 3 символов",
   "Login should be shorter then 16 symbols": "Логин должен быть короче 16 символов",
@@ -135,6 +139,13 @@
   "Search": "Поиск",
   "Search type of work": "Поиск категории произведения",
   "Input words for search": "Введите слова для поиска",
-  "No reviews": "Нет обзоров"
+  "No reviews": "Нет обзоров",
+
+  "Login or password is not correct": "Логин или пароль неправильный",
+  "Something unexpected, Try again later": "Что-то непредвиденное, попробуйте позже",
+
+  "Are you sure?": "Вы уверены?",
+  "No": "Нет",
+  "Yes": "Да" 
 
 }

@@ -77,7 +77,6 @@ export const ratingRouter = router({
                     const reviewRatings = await req.ctx.prisma.reviewRating.findUnique({
                         where: {userId_reviewId: {reviewId,userId}}
                     })
-                    console.log('reviewRatings', reviewRatings)
                     return reviewRatings
             } catch (e) {
                 return e

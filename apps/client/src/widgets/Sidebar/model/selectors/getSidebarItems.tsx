@@ -33,7 +33,7 @@ export const getSidebarItems = (fontSize: string) => {
             icon: <IdcardOutlined style={{ fontSize }} />
         },
         {
-            label:t('Reviews'),
+            label:t('My Reviews'),
             key: getRouteReviews(),
             icon: <ContainerOutlined style={{ fontSize }} />
         },

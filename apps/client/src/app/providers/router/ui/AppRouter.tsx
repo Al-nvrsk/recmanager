@@ -3,12 +3,12 @@ import { Route, Routes } from 'react-router-dom';
 import { RequireAuth } from './RequireAuth';
 import { AppRouterProps } from '@/shared/types/router';
 import { routeConfig } from '../config/routerConfig';
-import { Spin } from 'antd';
+import { Loader } from '@/shared/ui/Loader/Loader';
 
 export const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRouterProps) => {
         const element = (
-            <Suspense fallback={<Spin size="large" />}>
+            <Suspense fallback={<Loader />}>
                 {route.element}
             </Suspense>
         );

@@ -23,7 +23,7 @@ export const createServer = (): ReturnType<typeof express> => {
   
   .use(passport.initialize())
   .use(
-    "/trpc",
+    "/api/trpc",
     createExpressMiddleware({
       router: appRouter,
       createContext
@@ -38,10 +38,10 @@ export const createServer = (): ReturnType<typeof express> => {
     .use(json())
    
    
-    .get("/api",(req, res) => {
+    .get("/apitest",(req, res) => {
       return res.json('👋 Howdy from the server');
     })
-    .use("/auth", routerOAuth)
+    .use("/api/auth", routerOAuth)
     
 
   return app;

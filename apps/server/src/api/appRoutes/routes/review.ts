@@ -72,7 +72,7 @@ export const reviewRouter = router({
                     });
                 }
                 const {rating, ...reviewArgs} = getReview
-                const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
+                const avgUserRate = (rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length).toFixed(1);
 
                 return {rating: avgUserRate, ...reviewArgs} 
             } catch(e) {

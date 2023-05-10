@@ -17,7 +17,7 @@ export const SelectWithFilter = (props: SelectWithFilterProps) => {
 
     return (
         <Select
-            value = {value}
+            value = {value || null}
             allowClear ={true}
             showSearch
             onChange={onChange}

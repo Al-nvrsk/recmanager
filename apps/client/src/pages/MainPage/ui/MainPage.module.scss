@@ -8,3 +8,14 @@
 .MainPage {
     width: 100%;
 }
+
+.tagCloud {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px;
+}
+
+.noData {
+    margin-top: 24px;
+}

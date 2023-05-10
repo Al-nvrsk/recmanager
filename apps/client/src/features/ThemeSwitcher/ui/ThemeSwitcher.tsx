@@ -19,13 +19,11 @@ export const ThemeSwitcher = () => {
         const newTheme = checked ? Theme.DARK : Theme.LIGHT
         localStorage.setItem(LOCAL_STORAGE_THEME_KEY, newTheme)
         setTheme(newTheme)
-        
         if (user?.id) {
             setServerTheme.mutateAsync({ id:user.id, theme: newTheme});
                 // TODO: Error theme save
         }
-    };
-    
+    }
 
     return (
         <Switch

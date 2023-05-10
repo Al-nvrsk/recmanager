@@ -6,11 +6,13 @@ export const formReviewSchema = (t: Function) => {
         ReviewName: zod
             .string({
                 required_error: `${t("Review Name can't be empty")}`,
-            }),
+            })
+            .min(1, t("Review Name can't be empty")),
         TitleOfWork: zod
             .string({
                 required_error: `${t("Title of work can't be empty")}`,
-        }),
+            })
+            .min(1, t("Title of work can't be empty")),
         TypeOfWork: zod
             .string({
                 required_error: `${t("Type of work can't be empty")}`,
@@ -20,12 +22,14 @@ export const formReviewSchema = (t: Function) => {
                 zod
                     .string()
                     .min(3, `${t('Tags should be at least 3 symbols')}`)
-                ),
+                )
+            .min(1, t("Tags should be at least 3 symbols")),
         AuthRating: zod
             .number({ required_error: `${t("Rating can't be empty")}`})
             .max(10),
         ReviewText: zod
-            .string({ required_error: `${t("Review text can't be empty")}`}),
+            .string({ required_error: `${t("Review text can't be empty")}`})
+            .min(1, t("Review text can't be empty")),
         id: zod
             .string().optional()
     })

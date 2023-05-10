@@ -13,6 +13,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { limit } from "../model/consts/limit";
 import { MenuItemKey } from "common-files";
 import { differenceBy } from 'lodash'
+import { Loader } from "@/shared/ui/Loader/Loader";
 
 const MainPage = () => {
     const part = getPart()
@@ -53,10 +54,6 @@ const MainPage = () => {
     }, [selectedTags, searchText, searchWorkType, currentMenuKey ])
 
     useEffect(() => {
-        console.log('getReviews.data', getReviews.data)
-        console.log('part', part)
-        console.log('IshasNextPage', ishasNextPage)
-
         if (getReviews.data?.length === 0 && part>1) {
             setIshasNextPage(false) 
             return
@@ -84,16 +81,21 @@ const MainPage = () => {
     return (
         <div className={cls.MainPage} >
             <SearchFilter />
-            <TagCloud theme={theme} />
+            <div className={cls.tagCloud}>
+                <TagCloud theme={theme} />
+            </div>
             <div className={cls.cardList}>
-                {reviews?.length === 0  && <Empty description={t('No reviews')} />}
+                {reviews?.length === 0  
+                    && <Empty
+                            className={cls.noData}
+                            description={t('No reviews')} />}
                 {reviews?.map(review => (
                     <Card key={review.id} {...review} />
                 )) }
             </div> 
             {ishasNextPage && (
                 <div ref={infiniteRef}>
-                    < Spin size="large" />
+                    < Loader />
                 </div>
             )}  
         </div>

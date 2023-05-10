@@ -4,9 +4,8 @@ import QuillMarkdown from 'quilljs-markdown'
 import ImageUploader from 'quill-image-uploader'
 import QuillBetterImage from "@umn-latis/quill-better-image-module"
 import './EditorToolbar.scss'
-import S3FileUpload from 'react-s3';
-import { s3Config } from "@/shared/config/aws";
 import {Buffer} from 'buffer';
+import { s3FileUpload } from "@/shared/utils/s3FileUpload";
 
 window.Buffer = window.Buffer || Buffer;
 
@@ -44,20 +43,9 @@ export const modules = {
         userOnly: true
     },
     imageUploader: {
-        upload: (file: File) => {
-            return new Promise((resolve, reject) => {
-                S3FileUpload
-                    .uploadFile(file, s3Config)
-                    .then((data: {location: string}) => {
-                        console.log(data)
-                        resolve(data.location)
-                    })
-                    .catch((err: Error) => console.error(err))
-            });
-        },
+        upload: s3FileUpload
     },
 };
-
 
 export const formats = [
     "header",

@@ -1,4 +1,4 @@
-export const darkTheme = {
+export const darkCloudTheme = {
     luminosity: 'bright',
     format: 'rgb'
 }

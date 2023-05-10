@@ -3,6 +3,7 @@ import { publicProcedure } from '../../procedure/procedure';
 import { z as zod } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { MenuItemKey } from 'common-files';
+import { avgRate } from '../../utils/avgRate/avgRate';
 
 export const searchRouter = router({
 
@@ -36,20 +37,6 @@ export const searchRouter = router({
                             }
                         }
                         });
-                    //     skip: limit!*(part!-1),
-                    //     take: limit!, 
-                    //     by: ['reviewId'],
-                    //     where: { 
-                    //         review: { 
-                    //             TypeOfWork: workType ? {equals: workType} : {},
-                    //             Tags: tags?.length>0 ? { some: { tag: {in : tags} } } : {}
-                    //         }
-                    //     },
-                    //     orderBy: {
-                    //         _avg: { userRate: 'desc' }
-                    //     },
-                    //     _avg: { userRate: true },
-                    // })
                     const getReviews = await req.ctx.prisma.reviews.findMany({
                         where:{id: {in: getrate.map(review => review.reviewId)}},
                         include: {
@@ -57,15 +44,8 @@ export const searchRouter = router({
                             rating: true
                         }
                     })
-                    const reviewsWithAvgRate = getReviews.map((review) => {
-                        const {rating, ...reviewArgs} = review
-                        const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
-                        return {
-                            rating: avgUserRate,
-                            ...reviewArgs,
-                        };
-                    })
-                    console.log(getrate, getrate)
+
+                    const reviewsWithAvgRate = avgRate(getReviews)
                     return reviewsWithAvgRate.sort((prev, current) => current.rating - prev.rating )
                 }
 
@@ -85,14 +65,7 @@ export const searchRouter = router({
                             rating: true
                             }
                     })
-                    const reviewsWithAvgRate = getReviews.map((review) => {
-                        const {rating, ...reviewArgs} = review
-                        const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
-                        return {
-                            rating: avgUserRate,
-                            ...reviewArgs,
-                        };
-                    })
+                    const reviewsWithAvgRate = avgRate(getReviews)
                 return reviewsWithAvgRate
                 }
 
@@ -125,14 +98,7 @@ export const searchRouter = router({
                         },
                         distinct: ['id']
                     })
-                    const searchedReview = searchReviewText.map((review) => {
-                        const {rating, ...reviewArgs} = review
-                        const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
-                        return {
-                            rating: avgUserRate,
-                            ...reviewArgs,
-                        };
-                    })
+                    const searchedReview = avgRate(searchReviewText)
                 return searchedReview
             }
             throw new TRPCError({

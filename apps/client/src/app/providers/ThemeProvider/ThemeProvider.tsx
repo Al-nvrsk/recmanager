@@ -1,7 +1,5 @@
-import { getCurrentUser } from "@/entities/User"
 import { getSetTheme, getTheme } from "@/features/ThemeSwitcher"
 import { LOCAL_STORAGE_THEME_KEY } from "@/shared/const/localStorege"
-import { trpc } from "@/shared/hooks/trpc/trpc"
 import { ConfigProvider, theme } from "antd"
 import React, { useEffect } from "react"
 import { Theme } from 'common-files'
@@ -16,16 +14,16 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
     const setTheme = getSetTheme()
 
     useEffect(() => {
-        const localTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme
-        if (localTheme) {
+    const localTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme
+    if (localTheme) {
         setTheme(localTheme)
-        }
+    }
     }, [])
 
     return (
         <ConfigProvider
             theme={{
-                algorithm: userTheme === 'LIGHT' ? theme.defaultAlgorithm :theme.darkAlgorithm,
+                algorithm: userTheme === Theme.DARK ? theme.darkAlgorithm : theme.defaultAlgorithm ,
             }}
         >
             {children}

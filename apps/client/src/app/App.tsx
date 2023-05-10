@@ -1,11 +1,11 @@
 import * as React from "react";
 import "./App.css";
 import { Suspense, useEffect } from "react";
-import { Col, ConfigProvider, Layout, Space, Switch, theme } from 'antd';
+import { Layout } from 'antd';
 import { Header } from "@/widgets/Header";
 import { Sidebar } from "@/widgets/Sidebar";
 import AppRouter from "./providers/router/ui/AppRouter";
-import { getSetCurrentUser } from "@/entities/User";
+import { getIsLoggedIn, getSetCurrentUser } from "@/entities/User";
 import { Toaster } from "react-hot-toast";
 import { trpc } from "@/shared/hooks/trpc/trpc";
 import { getSetLang } from "@/features/LangSwitcher";
@@ -20,13 +20,30 @@ export const App = () => {
     const setCurrentUser = getSetCurrentUser()
     const setLang = getSetLang()
     const setTheme = getSetTheme()
+    const isLoggedIn = getIsLoggedIn()
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            return
+        }
+        getUser.refetch()
+    }, [isLoggedIn])
     
-    if (getUser?.isSuccess) {
-        const {theme, lang, ...user} = getUser.data
-        setCurrentUser(user)
-        setLang(lang?.lang as Language )
-        setTheme(theme?.theme as Theme)
-    }
+    useEffect(() => {
+        if (getUser?.isSuccess) {
+            const {theme, lang, ...user} = getUser.data
+            setCurrentUser(user)
+            setLang(lang?.lang as Language )
+            setTheme(theme?.theme as Theme)
+        }
+    }, [getUser])
+
+    // if (getUser?.isSuccess) {
+    //     const {theme, lang, ...user} = getUser.data
+    //     setCurrentUser(user)
+    //     setLang(lang?.lang as Language )
+    //     setTheme(theme?.theme as Theme)
+    // }
 
     return (
         <div className="app">

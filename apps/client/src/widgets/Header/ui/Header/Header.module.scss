@@ -3,17 +3,20 @@
     height: var(--header-height);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 20px;
     border-bottom: 1px solid grey;
 }
 
 .image {
-    fill: greenyellow;
+    fill: rgb(21, 145, 54);
     height: calc(var(--header-height) - 20px);
     width: 400px;
 }
 
-.title {
+.title,
+.avatar {
+    min-width: 55px;
     cursor: pointer;
     &:hover{
         opacity: var(--opacity-hover);

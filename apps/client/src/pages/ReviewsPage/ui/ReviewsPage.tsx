@@ -1,7 +1,7 @@
 import { Review, getReviewsState, getSetReviewEditState, getSetReviewsState } from '@/entities/Review';
 import { getRouteReviewCreate, getRouteReviewEdit } from '@/shared/const/router';
 import { Button, Dropdown, Space, Table, Tag } from 'antd';
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import {  useNavigate } from 'react-router-dom';
 import cls from './ReviewsPage.module.scss'
@@ -67,6 +67,7 @@ const ReviewsPage = () => {
             </Space>
             
             <Table
+                className={cls.yourTable}
                 rowKey="uid"
                 pagination={false}
                 columns={Columns({filteredInfo, deleteReview})}
@@ -76,12 +77,13 @@ const ReviewsPage = () => {
                 })}
                 locale={tabLocales()}
                 onChange={onHandleChange}
+                size={'small'}
             />
         </div> 
     );
 }
 
-export default ReviewsPage
+export default memo(ReviewsPage)
 
 
 

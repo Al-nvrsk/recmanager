@@ -24,7 +24,7 @@ model Github {
 
 model User {
     id              String          @id @default(uuid())
-    email           String          @unique
+    email           String          
     firstName       String
     secondName      String
     login           String          @unique

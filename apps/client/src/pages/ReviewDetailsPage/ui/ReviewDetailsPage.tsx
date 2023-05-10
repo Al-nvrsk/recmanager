@@ -13,6 +13,7 @@ import { Rating } from "@/entities/Rating"
 import { useParams } from 'react-router-dom'
 import { ReviewDatailsPageComments } from "./ReviewDatailsPageComments/ReviewDatailsPageComments"
 import { Author } from "@/entities/Author"
+import { Loader } from "@/shared/ui/Loader/Loader"
 
 const {Text} = Typography
 
@@ -79,7 +80,7 @@ const ReviewDetailsPage = () => {
 
     if (getReview.isLoading && !reviewEditState) {
         return (
-            <Spin size="large" />
+            <Loader />
         )
     }
 
