@@ -1,6 +1,6 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Card, Typography } from "antd";
-import React, { useState } from "react";
+import { Card } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
 import type { Comment } from '../../model/types/comment'
 import 'react-quill/dist/quill.snow.css';
 import './CommentCard.scss'
@@ -12,8 +12,6 @@ import { Author } from "@/entities/Author";
 import { Loader } from "@/shared/ui/Loader/Loader";
 import ReactQuill from "@/entities/Editor";
 
-const {Text} = Typography
-
 export const CommentCard = (comment: Comment) => {
     const [isEditing, setIsEditing] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
@@ -24,59 +22,63 @@ export const CommentCard = (comment: Comment) => {
         setIsEditing(prev => !prev)
     }
 
-    const onDelete = () => {
+    const onDelete = useCallback(() => {
         deleteComment.mutate({id:comment.args.id})
         setIsDeleting(true)
-    }
+    }, [comment.args.id])
 
-    if(deleteComment.isError) {
-        setIsDeleting(false)
-        showNetworkError()
-    }
-
-  return (
-    <>
-      <Card
-        className={`comment`}
-        size="small"
-        title={
-            <Author 
-                avatar={comment.user.avatar}
-                likedNumber={comment.user.userLikes}
-                login={comment.user.login}
-                dateCreate={comment.args.createdAt}
-                dateUpdate={comment.args.updatedAt}
-            />
+    useEffect(() => {
+        if(!deleteComment.isError) {
+            return
         }
-        headStyle={{ padding: '15px ' }}
-        actions={
-            (currentUser?.id === comment.user.id)
-                ? [
-                    <></>,
-                    <></>,
-                    <EditOutlined key="edit" onClick={onEdit} />,
-                    <DeleteOutlined key="delete" onClick={onDelete}  />,
-                    ]
-                : []
-            }
-        >
-        {isDeleting
-            ? <Loader />
-            : (isEditing
-                ? <CreateComment 
-                        reviewId={'2'} 
-                        setClose={setIsEditing}
-                        comment={comment.args.text}
-                        commentId={comment.args.id}    
+            setIsDeleting(false)
+            showNetworkError()
+    }, [deleteComment.isError])
+    
+
+    return (
+        <>
+            <Card
+                className={`comment`}
+                size="small"
+                title={
+                    <Author 
+                        avatar={comment.user.avatar}
+                        likedNumber={comment.user.userLikes}
+                        login={comment.user.login}
+                        dateCreate={comment.args.createdAt}
+                        dateUpdate={comment.args.updatedAt}
                     />
-                : <ReactQuill
-                        theme={'bubble'}
-                        value={comment.args.text}
-                        readOnly={true}
-                    />
-            )
-        }    
-        </Card>
-    </>
+                }
+                headStyle={{ padding: '15px ' }}
+                actions={
+                    (currentUser?.id === comment.user.id)
+                        ? [
+                            <></>,
+                            <></>,
+                            <EditOutlined key="edit" onClick={onEdit} />,
+                            <DeleteOutlined key="delete" onClick={onDelete}  />,
+                            ]
+                        : []
+                    }
+            >
+            {isDeleting
+                ? <Loader />
+                : (isEditing
+                    ? <CreateComment 
+                            reviewId={'2'} 
+                            setClose={setIsEditing}
+                            comment={comment.args.text}
+                            commentId={comment.args.id}    
+                        />
+                    : <ReactQuill
+                            theme={'bubble'}
+                            value={comment.args.text}
+                            readOnly={true}
+                        />
+                )
+            }    
+            </Card>
+        </>
     );
 }

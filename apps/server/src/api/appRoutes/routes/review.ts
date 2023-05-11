@@ -1,8 +1,10 @@
 import { router } from '../../trpc/trpc';
 import { protectedProcedure, publicProcedure } from '../../procedure/procedure';
-import { ZodError, z as zod } from 'zod';
+import { z as zod } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { createReviewSchema } from 'common-files';
+import { avgRate } from '../../utils/avgRate/avgRate';
+import { unExpectedError } from '../../utils/errors/unExpectedError';
 
 const t = (message: string) => message
 
@@ -44,7 +46,8 @@ export const reviewRouter = router({
                 })
                 return transaction
             } catch (e) {
-                return e
+                console.log(e)
+                return unExpectedError()
             }
         }),
 
@@ -77,6 +80,7 @@ export const reviewRouter = router({
                 return {rating: avgUserRate, ...reviewArgs} 
             } catch(e) {
                 console.log(e)
+                unExpectedError()
             }
         }),
 
@@ -93,7 +97,8 @@ export const reviewRouter = router({
                 })
                 return deleteReview
             } catch (e) {
-                return e
+                console.log(e)
+                return unExpectedError()
             }        
     }),
 
@@ -104,24 +109,18 @@ export const reviewRouter = router({
         .query(async req => {
             const {authorId} = req.input
             try {
-            const getReviews = await req.ctx.prisma.reviews.findMany({
-                where: { authorId: {equals:authorId} },
-                include: {
-                    Tags: {select: {tag: true}},
-                    rating: {select: {userRate: true}}
-                }
-            })
-            const reviewsWithAvgRate = getReviews.map((review) => {
-                const {rating, ...reviewArgs} = review
-                const avgUserRate = rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length;
-                return {
-                    rating: avgUserRate,
-                    ...reviewArgs,
-                };
-            })            
-            return reviewsWithAvgRate 
-        } catch(e) {
-            console.log(e)
+                const getReviews = await req.ctx.prisma.reviews.findMany({
+                    where: { authorId: {equals:authorId} },
+                    include: {
+                        Tags: {select: {tag: true}},
+                        rating: {select: {userRate: true}}
+                    }
+                })
+                const reviewsWithAvgRate = avgRate(getReviews)           
+                return reviewsWithAvgRate 
+            } catch(e) {
+                console.log(e)
+                return unExpectedError()
         }
     }),
 

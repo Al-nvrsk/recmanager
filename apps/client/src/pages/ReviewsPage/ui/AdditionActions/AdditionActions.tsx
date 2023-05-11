@@ -51,7 +51,13 @@ export const additionActions = (props: AdditionActionsProps) => {
                         cancelText={"No"}
                         onConfirm = {()=>onDelete(record.id)}
                     >
-                        <a href="#">{"Delete"}</a>
+                        <a 
+                            href="#" 
+                            onClick={(e) => e.preventDefault()}
+                            style={{color: 'red'}}
+                        >
+                            {"Delete"}
+                        </a>
                     </Popconfirm>
             )
         },

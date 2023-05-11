@@ -8,6 +8,6 @@ import { Language } from 'common-files';
 
 export const langs: LangSwitherTypes[] = [
     { value: Language.ENG, label: <Avatar src={eng} />, item: eng },
-    { value: Language.GEO, label:<Avatar src={ge} />, item: ge },
-    { value: Language.RUS, label:<Avatar src={rus} />, item: rus },
+    { value: Language.GEO, label: <Avatar src={ge} />, item: ge },
+    { value: Language.RUS, label: <Avatar src={rus} />, item: rus },
   ]

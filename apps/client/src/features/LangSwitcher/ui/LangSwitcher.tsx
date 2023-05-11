@@ -1,6 +1,6 @@
-import { Avatar, Select } from "antd";
+import { Select, Space, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import React, { ReactNode, memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import cls from './LangSwitcher.module.scss'
 import { langs } from "../model/const/langs";
 import { LangSwitherTypes } from "../model/types/LangSwitcherTypes";
@@ -10,6 +10,7 @@ import { getSetLang } from "../model/selectors/getSetLang";
 import { trpc } from "@/shared/hooks/trpc/trpc";
 import { getCurrentUser } from "@/entities/User";
 import { getLang } from "../model/selectors/getLang";
+import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
 
 const { Option } = Select;
 
@@ -27,22 +28,26 @@ export const LangSwitcher = memo(() => {
     }, [])
 
     useEffect(() => {
-       if (lang) {
+        if (lang) {
             i18n.changeLanguage(lang)
             setDefaultValue(langs.filter(val => val.value === lang ))
-       }
+        }
     },[lang])
     
-    const toggle = (e: LangSwitherTypes) => {
+    const toggle = useCallback((e: LangSwitherTypes) => {
             const newLang = e.value
             setLang(newLang)
             localStorage.setItem(LOCAL_STORAGE_LANG_KEY, newLang)
             if (user?.id) {
                 setServerLang.mutateAsync({ id:user.id, lang: newLang});
-                           // TODO: Error theme save
                 }
-
-    };
+    }, [user])
+    
+    useEffect(() => {
+        if(setServerLang.isError) {
+        showNetworkError(setServerLang.error.message)
+        }
+    }, [setServerLang.isError])
 
     return (
         <Select
@@ -58,8 +63,10 @@ export const LangSwitcher = memo(() => {
             {langs.map((item, index) => (
                 <Option key={index} value={item.value} label={item.label}>
                     <div className={cls.langSwitcher}>
-                        {item.label}
-                        {item.value}
+                        <Space direction={'horizontal'}>
+                            {item.label}
+                            {item.value}
+                        </Space>
                     </div>
                 </Option>
             ))} 

@@ -85,7 +85,7 @@ const MainPage = () => {
                 <TagCloud theme={theme} />
             </div>
             <div className={cls.cardList}>
-                {reviews?.length === 0  
+                {(reviews?.length === 0 && !getReviews.isLoading ) 
                     && <Empty
                             className={cls.noData}
                             description={t('No reviews')} />}

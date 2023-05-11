@@ -1,9 +1,7 @@
-import { Suspense, useState } from 'react';
+import { Suspense, memo, useState } from 'react';
 import React from 'react';
 import { Modal, Spin } from 'antd';
 import { FormType } from '../../model/types/FormType';
-import { useNavigate } from 'react-router-dom';
-import { getRouteMain } from '@/shared/const/router';
 import { AuthFormAsync } from '../AuthForm/AuthForm.async';
 
 interface LoginModalProps {
@@ -12,14 +10,12 @@ interface LoginModalProps {
     onClose: () => void
 }
 
-export const AuthModal = (props: LoginModalProps) => {
+export const AuthModal = memo((props: LoginModalProps) => {
     const { formType, isOpen, onClose } = props
-    const navigate = useNavigate()
     
     return (
         <Modal
             open={isOpen}
-            // afterClose={() => navigate(getRouteMain())}
             destroyOnClose
             footer={null}
             onCancel={onClose}
@@ -31,4 +27,4 @@ export const AuthModal = (props: LoginModalProps) => {
             </Suspense>
         </Modal>
     )
-}
+})

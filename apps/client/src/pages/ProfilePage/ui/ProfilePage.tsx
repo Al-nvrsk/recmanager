@@ -1,11 +1,10 @@
 import { User, getCurrentUser, getSetCurrentUser } from "@/entities/User";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, Button, Col, Form, Input, Modal, Row, Space, Typography } from "antd";
+import { Avatar, Button, Col, Form, Input, Modal, Popover, Row, Space, Typography } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { memo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
 import cls from './ProfilePage.module.scss'
 import { changeUserSchema } from "common-files";
 import { UserOutlined } from "@ant-design/icons";
@@ -25,10 +24,6 @@ const ProfilePage = memo(() => {
     const getUser = trpc.getUser.useQuery({userId: user!.id, author: false},{enabled: false})
     const setCurrentUser = getSetCurrentUser()
 
-    // if (getUser?.isSuccess) {
-    //     const {theme, lang, ...user} = getUser.data
-    //     setCurrentUser(user)
-    // }
     useEffect(() => {
         if (!getUser?.data) {
             return
@@ -50,7 +45,7 @@ const ProfilePage = memo(() => {
             getUser.refetch()
         })
     }, [])
-
+    // @ts-ignore  
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     const {
@@ -82,17 +77,20 @@ const ProfilePage = memo(() => {
 
     const userFields = ['firstName', 'secondName', 'login', 'email']
 
-    const onCancel = () => {
+    const onCancel = useCallback(() => {
         reset()
         setIsEditing(false)
-    }
+    },[])
 
     return (
         <div className={cls.ProfilePage}>
-            <div {...getRootProps()} style={{margin: '16px auto'}}>
-                <input {...getInputProps()} />
-                <Avatar size={248} src={user?.avatar || 'https://mobimg.b-cdn.net/v3/fetch/74/749a35f15dec6d974afe2efe7b1bbc81.jpeg?w=1470&r=0.5625'} icon={<UserOutlined />}  />
-            </div>
+
+            <Popover content={t('Click or drug n drop for update image')} trigger="hover">
+               <div {...getRootProps()} style={{margin: '16px auto'}}>
+                    <input {...getInputProps()} />
+                    <Avatar size={248} src={user?.avatar} icon={<UserOutlined />}  />
+                </div>
+            </Popover>
             <Form
                 labelCol={{ span: 6 }}
                 wrapperCol={{span: 12}}
@@ -107,11 +105,11 @@ const ProfilePage = memo(() => {
                 <Form.Item 
                 key={el}
                 label={t(el)}
-                validateStatus={errors[el] ? 'error' : ''}
-                help={errors[el]?.message}
+                validateStatus={errors[el as keyof editUser] ? 'error' : ''}
+                help={errors[el as keyof editUser]?.message}
             >
                 <Controller
-                    name={el}
+                    name={el as keyof editUser}
                     control={control}
                     render={({ field }) => 
                         <Input 

@@ -133,6 +133,7 @@
   "Search TitleOfWork": "Поиск названия произведения",
   "Search ReviewName": "Поиск названия обзора",
 
+  "Create new comment": "Написать новый комментарий",
   "Input new comment": "Введите новый комментарий",
   "Last added": "Последние добавленные",
   "Most popular": "Наиболее популярные",
@@ -146,6 +147,15 @@
 
   "Are you sure?": "Вы уверены?",
   "No": "Нет",
-  "Yes": "Да" 
+  "Yes": "Да",
+  "Avatar": "Аватар",
+  "Role": "Роль",
+  "Reviews Count": "Количество обзоров",
+  "Comment Count": "Количество комментариев",
+  "Likes Count from users": "Количество лайков от пользователей",
+  "Open reviews list": "Открыть список обзоров", 
+  "Click or drug n drop for update image": "Нажми или забрось изображение для обновления",
+  "ADMIN mode": "Режим администратора",
+  "Navigation": "Навигация"
 
 }

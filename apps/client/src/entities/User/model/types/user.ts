@@ -1,4 +1,4 @@
-import { UserRole } from "../consts/userConsts";
+import { UserRole } from "common-files";
 
 export interface User {
     id: string;
@@ -7,6 +7,6 @@ export interface User {
     login: string;
     email: string
     avatar: string | null;
-    roles?: UserRole;
+    role?: UserRole;
     likedNumber?: number
 }

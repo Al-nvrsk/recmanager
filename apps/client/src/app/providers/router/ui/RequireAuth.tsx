@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getRouteForbidden, getRouteMain } from '@/shared/const/router';
 import React from 'react';
-import { UserRole, getIsAuth } from '@/entities/User';
+import { getCurrentUser, getIsAuth } from '@/entities/User';
+import { UserRole } from 'common-files';
 
 interface RequireAuthProps {
     children: JSX.Element,
@@ -10,16 +11,19 @@ interface RequireAuthProps {
 }
 
 export function RequireAuth({ children, roles }: RequireAuthProps) {
-    const auth = getIsAuth();
+    const user = getCurrentUser();
     const location = useLocation();
 
     const hasRequiredRoles = useMemo(() => {
-        if (roles !== UserRole.ADMIN) {
+        if (!roles) {
             return true;
         }
-    },[roles])
+        if (roles === user?.role) {
+            return true;
+        }
+    },[roles, user])
 
-    if (!auth) {
+    if (!user) {
         return <Navigate to={getRouteMain()} state={{ from: location }} replace />;
     }
 

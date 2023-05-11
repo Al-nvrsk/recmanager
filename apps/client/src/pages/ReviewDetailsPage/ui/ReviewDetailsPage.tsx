@@ -35,7 +35,6 @@ const ReviewDetailsPage = () => {
     const getUser = trpc.getUser.useQuery({userId:getReview.data?.authorId || '', author: true})
     const sendLike = trpc.updateLikes.useMutation()
     const sendMyRate = trpc.updateRate.useMutation()
-    console.log('currentUser2', currentUser)
 
     useEffect( () => {
         if (getReview.data?.id && currentUser?.id) {
@@ -44,7 +43,6 @@ const ReviewDetailsPage = () => {
     },[])
     
     useEffect(() => {
-        //TODO: fix types
         setLikeStatus(getLikesAndRate.data?.likeStatus)
         setMyRate(getLikesAndRate.data?.userRate)
     },[getLikesAndRate.isSuccess])
@@ -52,13 +50,23 @@ const ReviewDetailsPage = () => {
 
     useEffect(() => {
         if (likeStatus && getReview.data?.id && currentUser?.id) {
-            sendLike.mutateAsync({likeStatus, reviewId: getReview.data.id, userId: currentUser?.id})
+            sendLike.mutateAsync({
+                likeStatus,
+                reviewId: getReview.data.id,
+                userId: currentUser?.id,
+                authorId: getReview.data.authorId
+            })
         }
     }, [likeStatus])
 
     useEffect(() => {
         if (myRate && getReview.data?.id && currentUser?.id) {
-            sendMyRate.mutateAsync({myRate, reviewId: getReview.data.id, userId: currentUser?.id})
+            sendMyRate.mutateAsync({
+                myRate,
+                reviewId: getReview.data.id,
+                userId: currentUser?.id,
+                authorId: getReview.data.authorId
+            })
         }
     }, [myRate])
 

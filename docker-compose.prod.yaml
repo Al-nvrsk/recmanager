@@ -11,6 +11,9 @@ services:
       dockerfile: ./docker/Dockerfile.nginx
       args:
         SERVER_URL: ${SERVER_URL}
+        SERVER_NAME: ${SERVER_NAME}
+        ACCESS_KEY_ID: ${ACCESS_KEY_ID}
+        SECRET_ACCES_KEY: ${SECRET_ACCES_KEY}
     ports:
       - '80:80'
       - '443:443'
@@ -20,6 +23,8 @@ services:
     environment:
       SERVER_URL: ${SERVER_URL}
       SERVER_NAME: ${SERVER_NAME}
+      ACCESS_KEY_ID: ${ACCESS_KEY_ID}
+      SECRET_ACCES_KEY: ${SECRET_ACCES_KEY}
     
     networks:
       - dockernetwork

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { memo, useEffect } from "react"
 import { trpc } from "@/shared/hooks/trpc/trpc"
 import { Space } from "antd"
 import { CommentCard } from "../CommentCard/CommentCard"
@@ -8,11 +8,12 @@ interface CommentListProps {
     addedNewComment: boolean
 }
 
-export const CommentList = (props: CommentListProps) => {
+export const CommentList = memo((props: CommentListProps) => {
     const { id, addedNewComment } = props
-    const getComments = trpc.getComments.useQuery({id},{
+    const getComments = trpc.getComments.useQuery({id}, {
         refetchInterval: 4000,
-        refetchIntervalInBackground: true})
+        refetchIntervalInBackground: true
+    })
 
     useEffect(() => {
         getComments.refetch()
@@ -20,13 +21,14 @@ export const CommentList = (props: CommentListProps) => {
 
     return (
         <>
-        <Space direction={'vertical'} size={'middle'} style={{width:'100%'}} >
-        {getComments.data?.map(comment => (
-            <CommentCard {...comment} key={comment.args.id}          
-            />
-            
-        ))}
-        </Space>        
+            <Space direction={'vertical'} size={'middle'} style={{width:'100%'}} >
+                {getComments.data?.map(comment => (
+                    <CommentCard 
+                        {...comment} 
+                        key={comment.args.id}
+                    />
+                ))}
+            </Space>        
         </>
     )
-}
+})

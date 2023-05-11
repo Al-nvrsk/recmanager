@@ -38,13 +38,6 @@ export const App = () => {
         }
     }, [getUser])
 
-    // if (getUser?.isSuccess) {
-    //     const {theme, lang, ...user} = getUser.data
-    //     setCurrentUser(user)
-    //     setLang(lang?.lang as Language )
-    //     setTheme(theme?.theme as Theme)
-    // }
-
     return (
         <div className="app">
         <Suspense fallback="">

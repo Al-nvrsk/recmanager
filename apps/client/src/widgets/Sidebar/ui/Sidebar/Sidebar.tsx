@@ -1,23 +1,21 @@
 import * as React from 'react'
 import cls from './Sidebar.module.scss'
-import { memo, useState } from 'react'
-import { useTranslation } from 'react-i18next';
+import { memo, useCallback, useState } from 'react'
 import Sider from 'antd/es/layout/Sider';
-import { SideBarItem } from '../SidebarItem/SidebarItem';
+import { NavigationMenu } from '@/features/NavigationMenu';
 
 export const Sidebar = memo(() => {
-    const { t } = useTranslation();
     const [isCollapsed, setIsCollapsed] = useState(true)
 
-    const onCollapsed = () => {
+    const onCollapsed = useCallback(() => {
         setIsCollapsed(prev=>!prev)
-    }
+    }, [])
 
-    const onBreakpoint = () => {
+    const onBreakpoint = useCallback(() => {
         if (!isCollapsed) {
             setIsCollapsed(true)
         }
-    }
+    }, [isCollapsed])
 
     return (
         <Sider
@@ -29,10 +27,8 @@ export const Sidebar = memo(() => {
             breakpoint={'md'}
             onBreakpoint={onBreakpoint}
             theme='light'
->
-        {/* <div > */}
-            <SideBarItem isCollapsed={isCollapsed} />
-        {/* </div> */}
+        >
+            <NavigationMenu isCollapsed={isCollapsed} />
         </Sider>
     )
 })

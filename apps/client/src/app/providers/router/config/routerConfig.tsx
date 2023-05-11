@@ -1,4 +1,3 @@
-import { UserRole } from "@/entities/User";
 import { AboutPage } from "@/pages/AboutPage";
 import { AdminPanelPage } from "@/pages/AdminPanelPage";
 import { MainPage } from "@/pages/MainPage";
@@ -20,6 +19,7 @@ import {
     getRouteReviews
     } from "@/shared/const/router";
 import { AppRouterProps } from "@/shared/types/router";
+import { UserRole } from "common-files";
 import React from "react";
 
 export const routeConfig: Record<AppRoutes, AppRouterProps> = {

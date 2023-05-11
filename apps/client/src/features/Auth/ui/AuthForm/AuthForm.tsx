@@ -6,13 +6,11 @@ import { Controller, useForm } from "react-hook-form";
 import { IAuthForm } from "../../model/types/AuthForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Col, Form, Input, Row, Space, Typography } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { FormType } from "../../model/types/FormType";
 import './AuthForm.scss'
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError";
 import { GithubLoginButton, GoogleLoginButton } from "react-social-login-buttons";
-import { useNavigate } from "react-router-dom";
-import { getRouteMain } from "@/shared/const/router";
 import { authSchema, registrationSchema } from "common-files";
 import { getSetIsLoggedIn } from "@/entities/User";
 
@@ -29,7 +27,6 @@ const AuthForm = (props: AuthFormProps) => {
     const createUser = trpc.createUser.useMutation();
     const authUser = trpc.authUser.useMutation()
     const [currentFormType, setCurrentFormType] = useState<FormType>(formType)
-    const navigate = useNavigate()
     const setIsLoggedIn = getSetIsLoggedIn()
     const isAuthForm = () => currentFormType === 'auth'
 
@@ -43,11 +40,11 @@ const AuthForm = (props: AuthFormProps) => {
         resolver: zodResolver(isAuthForm() ? authSchema(t) : registrationSchema(t)),
     });
     
-    const onSubmit = async (data: IAuthForm) => {
+    const onSubmit = useCallback(async (data: IAuthForm) => {
         isAuthForm()
             ? await authUser.mutateAsync(data)
             : await createUser.mutate(data)
-    };
+    }, []);
 
     useEffect(() => {
         if (!authUser.isSuccess && !createUser.isSuccess) {
@@ -67,21 +64,21 @@ const AuthForm = (props: AuthFormProps) => {
             showNetworkError(`${t(createUser.error.message)}`)
     }, [createUser.isError])
 
-    const onChangeFormType = () => {
+    const onChangeFormType = useCallback(() => {
         reset()
         setCurrentFormType(currentFormType === 'auth'
         ? 'registration'
         : 'auth'
         )
-    }
+    }, [currentFormType])
 
-    const google = () => {
+    const google = useCallback(() => {
         window.open(`${__SERVER_URL__}/api/auth/google`, "_self");
-    };
+    }, []);
     
-    const github = () => {
+    const github = useCallback(() => {
         window.open(`${__SERVER_URL__}/api/auth/github`, "_self");
-    };
+    }, []);
 
     return (
         <Row justify="center" align="middle" className="auth-page">
@@ -164,4 +161,4 @@ const AuthForm = (props: AuthFormProps) => {
     );
 }
 
-export default AuthForm
+export default  memo(AuthForm)

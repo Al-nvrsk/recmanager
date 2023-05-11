@@ -36,6 +36,7 @@ model User {
     post            Reviews[]
     comments        Comments[]
     notifications   Notifications[]
+    ratings         ReviewRating[]
     googleId        Google?
     githubId        Github?
     @@fulltext([firstName, secondName, login])
@@ -111,6 +112,8 @@ model Notifications {
 model ReviewRating {
     id          String    @id @default(uuid())
     userRate    Float?
+    author      User      @relation(fields: [authorId], references: [id])
+    authorId    String
     userId      String    
     review      Reviews   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
     reviewId    String   

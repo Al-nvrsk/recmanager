@@ -31,7 +31,6 @@ CREATE TABLE `User` (
     `password` VARCHAR(191) NOT NULL,
     `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
 
-    UNIQUE INDEX `User_email_key`(`email`),
     UNIQUE INDEX `User_login_key`(`login`),
     FULLTEXT INDEX `User_firstName_secondName_login_idx`(`firstName`, `secondName`, `login`),
     PRIMARY KEY (`id`)
@@ -112,6 +111,7 @@ CREATE TABLE `Notifications` (
 CREATE TABLE `ReviewRating` (
     `id` VARCHAR(191) NOT NULL,
     `userRate` DOUBLE NULL,
+    `authorId` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `reviewId` VARCHAR(191) NOT NULL,
     `likeStatus` VARCHAR(191) NULL,
@@ -149,6 +149,9 @@ ALTER TABLE `Notifications` ADD CONSTRAINT `Notifications_commentId_fkey` FOREIG
 
 -- AddForeignKey
 ALTER TABLE `Notifications` ADD CONSTRAINT `Notifications_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ReviewRating` ADD CONSTRAINT `ReviewRating_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ReviewRating` ADD CONSTRAINT `ReviewRating_reviewId_fkey` FOREIGN KEY (`reviewId`) REFERENCES `Reviews`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

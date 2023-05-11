@@ -1,3 +1,4 @@
+export { UserRole } from "./types/UserRole";
 export { Language } from "./types/Languege";
 export { MenuItemKey } from "./types/MenuItemKey";
 export { Theme } from "./types/Theme";

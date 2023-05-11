@@ -10,7 +10,7 @@ import Highlighter from "react-highlight-words";
 import { getTableSearchState } from "../model/selectors/getTableSearchState";
 import { getSetTableSearchState } from "../model/selectors/getSetTableSearchState";
 
-export const ColumnSearch = (dataIndex: DataIndex) => {
+export const ColumnSearch = <T extends Record<string, any>>(dataIndex: keyof T) => {
     const searchText = getTableSearchState()
     const setSearchText = getSetTableSearchState()
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -19,22 +19,22 @@ export const ColumnSearch = (dataIndex: DataIndex) => {
 
     const handleSearch = (
         confirm: (param?: FilterConfirmProps) => void,
-        dataIndex: DataIndex,
+        dataIndex: keyof T,
         selectedText?: string,
     ) => {
         setSearchText(selectedText || '');
-        setSearchedColumn(dataIndex);
+        setSearchedColumn(dataIndex.toString());
         confirm({ closeDropdown: false });
     };
 
-    const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<Review> => ({
+    const getColumnSearchProps = (dataIndex: keyof T): ColumnType<T> => ({
     
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
 
             <div style={{ padding: 8 }} onKeyDown={e => e.stopPropagation()} >
                 <Input
                     ref={searchInput}
-                    placeholder={t(`Search ${dataIndex}`) as string}
+                    placeholder={t(`Search ${dataIndex.toString()}`) as string}
                     value={selectedKeys[0]}
                     onChange={e => {
                         setSelectedKeys(e.target.value ? [e.target.value] : [])

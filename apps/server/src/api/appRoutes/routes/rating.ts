@@ -16,21 +16,23 @@ const findId = async(userId: string, reviewId: string) => {
 export const ratingRouter = router({
     updateLikes: protectedProcedure
         .input(zod.object({
+            authorId: zod.string(),
             reviewId: zod.string(),
             userId: zod.string(),
             likeStatus: zod.string()
         }))
         .mutation(async req => {
-            const {reviewId, userId, likeStatus} = req.input
+            const {authorId, reviewId, userId, likeStatus} = req.input
             try {
                     const editedReviewId = await findId(userId, reviewId)
                     const updateLike = await req.ctx.prisma.reviewRating.upsert({
                         where: {id: editedReviewId},
                         update: {likeStatus},
                         create: {
+                            authorId,
                             userId,
                             reviewId,
-                            likeStatus
+                            likeStatus,
                         }
                     })
 
@@ -42,18 +44,20 @@ export const ratingRouter = router({
 
     updateRate: protectedProcedure
         .input(zod.object({
+            authorId: zod.string(),
             reviewId: zod.string(),
             userId: zod.string(),
             myRate: zod.number()
         }))
         .mutation(async req => {
-            const {reviewId, userId, myRate} = req.input
+            const { authorId, reviewId, userId, myRate} = req.input
             try {
                 const editedReviewId = await findId(userId, reviewId)
                 const updateRate = await req.ctx.prisma.reviewRating.upsert({
                     where: {id: editedReviewId},
                     update: {userRate: myRate},
                     create: {
+                        authorId,
                         userId,
                         reviewId,
                         userRate: myRate

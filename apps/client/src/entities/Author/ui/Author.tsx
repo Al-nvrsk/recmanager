@@ -1,6 +1,6 @@
 import { LikeTwoTone } from "@ant-design/icons"
 import { Avatar, Space, Typography, Image } from "antd"
-import React from "react"
+import React, { memo } from "react"
 import dayjs from 'dayjs'
 import { noDataImg } from "@/shared/const/NoDataImg"
 import cls from './Author.module.scss'
@@ -15,13 +15,12 @@ interface AuthorProps {
     likedNumber?: number
 }
 
-export const Author = (props: AuthorProps ) => {
+export const Author = memo((props: AuthorProps ) => {
     const { 
         avatar, login, likedNumber, dateCreate, dateUpdate
     } = props
 
     const isEdited = !(dateUpdate === dateCreate)
-    console.log('dateUpdate', dateUpdate)
 
     return (
         <Space direction={'horizontal'} className={cls.Author}>
@@ -37,12 +36,11 @@ export const Author = (props: AuthorProps ) => {
             </Text>
             <LikeTwoTone />
             <Text type={"secondary"} >
-                {/* {isEdited ? dateUpdate : dateCreate} */}
-                {dayjs(isEdited ?dateUpdate : dateCreate).format('DD/MM/YYYY hh:mm')} 
+                {dayjs(isEdited ? dateUpdate : dateCreate).format('DD/MM/YYYY hh:mm')} 
             </Text>
             <Text type={"secondary"}>
                 {isEdited && 'Edited'}
             </Text>
         </Space>
     )
-}
+})

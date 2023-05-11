@@ -1,6 +1,6 @@
 import { TextEditor } from "@/entities/Editor"
 import { Button, Space } from "antd"
-import React, { useState } from "react"
+import React, { memo, useCallback, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import cls from './CreateComment.module.scss'
 import { getCurrentUser } from "@/entities/User"
@@ -11,21 +11,20 @@ interface CreateCommentProps {
     reviewId: string
     comment?: string
     commentId?: string
-
 }
 
-export const CreateComment = (props: CreateCommentProps) => {
+export const CreateComment = memo((props: CreateCommentProps) => {
     const { setClose, reviewId, comment='', commentId } = props
     const {t} = useTranslation()
     const [text, setText] = useState<string>(comment)
     const user = getCurrentUser()
     const sendComment = trpc.updateComment.useMutation()
 
-    const onClose = () => {
+    const onClose = useCallback(() => {
         setClose(false)
-    }
+    }, [])
 
-    const onSave = () => {
+    const onSave = useCallback(() => {
         if (!user?.id) {
             return
         }
@@ -35,11 +34,13 @@ export const CreateComment = (props: CreateCommentProps) => {
             text,
             id: commentId
         })
-    }
+    }, [user?.id, reviewId, text, commentId])
 
-    if (sendComment.isSuccess) {
-        onClose()
-    }
+    useEffect(() => {
+        if (sendComment.isSuccess) {
+            onClose()
+        }
+    }, [sendComment])
 
     return (
         <>
@@ -66,4 +67,4 @@ export const CreateComment = (props: CreateCommentProps) => {
         </Space>
         </>
     )
-}
+})

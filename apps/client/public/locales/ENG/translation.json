@@ -134,6 +134,7 @@
   "Search TitleOfWork": "Search Title of work",
   "Search ReviewName": "Search Review name",
 
+  "Create new comment": "Create new comment",
   "Input new comment": "Input new comment",
   "Last added": "Last added",
   "Most popular": "Most popular",
@@ -147,6 +148,15 @@
   
   "Are you sure?": "Are you sure?",
   "No": "No",
-  "Yes": "Yes"
+  "Yes": "Yes",
+  "Avatar": "Avatar",
+  "Role": "Role",
+  "Reviews Count": "Reviews Count",
+  "Comment Count": "Comment Count",
+  "Likes Count from users": "Likes Count from users",
+  "Open reviews list": "Open reviews list",
+  "Click or drug n drop for update image": "Click or drug n drop for update image",
+  "ADMIN mode": "ADMIN mode",
+  "Navigation": "Navigation"
 
 }

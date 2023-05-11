@@ -21,7 +21,6 @@ export const ThemeSwitcher = () => {
         setTheme(newTheme)
         if (user?.id) {
             setServerTheme.mutateAsync({ id:user.id, theme: newTheme});
-                // TODO: Error theme save
         }
     }
 

@@ -12,6 +12,15 @@
     fill: rgb(21, 145, 54);
     height: calc(var(--header-height) - 20px);
     width: 400px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.headerBtn {
+    display: flex;
+    flex-wrap: nowrap;
+    width: auto;
+    align-items: center;
 }
 
 .title,

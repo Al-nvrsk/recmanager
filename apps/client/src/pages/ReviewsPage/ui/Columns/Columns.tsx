@@ -5,7 +5,7 @@ import { Dropdown, Space, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { FilterValue } from "antd/es/table/interface";
 import dayjs from "dayjs";
-import React from "react";
+import React, { memo, useCallback } from "react";
 import { getInitialProps, useTranslation } from "react-i18next";
 import { additionActions } from "../AdditionActions/AdditionActions";
 import { useNavigate } from "react-router-dom";
@@ -16,23 +16,24 @@ interface ColumnProps {
         mutate: ({ id }: { id: string }) => void
     }
     filteredInfo: Record<string, FilterValue | null>
+    reviewState: Review[]
 }
 
 export const Columns = (props: ColumnProps) => {
-    const {filteredInfo, deleteReview} = props
+    const {filteredInfo, deleteReview, reviewState} = props
     const {t} = useTranslation()
-    const reviewState = getReviewsState()
     const setReviewEditState = getSetReviewEditState()
     const navigate = useNavigate()
 
     type ColumnFilterProps = 'TypeOfWork' | 'AuthRating' | 'rating'
-    const columnFilter = (columnValue: ColumnFilterProps) => {
-        return [...new Set(reviewState?.map(review => review[columnValue]))].map(value => {return{text:t(value?.toString()), value}})
-    }
 
-    const onOpen = (id: string) => {
+    const columnFilter = useCallback((columnValue: ColumnFilterProps) => {
+        return [...new Set(reviewState?.map(review => review[columnValue]))].map(value => {return{text:t(value?.toString()), value}})
+    }, [reviewState])
+
+    const onOpen = useCallback((id: string) => {
         navigate(getRouteReviewDetails(id))
-    }
+    },[])
 
     const columns: ColumnsType<Review> = [
     {

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z as zod } from 'zod';
 import { Language, Theme } from 'common-files'
 import { router } from '../../trpc/trpc';
 import { protectedProcedure } from '../../procedure/procedure';
@@ -8,9 +8,9 @@ const t = (message: string) => message
 export const appEnvRouter = router({
     setTheme: protectedProcedure
     .input(
-        z.object({
-            id: z.string(),
-            theme: z.nativeEnum(Theme)
+        zod.object({
+            id: zod.string(),
+            theme: zod.nativeEnum(Theme)
         }))
     .mutation(async req => {
         const { id, theme } = req.input
@@ -28,9 +28,9 @@ export const appEnvRouter = router({
 
     setLang: protectedProcedure
     .input(
-        z.object({
-            id: z.string(),
-            lang: z.nativeEnum(Language)
+        zod.object({
+            id: zod.string(),
+            lang: zod.nativeEnum(Language)
         }))
     .mutation(async req => {
         const { id, lang } = req.input
