@@ -28,20 +28,19 @@ export const Header = memo(() => {
     const setIsLoggedIn = getSetIsLoggedIn()
     const navigate = useNavigate()
 
-    const onClose = () => {
+    const onClose = useCallback(() => {
         setIsOpen(false)
-    }
+    }, [])
 
-    const onSignIn = () => {
+    const onSignIn = useCallback(() => {
         setIsOpen(true)
-    }
+    }, [])
 
-    const onClickOut = async () => {
+    const onClickOut = useCallback( async () => {
         await logout.mutateAsync()
-        setCurrentUser()
+        setCurrentUser(null)
         setIsLoggedIn(false)
-        
-    }
+    }, [])
 
     const items = DropdownItems(currentUser?.id, onClickOut)
 

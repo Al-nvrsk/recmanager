@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React, { memo, useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import cls from './ReviewDatailsPage.module.scss'
-import { ReviewDetails, getReviewEditState, getReviewsState, getSetReviewEditState } from "@/entities/Review"
+import { ReviewDetails, getReviewEditState, getSetReviewEditState } from "@/entities/Review"
 import { useTranslation } from "react-i18next"
 import { getCurrentUser } from "@/entities/User"
 import { Button, Space, Spin, Typography } from "antd"
@@ -11,7 +11,7 @@ import { Likes } from "@/entities/Likes"
 import { showNetworkError } from "@/shared/components/showNetworkError/showNetworlError"
 import { Rating } from "@/entities/Rating"
 import { useParams } from 'react-router-dom'
-import { ReviewDatailsPageComments } from "./ReviewDatailsPageComments/ReviewDatailsPageComments"
+import { ReviewDatailsPageComments } from "../ReviewDatailsPageComments/ReviewDatailsPageComments"
 import { Author } from "@/entities/Author"
 import { Loader } from "@/shared/ui/Loader/Loader"
 
@@ -38,9 +38,9 @@ const ReviewDetailsPage = () => {
 
     useEffect( () => {
         if (getReview.data?.id && currentUser?.id) {
-            getLikesAndRate.mutate({reviewId: getReview.data.id, userId: currentUser.id})
+            getLikesAndRate.mutateAsync({reviewId: getReview.data.id, userId: currentUser.id})
         }
-    },[])
+    },[getReview.data?.id, currentUser?.id])
     
     useEffect(() => {
         setLikeStatus(getLikesAndRate.data?.likeStatus)
@@ -50,7 +50,7 @@ const ReviewDetailsPage = () => {
 
     useEffect(() => {
         if (likeStatus && getReview.data?.id && currentUser?.id) {
-            sendLike.mutateAsync({
+            sendLike.mutate({
                 likeStatus,
                 reviewId: getReview.data.id,
                 userId: currentUser?.id,
@@ -70,12 +70,11 @@ const ReviewDetailsPage = () => {
         }
     }, [myRate])
 
-    const onSave = async() => {
-        console.log('currentUser1', currentUser)
+    const onSave = useCallback(async() => {
         if (!currentUser?.id) {
             return}
             await updateReview.mutateAsync({authorId: currentUser.id, ...reviewEditState})
-        }
+        }, [currentUser, reviewEditState])
 
     if (updateReview.isSuccess) {
         setReviewEditState()
@@ -95,26 +94,26 @@ const ReviewDetailsPage = () => {
     return (
         <div className={cls.ReviewDetailsPage}>
             <div className={cls.EditButton}>
-        <Space size={'large'}>
+                <Space size={'large'}>
 
-                {isPreview &&
-                <Button
+                    {isPreview &&
+                        <Button
+                            type={'primary'}
+                            onClick={onSave}
+                            loading = {updateReview.isLoading}
+                        >
+                            {t('Save')}
+                        </Button>
+                    }
+
+                    <Button
                         type={'primary'}
-                        onClick={onSave}
-                        loading = {updateReview.isLoading}
+                        danger
+                        onClick={() => navigate(-1)}
                     >
-                        {t('Save')}
+                        {t('Back')}
                     </Button>
-                }
-
-                <Button
-                    type={'primary'}
-                    danger
-                    onClick={() => navigate(-1)}
-                >
-                    {t('Back')}
-                </Button>
-            </Space>
+                </Space>
             </div>
             
             {!isPreview &&
@@ -122,28 +121,32 @@ const ReviewDetailsPage = () => {
                     dateCreate={getReview.data?.createdAt}
                     dateUpdate={getReview.data?.updatedAt}
                     { ...getUser.data }
-                    />
+                />
             }
 
             <ReviewDetails reviewState={isPreview ? reviewEditState : getReview.data!} />
-                {currentUser &&
+                {(currentUser && !isPreview) &&
                 <>
-                    <Text> {t('My assessment:')} </Text>
-                    <Rating 
-                        isUsers={true}
-                        setRatingNumber={setMyRate}
-                        ratingNumber={myRate}
-                    />
-                    <Likes 
-                        likeStatus={likeStatus}
-                        setLikeStatus={setLikeStatus}
-                    />
+                    <Space direction={'vertical'} size={'middle'} className={cls.assessment} >
+                        <div >
+                            <Text> {t('My assessment:')} </Text>
+                            <Rating 
+                                isUsers={true}
+                                setRatingNumber={setMyRate}
+                                ratingNumber={myRate}
+                            />
+                        </div>
+                        <Likes 
+                            likeStatus={likeStatus}
+                            setLikeStatus={setLikeStatus}
+                        />
+                    </Space>
                 </>
                 }
-                {id &&
+                {(id && !isPreview) &&
                 <ReviewDatailsPageComments id={id} />}
         </div>
     )
 }
 
-export default ReviewDetailsPage
+export default memo(ReviewDetailsPage)

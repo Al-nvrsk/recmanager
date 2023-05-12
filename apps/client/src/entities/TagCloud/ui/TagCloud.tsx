@@ -1,5 +1,5 @@
 import { Theme } from 'common-files'
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import { trpc } from '@/shared/hooks/trpc/trpc'
 import { getSelectedTags } from '../model/selectors/getSelectedTags'
 import { getSetSelectedTags } from '../model/selectors/getSetSelectedTags'
@@ -13,15 +13,15 @@ interface TagCloud {
     theme: Theme
 }
 
-export const TagCloud = (props: TagCloud) => {
+export const TagCloud = memo((props: TagCloud) => {
     const {theme} = props
     const getTags = trpc.getTags.useQuery()
     const selectedTags = getSelectedTags()
     const setSelectedTags = getSetSelectedTags()
 
-    const customRenderer = (tag: Tag, size: string, color: string) => (
+    const customRenderer = useCallback((tag: Tag, size: string, color: string) => (
         TagItem({tag, size, color, setSelectedTags, selectedTags})
-    )
+    ), [TagItem, setSelectedTags, selectedTags])
     
     return (
         <>
@@ -35,4 +35,4 @@ export const TagCloud = (props: TagCloud) => {
             />
         </>
     )
-}
+})

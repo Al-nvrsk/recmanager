@@ -44,7 +44,7 @@ export const CreateComment = memo((props: CreateCommentProps) => {
 
     return (
         <>
-        <Space direction={'vertical'} size={'large'}>
+        <Space direction={'vertical'} size={'large'} style={{width: '100%'}}>
         <TextEditor placeholder={t("Input new comment")} value={text} onChange={setText}/>
         <div className={cls.btn}>
             <Space size={'large'} >

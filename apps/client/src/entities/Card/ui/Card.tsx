@@ -1,16 +1,16 @@
-import React from "react";
+import React, { memo, useCallback } from "react";
 import {Card as AntdCard, Space, Tag, Image} from 'antd'
 import { StarFilled } from "@ant-design/icons";
 import cls from './Card.module.scss'
 import { Link, useNavigate } from "react-router-dom";
 import { getRouteReviewDetails } from "@/shared/const/router";
-import { Review, getSetReviewEditState } from "@/entities/Review";
+import { Review } from "@/entities/Review";
 import { noDataImg } from "@/shared/const/NoDataImg";
 import { useTranslation } from "react-i18next";
 
 const { Meta } = AntdCard;
 
-export const Card = (props: Review) => {
+export const Card = memo((props: Review) => {
     const { t } = useTranslation()
     const {
         ReviewText,
@@ -24,19 +24,18 @@ export const Card = (props: Review) => {
     
     const navigate = useNavigate()
 
-    const onTag: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    const onTag: React.MouseEventHandler<HTMLDivElement> = useCallback((e) => {
         e.stopPropagation()
-        console.log('tag', e.currentTarget.outerText )
-    }
+    }, [])
 
     const regex = /<img\s[^>]*?src="([^"]*?)"/;
     const showcase = ReviewText?.match(regex) ?? '';
 
-    const onDetails = () => {
+    const onDetails = useCallback(() => {
         if (id) { 
             navigate(getRouteReviewDetails(id))
         }
-    }
+    }, [id])
 
     if (!props) {
         return <div> No data</div>
@@ -47,7 +46,7 @@ export const Card = (props: Review) => {
             className={cls.AntdCard}
             onClick={onDetails}
             size={'default'}
-            extra={<Link to={getRouteReviewDetails('1')}>More</Link>}
+            extra={<Link to={getRouteReviewDetails(id)}>{t('More')}</Link>}
             hoverable
             title={ReviewName}
             style={{ width: 240 }}
@@ -57,9 +56,9 @@ export const Card = (props: Review) => {
                     preview={false}
                     src={showcase[1]}
                     fallback={noDataImg}
+                    style={{objectFit: "cover"}}
                 />
- 
-                }
+            }
         >
             <Space  direction={'vertical'} style={{width: '100%'}}  >
                 <Meta 
@@ -88,4 +87,4 @@ export const Card = (props: Review) => {
             </Space>
         </AntdCard>
     )
-}
+})

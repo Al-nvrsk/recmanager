@@ -1,6 +1,6 @@
 import { StarFilled } from "@ant-design/icons"
 import { Space, Typography } from "antd"
-import React from "react"
+import React, { memo } from "react"
 import { useTranslation } from "react-i18next"
 
 const {Text} = Typography
@@ -10,7 +10,7 @@ interface AssessmentProps {
     isUsers?: boolean
 }
 
-export const Assessment = (props: AssessmentProps ) => {
+export const Assessment = memo((props: AssessmentProps ) => {
     const {
         rate,
         isUsers=false
@@ -29,4 +29,4 @@ export const Assessment = (props: AssessmentProps ) => {
             </Space>
         </Text>
     )
-}
+})

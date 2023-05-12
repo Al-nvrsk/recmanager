@@ -1,19 +1,18 @@
 import { trpc } from "@/shared/hooks/trpc/trpc"
-import React, { useEffect, useState } from "react"
+import React, { memo, useEffect, useState } from "react"
 import { getTheme } from "@/features/ThemeSwitcher";
 import { Card } from "@/entities/Card";
-import { getSetReviewsState } from "@/entities/Review/model/selectors/getSetReviewsState";
-import { getReviewsState } from "@/entities/Review/model/selectors/getReviewsState";
 import cls from './MainPage.module.scss'
 import { TagCloud, getSelectedTags } from "@/entities/TagCloud";
 import { useTranslation } from "react-i18next";
 import { SearchFilter, getCurrentMenuKey, getPart, getSearchText, getSearchWorkType, getSetPart } from "@/features/SearchFilter";
-import { Empty, Spin } from "antd";
+import { Empty } from "antd";
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { limit } from "../model/consts/limit";
 import { MenuItemKey } from "common-files";
 import { differenceBy } from 'lodash'
 import { Loader } from "@/shared/ui/Loader/Loader";
+import { getReviewsState, getSetReviewsState } from "@/entities/Review";
 
 const MainPage = () => {
     const part = getPart()
@@ -102,4 +101,4 @@ const MainPage = () => {
     )
 }
 
-export default MainPage
+export default memo(MainPage)

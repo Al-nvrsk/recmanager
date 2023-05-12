@@ -25,7 +25,7 @@ export const Author = memo((props: AuthorProps ) => {
     return (
         <Space direction={'horizontal'} className={cls.Author}>
             <Avatar src={
-                <Image src={avatar || ''} style={{ width: 32 }} fallback={noDataImg} />
+                <Image src={avatar || ''} style={{ width: 32, height: 32 }} fallback={noDataImg} />
                 } 
             />
             <Text>

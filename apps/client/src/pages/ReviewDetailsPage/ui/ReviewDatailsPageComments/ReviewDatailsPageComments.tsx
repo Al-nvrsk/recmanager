@@ -16,8 +16,7 @@ export const ReviewDatailsPageComments = (props: ReviewDatailsPageComments ) => 
     const {t} = useTranslation()
 
     return (
-        // <div>
-            <Space direction={'vertical'} size={'large'} style={{width:'100%'}}>
+        <Space direction={'vertical'} size={'large'} style={{width:'100%'}}>
             {
             currentUser &&
             (!isOpen 
@@ -28,8 +27,6 @@ export const ReviewDatailsPageComments = (props: ReviewDatailsPageComments ) => 
             )
             }
             <CommentList id={id} addedNewComment={isOpen}  />
-            </Space>
-        // </div>
-
+        </Space>
     )
 }

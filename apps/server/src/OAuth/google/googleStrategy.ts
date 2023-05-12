@@ -14,7 +14,6 @@ passport.use(
         },
         async function (accessToken, refreshToken, profile, callback) {
             try {
-                console.log('email', profile.emails![0].value)
                 const checkUser = await prisma.google.findUnique({
                     where: {googleId: profile.id},
                 })

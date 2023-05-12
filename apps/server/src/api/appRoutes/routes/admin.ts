@@ -1,11 +1,8 @@
-import { TRPCError } from '@trpc/server';
-import { protectedProcedure, publicProcedure } from '../../procedure/procedure';
+import { protectedProcedure } from '../../procedure/procedure';
 import { router } from '../../trpc/trpc';
 import { z as zod } from 'zod';
-import { UserRole, authSchema, registrationSchema } from "common-files";
+import { UserRole } from "common-files";
 import { unExpectedError } from '../../utils/errors/unExpectedError';
-
-const t = (message: string) => message
 
 export const adminRouter = router({
     getAllUsers: protectedProcedure

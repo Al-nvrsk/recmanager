@@ -22,7 +22,7 @@ export const TagItem = ( props: TagItem) => {
     const handleChange = (tag: string, checked: boolean) => {
         const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
         setSelectedTags(nextSelectedTags);
-    };
+    }
 
     return (
         <CheckableTag

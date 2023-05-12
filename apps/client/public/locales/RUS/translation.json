@@ -16,7 +16,8 @@
   "Admin panel": "Панель администратора",
   "Error 404": "Ошибка 404",
   "Error 403": "Ошибка 403",
-  "Go to main": "На главную", 
+  "Go to main": "На главную",
+  "More": "Подробнее",
 
   "Login should be longer then 3 symbols": "Логин должен быть длинее 3 символов",
   "Login should be shorter then 16 symbols": "Логин должен быть короче 16 символов",
@@ -49,6 +50,9 @@
   "The passwords did not match": "Пароли не совпадают",
   "Cancel": "Отмена",
   "Sign out": "Выход",
+  "Preview": "Предпросмотр",
+  "You can see the project code ": "Код проекта можно посмотреть",
+  "on website": "на сайте",
 
   "An unexpected error occurred, please try again later.": "Непредвиденная ошибка, попробуйте позже",
 

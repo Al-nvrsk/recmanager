@@ -9,7 +9,7 @@ import { NavigationMenuItemTypes } from "../types/NavigationMenuItemTypes";
 export const NavigationMenuItems = (fontSize: string) => {
     const userData = getCurrentUser()
     const {t} = useTranslation()
-    const isAuth = getIsAuth()
+    const isAuth = getCurrentUser()
     const sidebarItemList: NavigationMenuItemTypes[] = [
         {
             label:t('Main Page'),

@@ -71,7 +71,6 @@ const ProfilePage = memo(() => {
         }
         const updatedUser = await changeUserData.mutateAsync({id: user.id, ...data})
         getUser.refetch()
-        console.log('submit', updatedUser)
         setIsEditing(false)
     }
 

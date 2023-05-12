@@ -1,5 +1,3 @@
-import { UserRole } from "common-files";
-
 export interface User {
     id: string;
     firstName: string;
@@ -7,6 +5,6 @@ export interface User {
     login: string;
     email: string
     avatar: string | null;
-    role?: UserRole;
+    role?: string;
     likedNumber?: number
 }

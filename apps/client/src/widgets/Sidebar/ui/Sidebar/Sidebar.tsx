@@ -1,5 +1,4 @@
 import * as React from 'react'
-import cls from './Sidebar.module.scss'
 import { memo, useCallback, useState } from 'react'
 import Sider from 'antd/es/layout/Sider';
 import { NavigationMenu } from '@/features/NavigationMenu';

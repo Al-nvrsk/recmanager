@@ -6,7 +6,6 @@ const ReviewEditPage = () => {
 
     return (
         <div className={cls.ReviewEditPage}>
-            ReviewEditPage
             <ReviewEdit />
         </div>
     )

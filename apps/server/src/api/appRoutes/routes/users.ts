@@ -10,13 +10,13 @@ const t = (message: string) => message
 export const userRouter = router({
     logout: publicProcedure
         .mutation(async req => {
-        delete req.ctx.req.session!.userId
-        req.ctx.req.logout((err) => {
-        if (err) {
-            unExpectedError()
-        }
-        return {message: "ok"}
+            delete req.ctx.req.session!.userId
+            req.ctx.req.logout((err) => {
+            if (err) {
+                unExpectedError()
+            }
         }) 
+        return {message: "ok"}
     }),
 
     createUser: publicProcedure

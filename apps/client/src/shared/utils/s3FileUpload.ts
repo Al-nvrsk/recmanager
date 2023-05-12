@@ -8,7 +8,6 @@ export const s3FileUpload = (file:Buffer) => {
         S3FileUpload
             .uploadFile(file, s3Config)
             .then((data: {location: string}) => {
-                console.log(data)
                 resolve(data.location)
             })
             .catch((err: Error) => console.error(err))

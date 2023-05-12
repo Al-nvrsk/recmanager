@@ -4,8 +4,6 @@ import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { isDev } from '@/shared/const/isDev';
 
-console.log('i18n', __IS_DEV__)
-
 i18n
     .use(Backend)
     .use(LanguageDetector)

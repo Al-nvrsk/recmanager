@@ -23,7 +23,6 @@ const ReviewsPage = () => {
     const deleteReview = trpc.deleteReview.useMutation()
     const currentUser = getCurrentUser()
     const getReviews = trpc.getAllMyReviews.useQuery({authorId:id || currentUser!.id})
-    // const setReviews = getSetReviewsState()
     const setTableSearch = getSetTableSearchState()
     const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({})
 
@@ -46,7 +45,7 @@ const ReviewsPage = () => {
     }
 
     return (
-        <div>
+        <div className={cls.ReviewsPage}>
             {id && 
             <Title>
                 {t('ADMIN mode')}    

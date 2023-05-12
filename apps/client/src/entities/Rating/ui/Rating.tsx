@@ -1,5 +1,5 @@
 import { Rate } from "antd";
-import React from "react";
+import React, { memo, useCallback } from "react";
 import { desc } from "../model/consts/desc";
 
 interface RatingProps {
@@ -9,7 +9,7 @@ interface RatingProps {
 
 }
 
-export const Rating = (props: RatingProps & Record<string, any>) => {
+export const Rating = memo((props: RatingProps & Record<string, any>) => {
     const {
         isUsers = false,
         ratingNumber,
@@ -17,9 +17,9 @@ export const Rating = (props: RatingProps & Record<string, any>) => {
         ...field
     } = props
 
-    const onHandlerChange = (rate: number) => {
+    const onHandlerChange = useCallback((rate: number) => {
         setRatingNumber!(rate || 0)
-    }
+    }, [setRatingNumber])
 
     return (
         <Rate
@@ -37,4 +37,4 @@ export const Rating = (props: RatingProps & Record<string, any>) => {
             allowHalf={true}
             />
     )
-}
+})

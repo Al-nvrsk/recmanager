@@ -13,6 +13,7 @@ interface RequireAuthProps {
 export function RequireAuth({ children, roles }: RequireAuthProps) {
     const user = getCurrentUser();
     const location = useLocation();
+    const isAuth = getIsAuth()
 
     const hasRequiredRoles = useMemo(() => {
         if (!roles) {
@@ -23,7 +24,7 @@ export function RequireAuth({ children, roles }: RequireAuthProps) {
         }
     },[roles, user])
 
-    if (!user) {
+    if (!isAuth) {
         return <Navigate to={getRouteMain()} state={{ from: location }} replace />;
     }
 

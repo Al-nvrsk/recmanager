@@ -3,8 +3,6 @@ import { Language, Theme } from 'common-files'
 import { router } from '../../trpc/trpc';
 import { protectedProcedure } from '../../procedure/procedure';
 
-const t = (message: string) => message
-
 export const appEnvRouter = router({
     setTheme: protectedProcedure
     .input(
@@ -34,11 +32,16 @@ export const appEnvRouter = router({
         }))
     .mutation(async req => {
         const { id, lang } = req.input
-        const setLang = await req.ctx.prisma.userLang.upsert({
-            where: {ownerId: id},
-            update: {lang},
-            create: {ownerId:id, lang}
-        })
+        try {
+            const setLang = await req.ctx.prisma.userLang.upsert({
+                where: {ownerId: id},
+                update: {lang},
+                create: {ownerId:id, lang}
+            })
+            return setLang
+        } catch (e) {
+            return e
+        }
     }),
 });
 

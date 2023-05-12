@@ -1,9 +1,18 @@
-export const avgRate = (reviews: Record<string, any>[]) => {
+import { ReviewRating, Reviews } from "@prisma/client";
+
+type avgRateProps = (Reviews & {
+    rating: ReviewRating[];
+    Tags: {
+        tag: string;
+    }[];
+})[]
+
+export const avgRate = (reviews: avgRateProps) => {
     const withAvgRate = reviews.map((review) => {
         const {rating, ...reviewArgs} = review
         const avgUserRate = parseFloat(
             (
-                rating.reduce((acc:number, rate: Record<string, number>) =>
+                rating.reduce((acc, rate) =>
                     acc + (rate.userRate || 0), 0 ) / rating.length
             )
             .toFixed(1)

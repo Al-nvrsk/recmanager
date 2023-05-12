@@ -1,6 +1,6 @@
 import { Rating } from "@/entities/Rating";
 import { Button, Form, Input, Select, Space} from 'antd';
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
@@ -14,9 +14,8 @@ import { trpc } from "@/shared/hooks/trpc/trpc";
 import { workType } from "@/shared/const/workType";
 import { SelectWithFilter } from "@/shared/ui/SelectWithFilter/SelectWithFilter";
 import { formReviewSchema } from "common-files";
-import {useDropzone} from 'react-dropzone'
 
-export const ReviewEdit = () => {
+export const ReviewEdit = memo(() => {
     const getTags = trpc.getTags.useQuery()
     const {t} = useTranslation()
     const navigate = useNavigate()
@@ -33,21 +32,20 @@ export const ReviewEdit = () => {
         defaultValues: ReviewEditStateStore,
         mode: 'all',
         resolver: zodResolver(formReviewSchema(t)),
-    });
+    })
     
-    const onSubmit = (data: any) => {
+    const onSubmit = useCallback((data: EditReview) => {
         setReviewEditState(data)
-        console.log('data', data);
         navigate(getRouteReviewDetails('preview'))
-    };
+    }, [setReviewEditState, navigate])
 
     const tags = getTags.data?.map(el => (
         { value: el.value, label: el.value }
     )) 
 
-    const onCancel = () => {
+    const onCancel = useCallback(() => {
         navigate(getRouteReviews())
-    }
+    }, [navigate])
 
     return (
         <Form
@@ -151,7 +149,7 @@ export const ReviewEdit = () => {
                         type="primary"
                         disabled={!!Object.keys(errors).length}
                     >
-                        Preview
+                        {t('Preview')}
                     </Button>
 
                     <Button 
@@ -160,11 +158,11 @@ export const ReviewEdit = () => {
                         danger
                         onClick={onCancel}
                     >
-                        Cancel
+                        {t('Cancel')}
                     </Button>
                 </Space>
 
             </Form.Item>
         </Form>
     );
-}
+})

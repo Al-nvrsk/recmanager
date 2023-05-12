@@ -17,6 +17,7 @@
   "Error 404": "Error 404",
   "Error 403": "Error 403",
   "Go to main": "Go to main",
+  "More": "More",
   
   
   "Login should be longer then 3 symbols": "Login should be longer then 3 symbols",
@@ -50,6 +51,9 @@
   "The passwords did not match": "The passwords did not match",
   "Cancel": "Cancel",
   "Sign out": "Sign out",
+  "Preview": "Preview", 
+  "You can see the project code ": "You can see the project code",
+  "on website": "on website",
 
   "An unexpected error occurred, please try again later.": "An unexpected error occurred, please try again later.",
 

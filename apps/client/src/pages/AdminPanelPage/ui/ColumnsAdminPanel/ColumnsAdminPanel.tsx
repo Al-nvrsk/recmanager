@@ -1,4 +1,3 @@
-import { getSetReviewEditState } from "@/entities/Review";
 import { ColumnSearch } from "@/entities/Table";
 import { Avatar,Popconfirm, Select, Space, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
@@ -88,7 +87,7 @@ export const ColumnsAdminPanel = (props: ColumnsAdminPanelProps) => {
                         label: UserRole.USER,
                     },
                 ]}
-          />
+            />
         ))
     },
     {
@@ -148,7 +147,10 @@ export const ColumnsAdminPanel = (props: ColumnsAdminPanelProps) => {
                         <a 
                             href="#"
                             onClick={e => e.preventDefault()} 
-                            className={cls.delete}>{t('Delete')}</a>
+                            className={cls.delete}
+                        >
+                            {t('Delete')}
+                        </a>
                     </Popconfirm>
             </Space>
         ),

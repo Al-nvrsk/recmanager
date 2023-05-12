@@ -1,5 +1,5 @@
 import { Button, Space, Typography } from "antd"
-import React from "react"
+import React, { memo } from "react"
 import { Assessment } from "../Assesment/Assesment"
 import { useTranslation } from "react-i18next"
 import cls from './ReviewDetails.module.scss'
@@ -13,7 +13,7 @@ interface ReviewDetailsProps {
     reviewState: Review | EditReview
 }
 
-export const ReviewDetails = ({reviewState}: ReviewDetailsProps) => {
+export const ReviewDetails = memo(({reviewState}: ReviewDetailsProps) => {
     const {t} = useTranslation()
 
     if (!reviewState) {
@@ -60,4 +60,4 @@ export const ReviewDetails = ({reviewState}: ReviewDetailsProps) => {
             </Text>
         </div>
     )
-}
+})

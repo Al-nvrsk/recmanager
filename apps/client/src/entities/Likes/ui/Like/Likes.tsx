@@ -1,6 +1,6 @@
 import { Space, Typography } from 'antd'
 import cls from './Likes.module.scss'
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons'
 
@@ -10,13 +10,13 @@ interface LikeProps {
     setLikeStatus: (value: string) => void 
 }
 
-export const Likes = (props: LikeProps) => {
+export const Likes = memo((props: LikeProps) => {
     const {setLikeStatus, likeStatus} = props
     const {t} = useTranslation()
 
-    const onLiked = (status: string) => {
+    const onLiked = useCallback((status: string) => {
         setLikeStatus(status)
-    }
+    }, [setLikeStatus])
 
     return (
         <Space direction={'horizontal'} className={cls.conteiner}>
@@ -33,4 +33,4 @@ export const Likes = (props: LikeProps) => {
                 }
             </Space>
     )
-}
+})

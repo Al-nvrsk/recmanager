@@ -77,7 +77,7 @@ export const reviewRouter = router({
                 const {rating, ...reviewArgs} = getReview
                 const avgUserRate = (rating.reduce((acc, rate) => acc + (rate.userRate || 0), 0 )/rating.length).toFixed(1);
 
-                return {rating: avgUserRate, ...reviewArgs} 
+                return {rating: Number(avgUserRate), ...reviewArgs} 
             } catch(e) {
                 console.log(e)
                 unExpectedError()
@@ -113,7 +113,7 @@ export const reviewRouter = router({
                     where: { authorId: {equals:authorId} },
                     include: {
                         Tags: {select: {tag: true}},
-                        rating: {select: {userRate: true}}
+                        rating: true
                     }
                 })
                 const reviewsWithAvgRate = avgRate(getReviews)           

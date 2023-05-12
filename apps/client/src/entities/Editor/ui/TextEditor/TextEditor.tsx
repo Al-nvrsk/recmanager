@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import QuillToolbar, { formats, modules } from '../EditorToolbar/EditorToolbar';
 import { Typography } from 'antd';
@@ -35,4 +35,4 @@ const TextEditor = ({ value, onChange, placeholder }: Props) => {
   );
 };
 
-export default TextEditor;
+export default memo(TextEditor);

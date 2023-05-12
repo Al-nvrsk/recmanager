@@ -4,7 +4,7 @@ import { LoginOutlined, MenuUnfoldOutlined, SettingOutlined } from "@ant-design/
 import { Drawer, Space, Typography } from "antd"
 import React, { memo, useCallback, useState } from "react"
 import cls from './MobileItem.module.scss'
-import { getIsAuth } from "@/entities/User"
+import { getCurrentUser, getIsAuth } from "@/entities/User"
 import { useTranslation } from "react-i18next"
 import { NavigationMenu } from "@/features/NavigationMenu"
 
@@ -19,6 +19,7 @@ export const MobileItem = memo((props:MobileItemProps) => {
     const [isNavDrawerOpen, setIsNavDrawerOpen] = useState(false);
     const [isSettingDrawerOpen, setIsSettingDrawerOpen] = useState(false)
     const isAuth = getIsAuth()
+    const user = getCurrentUser()
     const {t} = useTranslation()
     
     const onSelectInNavDrawer = useCallback(() => {
