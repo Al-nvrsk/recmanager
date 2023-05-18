@@ -25,7 +25,7 @@ export const CommentList = memo((props: CommentListProps) => {
                 {getComments.data?.map(comment => (
                     <CommentCard 
                         {...comment} 
-                        key={comment.args.id}
+                        key={comment.id}
                     />
                 ))}
             </Space>        

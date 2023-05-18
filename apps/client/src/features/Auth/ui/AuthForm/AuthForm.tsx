@@ -44,7 +44,7 @@ const AuthForm = (props: AuthFormProps) => {
         isAuthForm()
             ? await authUser.mutateAsync(data)
             : await createUser.mutate(data)
-    }, []);
+    }, [isAuthForm]);
 
     useEffect(() => {
         if (!authUser.isSuccess && !createUser.isSuccess) {

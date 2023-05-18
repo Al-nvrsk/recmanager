@@ -36,25 +36,25 @@ export const App = () => {
             setLang(lang?.lang as Language )
             setTheme(theme?.theme as Theme)
         }
-    }, [getUser])
+    }, [getUser.fetchStatus])
 
     return (
         <div className="app">
-        <Suspense fallback="">
-                <Layout style={{ minHeight: '100vh' }}>
-                    <Header />
-                    <Layout >
-                        {!isMobile() &&
-                        <Sidebar />}
-                            <Content>
-                                <div className="content-page">
-                                    <AppRouter />
-                                    <Toaster />
-                                </div>
-                            </Content>
-                    </Layout>
-                </Layout>                
-            </Suspense>
+            <Suspense fallback="">
+                    <Layout style={{ minHeight: '100vh' }}>
+                        <Header />
+                        <Layout >
+                            {!isMobile() &&
+                            <Sidebar />}
+                                <Content>
+                                    <div className="content-page">
+                                        <AppRouter />
+                                        <Toaster />
+                                    </div>
+                                </Content>
+                        </Layout>
+                    </Layout>                
+                </Suspense>
             </div>
     )
 }

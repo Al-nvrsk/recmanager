@@ -23,9 +23,9 @@ export const CommentCard = (comment: Comment) => {
     }
 
     const onDelete = useCallback(() => {
-        deleteComment.mutate({id:comment.args.id})
+        deleteComment.mutate({id:comment.id})
         setIsDeleting(true)
-    }, [comment.args.id])
+    }, [comment.id])
 
     useEffect(() => {
         if(!deleteComment.isError) {
@@ -46,8 +46,8 @@ export const CommentCard = (comment: Comment) => {
                         avatar={comment.user.avatar}
                         likedNumber={comment.user.userLikes}
                         login={comment.user.login}
-                        dateCreate={comment.args.createdAt}
-                        dateUpdate={comment.args.updatedAt}
+                        dateCreate={comment.createdAt}
+                        dateUpdate={comment.updatedAt}
                     />
                 }
                 headStyle={{ padding: '15px ' }}
@@ -68,12 +68,12 @@ export const CommentCard = (comment: Comment) => {
                     ? <CreateComment 
                             reviewId={'2'} 
                             setClose={setIsEditing}
-                            comment={comment.args.text}
-                            commentId={comment.args.id}    
+                            comment={comment.text}
+                            commentId={comment.id}    
                         />
                     : <ReactQuill
                             theme={'bubble'}
-                            value={comment.args.text}
+                            value={comment.text}
                             readOnly={true}
                         />
                 )

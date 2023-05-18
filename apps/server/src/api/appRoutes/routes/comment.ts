@@ -48,23 +48,22 @@ export const commentRouter = router({
                             id: true,
                             post: {
                                 select: {id:true}
-                            }
-                        }
-                    }
-                }
+                            },
+                        ratings: {where: {likeStatus: {equals : 'liked'}}}
+                        },
+                        
+                    },
+
+                },
             })
-            const comments = await Promise.all(getComments.map(async(comment) => {
-                const {userId, user, ...args} = comment
-                const userLikes = await req.ctx.prisma.reviewRating.count({
-                    where: {
-                        reviewId: {in: user?.post.map(value => value.id)},
-                        likeStatus: 'liked'
-                    }
+            const comments = getComments
+                .map(({user, ...args}) => {
+                    const {ratings, ...userArgs} = user
+                    const ratingCount = ratings.length
+                    return {user: {userLikes: ratingCount, ...userArgs}, ...args}
                 })
-                const {post, ...userArgs} = user
-                return {args, user:{ userLikes, ...userArgs }}
-            }))
-            return await comments
+                .sort((prev, current) => current.createdAt.getTime() - prev.createdAt.getTime())
+            return comments
         } catch(e) {
             console.log(e)
         }
